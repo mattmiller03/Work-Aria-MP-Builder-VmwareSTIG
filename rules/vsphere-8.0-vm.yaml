@@ -1,0 +1,106 @@
+# =====================================================================
+# ILLUSTRATIVE FIXTURES — NOT A COMPLETE OR VERIFIED BASELINE.
+#
+# Every rule here is `verified: false` on purpose. The setting KEYS are
+# real vSphere advanced-setting names; the RULE IDs and CAT levels are
+# placeholders that must be reconciled against the published
+# VMware vSphere 8.0 Virtual Machine STIG V2R3 before this ships.
+#
+# Real population path: scripts/import_inspec.py against
+#   dod-compliance-and-automation/vsphere/8.0/v2r3-stig/vsphere/inspec/
+#
+# The generator REFUSES to emit content from unverified rules unless
+# --allow-unverified is passed. That gate is the point.
+# =====================================================================
+
+benchmark:
+  id: vsphere-8.0-vm
+  title: VMware vSphere 8.0 Virtual Machine STIG
+  version: V2R3
+  status: stig
+  applies_to: ["8.0"]
+  target_kind: STIG_VM
+
+rules:
+  - id: VMCH-80-000001
+    title: Copy operations must be disabled on the virtual machine
+    cat: 2
+    check_method: vm_advanced_setting
+    check: { key: isolation.tools.copy.disable }
+    operator: equals
+    expected: "true"
+    default_when_absent: open
+    verified: false
+    notes: >
+      Absent on a freshly built VM. Platform default permits copy, so absence
+      is a finding. Canonical example of the default_when_absent trap.
+
+  - id: VMCH-80-000002
+    title: Drag and drop operations must be disabled on the virtual machine
+    cat: 2
+    check_method: vm_advanced_setting
+    check: { key: isolation.tools.dnd.disable }
+    operator: equals
+    expected: "true"
+    default_when_absent: open
+    verified: false
+
+  - id: VMCH-80-000003
+    title: Paste operations must be disabled on the virtual machine
+    cat: 2
+    check_method: vm_advanced_setting
+    check: { key: isolation.tools.paste.disable }
+    operator: equals
+    expected: "true"
+    default_when_absent: open
+    verified: false
+
+  - id: VMCH-80-000004
+    title: Virtual disk shrinking must be disabled on the virtual machine
+    cat: 2
+    check_method: vm_advanced_setting
+    check: { key: isolation.tools.diskShrink.disable }
+    operator: equals
+    expected: "true"
+    default_when_absent: open
+    verified: false
+
+  - id: VMCH-80-000005
+    title: Independent nonpersistent disks must not be used
+    cat: 2
+    check_method: vcenter_api
+    check: { path: "config.hardware.device[VirtualDisk].backing.diskMode" }
+    operator: not_in
+    expected: ["independent_nonpersistent"]
+    default_when_absent: notafinding
+    verified: false
+    notes: Absence of any VirtualDisk in that mode is compliant.
+
+  - id: VMCH-80-000006
+    title: Unauthorized floppy devices must be disconnected
+    cat: 3
+    check_method: vcenter_api
+    check: { path: "config.hardware.device[VirtualFloppy]" }
+    operator: absent
+    default_when_absent: notafinding
+    verified: false
+
+  - id: VMCH-80-000007
+    title: Encryption must be enabled for vMotion on the virtual machine
+    cat: 2
+    check_method: vcenter_api
+    check: { path: config.migrateEncryption }
+    operator: in
+    expected: ["opportunistic", "required"]
+    default_when_absent: open
+    verified: false
+
+  - id: VMCH-80-000008
+    title: Use of the virtual machine console must be minimized
+    cat: 3
+    check_method: manual
+    verified: false
+    notes: >
+      No programmatic signal. Attested-only — generator emits a metric slot
+      permanently set to Not_Reviewed, no symptom, no alert. Counted in the
+      coverage report as manual so the score denominator stays honest.

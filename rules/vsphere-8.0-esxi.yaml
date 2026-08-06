@@ -1,0 +1,107 @@
+# =====================================================================
+# ILLUSTRATIVE FIXTURES — see vsphere-8.0-vm.yaml header. All unverified.
+# Exercises the tier-2 (esxcli) path, which needs privileges above
+# vCenter Read-only. Those rules carry `check_method: esxcli` so the
+# coverage report can split Phase 1 from Phase 2 automatically.
+# =====================================================================
+
+benchmark:
+  id: vsphere-8.0-esxi
+  title: VMware vSphere 8.0 ESXi STIG
+  version: V2R3
+  status: stig
+  applies_to: ["8.0"]
+  target_kind: STIG_HOST
+
+rules:
+  - id: ESXI-80-000005
+    title: The ESXi host must enforce the limit of consecutive invalid logon attempts
+    cat: 2
+    check_method: host_advanced_setting
+    check: { key: Security.AccountLockFailures }
+    operator: lte
+    expected: 3
+    default_when_absent: open
+    verified: false
+
+  - id: ESXI-80-000010
+    title: The ESXi host must display the Standard Mandatory DOD Notice and Consent Banner
+    cat: 2
+    check_method: host_advanced_setting
+    check: { key: Annotations.WelcomeMessage }
+    operator: regex
+    expected: "US Department of Defense"
+    default_when_absent: open
+    verified: false
+
+  - id: ESXI-80-000015
+    title: The ESXi host must be configured to disable nonessential capabilities (SSH)
+    cat: 2
+    check_method: host_service
+    check: { service: TSM-SSH, field: policy }
+    operator: equals
+    expected: "off"
+    default_when_absent: open
+    verified: false
+
+  - id: ESXI-80-000020
+    title: The ESXi host must configure NTP synchronization
+    cat: 2
+    check_method: host_service
+    check: { service: ntpd, field: running }
+    operator: equals
+    expected: true
+    default_when_absent: open
+    verified: false
+
+  - id: ESXI-80-000025
+    title: The ESXi host must restrict inbound firewall rulesets to authorized networks
+    cat: 2
+    check_method: host_firewall
+    check: { ruleset: sshServer, field: allowedAll }
+    operator: equals
+    expected: false
+    default_when_absent: open
+    verified: false
+
+  # ---- Tier 2: esxcli namespace. Requires elevated role. ----
+  - id: ESXI-80-000030
+    title: The ESXi host must use DOD-approved encryption to protect network sessions
+    cat: 2
+    check_method: esxcli
+    check: { namespace: system.tls.server.get, field: Profile }
+    operator: equals
+    expected: "NIST_2024"
+    default_when_absent: not_reviewed
+    verified: false
+    notes: >
+      Expected profile value MUST be confirmed against V2R3 — the accepted
+      profile name changed between STIG revisions. Do not ship unverified.
+
+  - id: ESXI-80-000035
+    title: The ESXi host SSH daemon must display the Consent Banner before granting access
+    cat: 2
+    check_method: esxcli
+    check: { namespace: system.ssh.server.config.list, field: banner }
+    operator: exists
+    default_when_absent: open
+    verified: false
+
+  - id: ESXI-80-000040
+    title: The ESXi host must enable key persistence
+    cat: 3
+    check_method: esxcli
+    check: { namespace: system.security.keypersistence.get, field: Enabled }
+    operator: equals
+    expected: true
+    default_when_absent: open
+    verified: false
+
+  - id: ESXI-80-000045
+    title: The ESXi host must verify the exception users list for Lockdown Mode
+    cat: 3
+    check_method: manual
+    verified: false
+    notes: >
+      Membership is site-specific; correctness cannot be asserted
+      programmatically. Attested-only in every published Aria content set.

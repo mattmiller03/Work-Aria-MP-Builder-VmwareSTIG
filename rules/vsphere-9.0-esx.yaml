@@ -1,0 +1,42 @@
+# =====================================================================
+# VCF 9.x — STIG READINESS GUIDE status, NOT an official DISA STIG.
+#
+# Broadcom has stated that control identifiers and severity ratings WILL
+# be realigned when DISA publishes the reviewed STIG. Therefore:
+#   - status: srg  (generator tags these separately in every artifact)
+#   - every rule stays verified: false until the official release
+#   - IDs below are structural placeholders ONLY
+#
+# This file exists to prove the schema absorbs 9.x without touching kind
+# keys, metric rollups, or dashboards. It is not shipped content.
+# =====================================================================
+
+benchmark:
+  id: vsphere-9.0-esx
+  title: VMware vSphere 9.0 ESX STIG Readiness Guide
+  version: V1R1
+  status: srg
+  applies_to: ["9.0"]
+  target_kind: STIG_HOST
+
+rules:
+  - id: ESX-90-000005
+    title: The ESX host must enforce the limit of consecutive invalid logon attempts
+    cat: 2
+    check_method: host_advanced_setting
+    check: { key: Security.AccountLockFailures }
+    operator: lte
+    expected: 3
+    default_when_absent: open
+    verified: false
+    notes: Same underlying control as ESXI-80-000005; ID renumbered.
+
+  - id: ESX-90-000030
+    title: The ESX host must use DOD-approved encryption to protect network sessions
+    cat: 2
+    check_method: esxcli
+    check: { namespace: system.tls.server.get, field: Profile }
+    operator: equals
+    expected: "NIST_2024"
+    default_when_absent: not_reviewed
+    verified: false
