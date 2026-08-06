@@ -1,0 +1,58 @@
+# =====================================================================
+# ILLUSTRATIVE FIXTURES — unverified. See rules/_SCHEMA.md.
+# Home for VCSA-80-* application controls and the appliance-service
+# benchmarks that arrive via the Phase 3 SSH transport.
+# =====================================================================
+
+benchmark:
+  id: vsphere-8.0-vcenter
+  title: VMware vSphere 8.0 vCenter STIG
+  version: V2R3
+  status: stig
+  applies_to: ["8.0"]
+  target_kind: STIG_VCENTER
+
+rules:
+  - id: VCSA-80-000089
+    title: The vCenter Server must enforce a client session timeout
+    cat: 2
+    check_method: vcenter_setting
+    check: { key: config.vpxd.session.timeout }
+    operator: lte
+    expected: 15
+    default_when_absent: open
+    verified: false
+
+  - id: VCSA-80-000248
+    title: The vCenter Server must disable the Customer Experience Improvement Program
+    cat: 3
+    check_method: vcenter_setting
+    check: { key: config.vpxd.ceip.enabled }
+    operator: equals
+    expected: false
+    default_when_absent: open
+    verified: false
+
+  - id: VCSA-80-000303
+    title: The vCenter Server must disable SSH access to the appliance
+    cat: 2
+    check_method: vami_api
+    check: { path: /appliance/access/ssh }
+    operator: equals
+    expected: false
+    default_when_absent: open
+    verified: false
+    risk_acceptance:
+      status: accepted
+      reference: "TBD — replace with the real POA&M / exception record ID"
+      rationale: >
+        SSH is deliberately enabled on the VCSA so the Phase 3 transport can
+        collect the nine appliance-service STIGs (Photon OS, PostgreSQL,
+        Envoy, STS, VAMI Server, EAM, Lookup, Perfcharts, UI), which have no
+        API path. The scanner is the cause of this finding. Accepted and
+        reported openly — never suppressed. Access is restricted to a
+        non-root, key-authenticated service account limited to an allowlist
+        of read-only commands.
+      reviewed: 2026-08-06
+    notes: >
+      Self-referential by construction. See docs/phase3-ssh-transport.md §1.

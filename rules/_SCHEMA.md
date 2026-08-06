@@ -35,7 +35,22 @@ Version-neutral on purpose: `STIG_HOST` covers ESXi 8 and ESX 9.
 | `default_when_absent` | yes* | `open` \| `notafinding` \| `not_applicable`. **See trap below.** |
 | `applies_to` | no | Overrides `benchmark.applies_to` for a single rule. |
 | `verified` | yes | `true` only once a human has confirmed ID + expected value against the published STIG. Generator refuses to emit unverified rules without `--allow-unverified`. |
+| `risk_acceptance` | no | Documented exception. See below. |
 | `notes` | no | Free text, carried into the coverage report. |
+
+### `risk_acceptance`
+
+Optional block: `status` (`accepted`\|`pending`), `reference` (real POA&M /
+exception record ID), `rationale`, optional `reviewed` date. All three of the
+first are required if the block is present — an undocumented exception is not
+an exception, and the validator enforces that.
+
+**It never changes the reported result.** An accepted finding still reports
+`0` Open and still counts against `summary|score_pct`. The block only feeds the
+split between `summary|findings_actionable` and `summary|findings_accepted`, so
+an ops dashboard can show real work without the score ever being inflated.
+Suppressing an accepted finding would make the score a lie exactly where an
+auditor looks first.
 | `_inspec_source` | no | Raw ruby block from the importer, for triage. Ignored by the generator. |
 
 \* Required for every method except `manual`.

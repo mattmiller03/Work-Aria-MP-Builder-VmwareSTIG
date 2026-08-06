@@ -42,6 +42,8 @@ CAT_SEVERITY = {1: "CRITICAL", 2: "IMMEDIATE", 3: "WARNING"}
 ROLLUP_METRICS = [
     ("summary|score_pct",        "STIG Score (%)"),
     ("summary|findings_open",    "Open Findings"),
+    ("summary|findings_actionable", "Open Findings (Actionable)"),
+    ("summary|findings_accepted",   "Open Findings (Risk Accepted)"),
     ("summary|findings_cat1",    "CAT I Findings"),
     ("summary|findings_cat2",    "CAT II Findings"),
     ("summary|findings_cat3",    "CAT III Findings"),
@@ -114,6 +116,7 @@ def gen_rule_registry(pairs) -> str:
             "title": rule["title"],
             "check_method": rule["check_method"],
             "check": rule.get("check", {}),
+            "risk_acceptance": rule.get("risk_acceptance"),
             "operator": rule.get("operator"),
             "expected": rule.get("expected"),
             "default_when_absent": rule.get("default_when_absent"),
@@ -338,6 +341,22 @@ def gen_coverage(pairs) -> str:
         lines += ["", "## Phase 3 (appliance shell access required)", ""]
         for bm, rule in phase3:
             lines.append(f"- `{rule['id']}` — {rule['title']}")
+
+    accepted = [(b, r) for b, r in pairs if r.get("risk_acceptance")]
+    if accepted:
+        lines += ["", "## Documented risk acceptances", "",
+                  "These still report **Open** and still count against the score.",
+                  "The split exists so ops dashboards can show actionable work",
+                  "without the score ever being inflated.", "",
+                  "| Rule | Status | Reference | Rationale |",
+                  "|---|---|---|---|"]
+        for bm, rule in accepted:
+            ra = rule["risk_acceptance"]
+            rat = " ".join(str(ra.get("rationale", "")).split())
+            if len(rat) > 90:
+                rat = rat[:87] + "…"
+            lines.append(f"| `{rule['id']}` | {ra.get('status')} | "
+                         f"{ra.get('reference')} | {rat} |")
 
     lines += ["", "## Phase 2 (elevated privileges required)", ""]
     for bm, rule in phase2:

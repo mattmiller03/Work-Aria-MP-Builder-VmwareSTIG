@@ -9,6 +9,8 @@ get_adapter_definition() for each STIG object kind."""
 ROLLUP_METRICS = [
     ('summary|score_pct', 'STIG Score (%)'),
     ('summary|findings_open', 'Open Findings'),
+    ('summary|findings_actionable', 'Open Findings (Actionable)'),
+    ('summary|findings_accepted', 'Open Findings (Risk Accepted)'),
     ('summary|findings_cat1', 'CAT I Findings'),
     ('summary|findings_cat2', 'CAT II Findings'),
     ('summary|findings_cat3', 'CAT III Findings'),
@@ -44,6 +46,11 @@ RULE_METRICS = {
         ('ESXI-80-000045', 'ESXI-80-000045 — The ESXi host must verify the exception users list for Lockdown Mode'),
         ('ESX-90-000005', 'ESX-90-000005 — The ESX host must enforce the limit of consecutive invalid logon attempts'),
         ('ESX-90-000030', 'ESX-90-000030 — The ESX host must use DOD-approved encryption to protect network sessions'),
+    ],
+    'STIG_VCENTER': [
+        ('VCSA-80-000089', 'VCSA-80-000089 — The vCenter Server must enforce a client session timeout'),
+        ('VCSA-80-000248', 'VCSA-80-000248 — The vCenter Server must disable the Customer Experience Improvement Program'),
+        ('VCSA-80-000303', 'VCSA-80-000303 — The vCenter Server must disable SSH access to the appliance'),
     ],
     'STIG_VM': [
         ('VMCH-80-000001', 'VMCH-80-000001 — Copy operations must be disabled on the virtual machine'),

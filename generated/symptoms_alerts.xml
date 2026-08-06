@@ -62,6 +62,21 @@
         <Condition xsi:type="ConditionMetric" key="rules|ESXI-80-000040" operator="EQ" value="0" valueType="NUMERIC" instanced="false" thresholdType="STATIC"/>
       </State>
     </SymptomDefinition>
+    <SymptomDefinition id="Symptom-VMwareStigAdapter-VCSA-80-000089" name="VCSA-80-000089 — The vCenter Server must enforce a client session timeout" adapterKind="VMwareStigAdapter" resourceKind="STIG_VCENTER" waitCycles="1" cancelCycles="2">
+      <State severity="IMMEDIATE">
+        <Condition xsi:type="ConditionMetric" key="rules|VCSA-80-000089" operator="EQ" value="0" valueType="NUMERIC" instanced="false" thresholdType="STATIC"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition id="Symptom-VMwareStigAdapter-VCSA-80-000248" name="VCSA-80-000248 — The vCenter Server must disable the Customer Experience Improvement Program" adapterKind="VMwareStigAdapter" resourceKind="STIG_VCENTER" waitCycles="1" cancelCycles="2">
+      <State severity="WARNING">
+        <Condition xsi:type="ConditionMetric" key="rules|VCSA-80-000248" operator="EQ" value="0" valueType="NUMERIC" instanced="false" thresholdType="STATIC"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition id="Symptom-VMwareStigAdapter-VCSA-80-000303" name="VCSA-80-000303 — The vCenter Server must disable SSH access to the appliance" adapterKind="VMwareStigAdapter" resourceKind="STIG_VCENTER" waitCycles="1" cancelCycles="2">
+      <State severity="IMMEDIATE">
+        <Condition xsi:type="ConditionMetric" key="rules|VCSA-80-000303" operator="EQ" value="0" valueType="NUMERIC" instanced="false" thresholdType="STATIC"/>
+      </State>
+    </SymptomDefinition>
     <SymptomDefinition id="Symptom-VMwareStigAdapter-VMCH-80-000001" name="VMCH-80-000001 — Copy operations must be disabled on the virtual machine" adapterKind="VMwareStigAdapter" resourceKind="STIG_VM" waitCycles="1" cancelCycles="2">
       <State severity="IMMEDIATE">
         <Condition xsi:type="ConditionMetric" key="rules|VMCH-80-000001" operator="EQ" value="0" valueType="NUMERIC" instanced="false" thresholdType="STATIC"/>
@@ -201,6 +216,30 @@
     <State severity="WARNING" impact="risk">
       <SymptomSet operator="AND" applyOn="SELF">
         <Symptom id="Symptom-VMwareStigAdapter-ESXI-80-000040"/>
+      </SymptomSet>
+    </State>
+  </AlertDefinition>
+  <AlertDefinition id="Alert-VMwareStigAdapter-VCSA-80-000089" name="VCSA-80-000089 — The vCenter Server must enforce a client session timeout" adapterKind="VMwareStigAdapter" resourceKind="STIG_VCENTER" waitCycles="1" cancelCycles="2" type="19" subType="19">
+    <Description>The vCenter Server must enforce a client session timeout (VMware vSphere 8.0 vCenter STIG V2R3, CAT II)</Description>
+    <State severity="IMMEDIATE" impact="risk">
+      <SymptomSet operator="AND" applyOn="SELF">
+        <Symptom id="Symptom-VMwareStigAdapter-VCSA-80-000089"/>
+      </SymptomSet>
+    </State>
+  </AlertDefinition>
+  <AlertDefinition id="Alert-VMwareStigAdapter-VCSA-80-000248" name="VCSA-80-000248 — The vCenter Server must disable the Customer Experience Improvement Program" adapterKind="VMwareStigAdapter" resourceKind="STIG_VCENTER" waitCycles="1" cancelCycles="2" type="19" subType="19">
+    <Description>The vCenter Server must disable the Customer Experience Improvement Program (VMware vSphere 8.0 vCenter STIG V2R3, CAT III)</Description>
+    <State severity="WARNING" impact="risk">
+      <SymptomSet operator="AND" applyOn="SELF">
+        <Symptom id="Symptom-VMwareStigAdapter-VCSA-80-000248"/>
+      </SymptomSet>
+    </State>
+  </AlertDefinition>
+  <AlertDefinition id="Alert-VMwareStigAdapter-VCSA-80-000303" name="VCSA-80-000303 — The vCenter Server must disable SSH access to the appliance" adapterKind="VMwareStigAdapter" resourceKind="STIG_VCENTER" waitCycles="1" cancelCycles="2" type="19" subType="19">
+    <Description>The vCenter Server must disable SSH access to the appliance (VMware vSphere 8.0 vCenter STIG V2R3, CAT II)</Description>
+    <State severity="IMMEDIATE" impact="risk">
+      <SymptomSet operator="AND" applyOn="SELF">
+        <Symptom id="Symptom-VMwareStigAdapter-VCSA-80-000303"/>
       </SymptomSet>
     </State>
   </AlertDefinition>

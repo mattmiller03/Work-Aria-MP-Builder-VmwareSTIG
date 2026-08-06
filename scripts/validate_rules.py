@@ -55,6 +55,14 @@ LIST_EXPECTED = {"in", "not_in"}
 
 ABSENT_BEHAVIOUR = {"open", "notafinding", "not_applicable", "not_reviewed"}
 
+# A rule may carry a documented risk acceptance. This NEVER changes the reported
+# result — an accepted finding still reports Open and still counts against the
+# score. It only lets dashboards separate "open, accepted, tracked" from
+# "open, nobody has looked at it". Suppressing an accepted finding would make
+# the score a lie exactly where an auditor looks first.
+ACCEPTANCE_STATUS = {"accepted", "pending"}
+ACCEPTANCE_REQUIRED = {"status", "reference", "rationale"}
+
 # Product-VERSION-NNNNNN. Version segment is alphanumeric: 80, 90, 8X (Aria).
 RULE_ID_RE = re.compile(r"^[A-Z][A-Z0-9]*-[A-Z0-9]{2,3}-\d{6}$")
 BENCHMARK_STATUS = {"stig", "srg"}
@@ -187,6 +195,25 @@ def validate_file(path: Path, errors: list, require_verified: bool) -> dict | No
                     re.compile(str(rule.get("expected")))
                 except re.error as exc:
                     _fail(errors, where, f"invalid regex — {exc}")
+
+        ra = rule.get("risk_acceptance")
+        if ra is not None:
+            if not isinstance(ra, dict):
+                _fail(errors, where, "risk_acceptance must be a mapping")
+            else:
+                missing = ACCEPTANCE_REQUIRED - set(ra)
+                if missing:
+                    _fail(errors, where,
+                          f"risk_acceptance missing {sorted(missing)} — an "
+                          "undocumented exception is not an exception")
+                if ra.get("status") not in ACCEPTANCE_STATUS:
+                    _fail(errors, where,
+                          f"risk_acceptance.status must be one of "
+                          f"{sorted(ACCEPTANCE_STATUS)}")
+                if not str(ra.get("reference", "")).strip():
+                    _fail(errors, where,
+                          "risk_acceptance.reference must name a real POA&M / "
+                          "exception record")
 
         dwa = rule.get("default_when_absent")
         if dwa is None:
