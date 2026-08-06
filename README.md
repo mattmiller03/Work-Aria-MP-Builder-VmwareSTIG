@@ -1,0 +1,1 @@
+# Work-Aria-MP-Builder-VmwareSTIG
