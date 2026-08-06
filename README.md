@@ -89,11 +89,13 @@ appear on the native VM's Compliance tab. The cross-adapter relationship
 - **Phase 1** — vCenter / vSAN / VAMI / Suite API. Runs on a Read-only account.
 - **Phase 2** — `esxcli` tier. Needs privileges above Read-only. Fails closed to
   Not_Reviewed if the role is missing; never silently passes.
-- **Phase 3** — appliance shell (SSH). The vCenter appliance-service STIGs
-  (Photon OS, PostgreSQL, Envoy, STS, VAMI server, EAM, Lookup, Perfcharts, UI)
-  and much of the Aria baseline are shell-only. This is a SECURITY decision, not
-  a permissions one — VCSA-80-000303 requires VCSA SSH be disabled. If SSH is
-  not permitted, these rules are reclassified `manual`, never left to pass.
+- **Phase 3** — appliance shell (SSH). **In scope: SSH is permitted.** Covers
+  the nine vCenter appliance-service STIGs (Photon OS, PostgreSQL, Envoy, STS,
+  VAMI server, EAM, Lookup, Perfcharts, UI) and most of the Aria 8.x baseline.
+  Audit-only, allowlisted read commands, fail-closed to Not_Reviewed. See
+  [docs/phase3-ssh-transport.md](docs/phase3-ssh-transport.md) — note the
+  VCSA-80-000303 paradox: enabling SSH to scan creates a finding we caused, and
+  the pack reports it honestly rather than suppressing it.
 - **Manual** — attested only.
 
 ## State of the seed rules
