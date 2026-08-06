@@ -17,7 +17,8 @@ from pathlib import Path
 
 import yaml
 
-OBJECT_KINDS = {"STIG_HOST", "STIG_VM", "STIG_VCENTER", "STIG_CLUSTER", "STIG_DVS"}
+OBJECT_KINDS = {"STIG_HOST", "STIG_VM", "STIG_VCENTER", "STIG_CLUSTER",
+                "STIG_DVS", "STIG_ARIA"}
 
 CHECK_METHODS = {
     "vm_advanced_setting":   {"key"},
@@ -30,11 +31,22 @@ CHECK_METHODS = {
     "dvs_property":          {"path"},
     "portgroup_property":    {"path"},
     "vcenter_api":           {"path"},
+    "vami_api":              {"path"},
+    "suite_api":             {"path"},
+    "ssh":                   {"command", "field"},
+    "ssh_file":              {"path", "field"},
     "manual":                set(),
 }
 
-# Methods requiring privileges above vCenter Read-only -> Phase 2
+# Phase 2 — privileges above vCenter Read-only
 ELEVATED_METHODS = {"esxcli"}
+
+# Phase 3 — shell access to an appliance. Distinct from Phase 2 because it is a
+# SECURITY decision, not a permissions one: the vCenter and Aria appliance STIGs
+# (Photon OS, PostgreSQL, Envoy, STS, VAMI, nginx, Cassandra) are shell-only, and
+# VCSA-80-000303 requires VCSA SSH be disabled. If SSH is not permitted, these
+# rules degrade to attested-only rather than silently passing.
+SSH_METHODS = {"ssh", "ssh_file"}
 
 OPERATORS = {"equals", "not_equals", "in", "not_in", "gte", "lte",
              "exists", "absent", "regex"}
@@ -43,7 +55,8 @@ LIST_EXPECTED = {"in", "not_in"}
 
 ABSENT_BEHAVIOUR = {"open", "notafinding", "not_applicable", "not_reviewed"}
 
-RULE_ID_RE = re.compile(r"^[A-Z][A-Z0-9]*-\d{2}-\d{6}$")
+# Product-VERSION-NNNNNN. Version segment is alphanumeric: 80, 90, 8X (Aria).
+RULE_ID_RE = re.compile(r"^[A-Z][A-Z0-9]*-[A-Z0-9]{2,3}-\d{6}$")
 BENCHMARK_STATUS = {"stig", "srg"}
 
 
@@ -106,7 +119,7 @@ def validate_file(path: Path, errors: list, require_verified: bool) -> dict | No
             continue
         if not RULE_ID_RE.match(rid):
             _fail(errors, where,
-                  "id must look like ESXI-80-000005 / VMCH-80-000001 / ESX-90-000005")
+                  "id must look like ESXI-80-000005 / VMCH-80-000001 / VROM-8X-000001")
         if rid in seen:
             _fail(errors, where, f"duplicate id (also at index {seen[rid]})")
         seen[rid] = idx

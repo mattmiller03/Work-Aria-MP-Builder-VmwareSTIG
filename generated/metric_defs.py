@@ -26,6 +26,12 @@ ROLLUP_PROPERTIES = [
 ]
 
 RULE_METRICS = {
+    'STIG_ARIA': [
+        ('VROM-8X-000001', 'VROM-8X-000001 — Aria Operations must enforce an idle session timeout'),
+        ('VROM-8X-000002', 'VROM-8X-000002 — Aria Operations must use a DOD-approved certificate authority'),
+        ('VROM-8X-000010', 'VROM-8X-000010 — The Aria Operations appliance must disable SSH root login'),
+        ('VROM-8X-000011', 'VROM-8X-000011 — The Aria Operations appliance nginx must set the secure cookie flag'),
+    ],
     'STIG_HOST': [
         ('ESXI-80-000005', 'ESXI-80-000005 — The ESXi host must enforce the limit of consecutive invalid logon attempts'),
         ('ESXI-80-000010', 'ESXI-80-000010 — The ESXi host must display the Standard Mandatory DOD Notice and Consent Banner'),

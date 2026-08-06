@@ -71,13 +71,29 @@ permanent Not_Reviewed slot and emit no symptom or alert — they stay in the
 denominator so the score reflects the real baseline, not just the automatable
 subset.
 
+## Single-pak scope
+
+One adapter covers VM, ESXi/ESX, vCenter, vSAN/DVS and Aria Operations. Our
+adapter reads vCenter directly rather than piggybacking on properties the native
+`VMWARE` adapter collected, so every rule lands as `rules|{ID}` on our own
+objects: one describe, one scorecard, one score, one update path.
+
+Tradeoff to know: findings live on the `STIG_*` mirror objects, so they do not
+appear on the native VM's Compliance tab. The cross-adapter relationship
+(`STIG_VM` → `VMWARE` `VirtualMachine`) buys drill-down back.
+
 ## Phasing
 
-`coverage.md` splits rules automatically:
+`coverage.md` splits rules automatically. The real boundary is TRANSPORT:
 
-- **Phase 1** — vCenter properties. Runs on a Read-only service account.
+- **Phase 1** — vCenter / vSAN / VAMI / Suite API. Runs on a Read-only account.
 - **Phase 2** — `esxcli` tier. Needs privileges above Read-only. Fails closed to
   Not_Reviewed if the role is missing; never silently passes.
+- **Phase 3** — appliance shell (SSH). The vCenter appliance-service STIGs
+  (Photon OS, PostgreSQL, Envoy, STS, VAMI server, EAM, Lookup, Perfcharts, UI)
+  and much of the Aria baseline are shell-only. This is a SECURITY decision, not
+  a permissions one — VCSA-80-000303 requires VCSA SSH be disabled. If SSH is
+  not permitted, these rules are reclassified `manual`, never left to pass.
 - **Manual** — attested only.
 
 ## State of the seed rules

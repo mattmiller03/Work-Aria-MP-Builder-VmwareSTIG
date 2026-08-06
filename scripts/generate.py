@@ -25,7 +25,8 @@ from pathlib import Path
 from xml.sax.saxutils import escape, quoteattr
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from validate_rules import load_all, ELEVATED_METHODS, Problem  # noqa: E402
+from validate_rules import (load_all, ELEVATED_METHODS, SSH_METHODS,  # noqa: E402
+                            Problem)
 
 ADAPTER_KIND = "VMwareStigAdapter"
 
@@ -80,9 +81,14 @@ def _kinds(pairs):
 
 
 def _phase(rule):
-    if rule["check_method"] == "manual":
+    m = rule["check_method"]
+    if m == "manual":
         return "manual"
-    return "2" if rule["check_method"] in ELEVATED_METHODS else "1"
+    if m in SSH_METHODS:
+        return "3"
+    if m in ELEVATED_METHODS:
+        return "2"
+    return "1"
 
 
 # ---------------------------------------------------------------- registry
@@ -284,21 +290,23 @@ def gen_coverage(pairs) -> str:
         benches.setdefault((bm["id"], bm["title"], bm["version"], bm["status"]),
                            []).append(rule)
 
-    lines += ["| Benchmark | Version | Status | Rules | Phase 1 | Phase 2 | Manual | Unverified |",
-              "|---|---|---|---|---|---|---|---|"]
+    lines += ["| Benchmark | Version | Status | Rules | P1 API | P2 esxcli | P3 SSH | Manual | Unverified |",
+              "|---|---|---|---|---|---|---|---|---|"]
     for (bid, btitle, bver, bstatus), rules in benches.items():
         p1 = sum(1 for r in rules if _phase(r) == "1")
         p2 = sum(1 for r in rules if _phase(r) == "2")
+        p3 = sum(1 for r in rules if _phase(r) == "3")
         man = sum(1 for r in rules if _phase(r) == "manual")
         unv = sum(1 for r in rules if not r.get("verified"))
         flag = " ⚠" if bstatus == "srg" else ""
         lines.append(f"| {bid} | {bver} | {bstatus}{flag} | {len(rules)} | "
-                     f"{p1} | {p2} | {man} | {unv} |")
+                     f"{p1} | {p2} | {p3} | {man} | {unv} |")
 
     total = len(pairs)
     unverified = [r for _, r in pairs if not r.get("verified")]
     manual = [(b, r) for b, r in pairs if _phase(r) == "manual"]
     phase2 = [(b, r) for b, r in pairs if _phase(r) == "2"]
+    phase3 = [(b, r) for b, r in pairs if _phase(r) == "3"]
 
     lines += [
         "",
@@ -310,6 +318,10 @@ def gen_coverage(pairs) -> str:
         f"- **{len(phase2)} rules need privileges above vCenter Read-only** "
         "(esxcli tier). These fail closed to Not_Reviewed if the service account "
         "lacks the role — they do not silently pass.",
+        f"- **{len(phase3)} rules require appliance shell access (Phase 3).** "
+        "This is a security decision, not a permissions one — VCSA-80-000303 "
+        "requires VCSA SSH be disabled. If SSH is not permitted these must be "
+        "reclassified as attested-only, never left to pass silently.",
         f"- **{len(manual)} rules are attested-only.** They hold a permanent "
         "Not_Reviewed metric slot so the denominator reflects the real baseline "
         "rather than only the automatable subset.",
@@ -321,6 +333,11 @@ def gen_coverage(pairs) -> str:
         lines.append(f"- `{rule['id']}` — {rule['title']}")
         if rule.get("notes"):
             lines.append(f"  - {rule['notes'].strip()}")
+
+    if phase3:
+        lines += ["", "## Phase 3 (appliance shell access required)", ""]
+        for bm, rule in phase3:
+            lines.append(f"- `{rule['id']}` — {rule['title']}")
 
     lines += ["", "## Phase 2 (elevated privileges required)", ""]
     for bm, rule in phase2:

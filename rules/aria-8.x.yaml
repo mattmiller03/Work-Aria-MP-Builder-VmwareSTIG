@@ -1,0 +1,64 @@
+# =====================================================================
+# ILLUSTRATIVE FIXTURES — unverified. Demonstrates the STIG_ARIA kind and
+# the split between Suite-API-checkable controls (Phase 1) and shell-only
+# appliance controls (Phase 3).
+#
+# Source when populated for real:
+#   dod-compliance-and-automation/aria/operations/8.x/<rel>-srg/inspec/
+#
+# NOTE status: srg — Aria Operations content is a STIG Readiness Guide,
+# not a DISA-published STIG. Identifiers may be realigned.
+# =====================================================================
+
+benchmark:
+  id: aria-operations-8x
+  title: VMware Aria Operations 8.x STIG Readiness Guide
+  version: V1R3
+  status: srg
+  applies_to: ["8.18"]
+  target_kind: STIG_ARIA
+
+rules:
+  - id: VROM-8X-000001
+    title: Aria Operations must enforce an idle session timeout
+    cat: 2
+    check_method: suite_api
+    check: { path: /api/deployment/config/globalsettings/SESSION_TIMEOUT }
+    operator: lte
+    expected: 15
+    default_when_absent: open
+    verified: false
+    notes: Reachable without shell access — Phase 1.
+
+  - id: VROM-8X-000002
+    title: Aria Operations must use a DOD-approved certificate authority
+    cat: 2
+    check_method: suite_api
+    check: { path: /api/deployment/config/certificate }
+    operator: regex
+    expected: "DoD|U.S. Government"
+    default_when_absent: open
+    verified: false
+
+  - id: VROM-8X-000010
+    title: The Aria Operations appliance must disable SSH root login
+    cat: 1
+    check_method: ssh_file
+    check: { path: /etc/ssh/sshd_config, field: PermitRootLogin }
+    operator: equals
+    expected: "no"
+    default_when_absent: open
+    verified: false
+    notes: >
+      Phase 3 — requires shell access to every Aria node. If SSH is not
+      permitted, reclassify as manual rather than leaving it to pass.
+
+  - id: VROM-8X-000011
+    title: The Aria Operations appliance nginx must set the secure cookie flag
+    cat: 2
+    check_method: ssh_file
+    check: { path: /opt/vmware/nginx/conf/nginx.conf, field: proxy_cookie_path }
+    operator: regex
+    expected: "HttpOnly;\\s*Secure"
+    default_when_absent: open
+    verified: false
