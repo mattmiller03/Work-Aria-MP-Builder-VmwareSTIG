@@ -1,2 +1,11 @@
 __pycache__/
 *.pyc
+
+# Third-party native pack content — dissected for reference, never redistributed.
+# The VMware/community DISA pack is copyrighted; keep the blobs and the
+# dissector output out of the repo.
+*.pak
+*.tgz
+*.tar.gz
+/native-pak/
+/native-compliance/
