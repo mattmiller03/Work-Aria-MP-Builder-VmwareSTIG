@@ -21,7 +21,17 @@ rules/*.yaml ──> validate_rules.py ──> generate.py ──> generated/
                                                         ├── resources.properties   UI labels
                                                         ├── scorecard.xml          Operations > Compliance
                                                         └── coverage.md            review artifact
+
+adapter/stig_eval.py   runtime decision core — consumes rule_registry.py at scan
+                       time and turns one collected value into one 0/1/2/3 result.
+                       Pure, no I/O; the collectors hand it values, it only decides.
 ```
+
+Build time authors and expands content; run time (`adapter/`) evaluates it. The
+generated `rule_registry.py` carries the full decision data per rule — operator,
+expected, `default_when_absent`, `risk_acceptance` — and `stig_eval.evaluate()`
+is the single consumer that makes those mean a result. `stig_eval.score()` rolls
+per-rule results up into the stable `summary|*` metrics dashboards bind to.
 
 ## Commands
 
@@ -34,7 +44,11 @@ python3 scripts/import_inspec.py <inspec_dir> \
 python3 scripts/validate_rules.py rules/          # triage worklist
 python3 scripts/generate.py rules/ --out generated/
 python3 scripts/generate.py rules/ --out generated/ --allow-unverified   # dev only
+
+python3 tests/test_stig_eval.py                   # evaluation core — runs anywhere
 ```
+
+The whole toolchain is standard-library only and targets Python 3.11+.
 
 ## Design invariants — do not violate
 
