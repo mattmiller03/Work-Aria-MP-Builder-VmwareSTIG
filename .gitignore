@@ -8,3 +8,7 @@ __pycache__/
 *.tgz
 *.tar.gz
 /native-pak/
+
+# Exception: the vCommunity offline-build wheel bundle is a deliberate,
+# version-controlled deployment artifact (open-source pypi wheels).
+!/deploy/vcommunity/vcommunity-wheels.tgz
