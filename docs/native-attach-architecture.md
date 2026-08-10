@@ -108,44 +108,28 @@ Order of preference for a check whose data the native adapter does not collect:
    a cross-adapter relationship provides drill-down. This is the surviving role of
    `adapter/stig_eval.py` + the evaluation core; it is the exception, not the norm.
 
-## Beyond vSphere: ingesting other STIGs
+## Scope boundary: the VM object, never the guest OS
 
-The pipeline is already benchmark-generic on the authoring side — one
-`rules/*.yaml` per benchmark, and `scripts/import_inspec.py` scaffolds rules from
-any DISA InSpec profile, not just VMware's. The constraint is never "can we author
-the rules"; it is "does Aria have the object and the data to bind a check to." That
-splits every additional STIG into two tiers.
+**In scope:** the VM as a *vSphere-managed object* — its virtual hardware and VMX
+advanced settings (the DISA Virtual Machine STIG: `VMCH-*`), device configuration,
+encryption/vMotion posture — plus the vSphere infrastructure it runs on: ESXi,
+vCenter, vSAN, and distributed switches.
 
-### Tier A — VMware-ecosystem STIGs (native-bindable)
-STIGs for components Aria already models through a VMware adapter: vCenter, ESXi,
-VM, vSAN/DVS (VMWARE adapter), plus NSX-T/NSX, and the Aria/VCF suite itself. These
-bind exactly like the vSphere content — additive native content on the existing
-object kinds. This is a straight extension of everything above; only new
-`rules/*.yaml` + `native.property_key` values are needed.
+**Out of scope (decided):** anything *inside* the guest operating system —
+Windows/RHEL/Ubuntu OS STIGs, registry keys, `/etc` files, sysctls. Those are the
+job of OS-level tooling (SCAP/SCC, InSpec, a config-management agent) and are not
+ingested here. There is therefore **no external compliance-data feed, no SCAP /
+scanner ingest, and no `STIG_OS` object kind.** Every check this pack evaluates
+reads from a native vSphere object property — so everything is native-bindable,
+and the `pushed` gap-path exists only for vSphere data the adapter happens not to
+collect (esxcli/appliance), never for guest-OS data.
 
-### Tier B — guest-OS and third-party STIGs (ingest required)
-Windows Server, RHEL/Ubuntu, and other OS/appliance STIGs check settings Aria does
-**not** collect — registry keys, `/etc` files, sysctls. There is no native property
-to bind to, so the data has to be **ingested** from whatever already scans those
-hosts, then landed on an object so a symptom can test it:
-
-- **Source** — an existing compliance/scan feed: OpenSCAP/SCAP, Chef InSpec, DISA
-  SCC, or a scanner (ACAS/Nessus/Tenable). We consume results; we do not re-scan.
-- **Landing** — the same two mechanisms this doc already defines for gap checks:
-  `key_source: pushed` (write per-check results onto the guest-VM object via an
-  Orchestrator/ingest job, so it shows on that VM's native Compliance tab), or a
-  dedicated `STIG_OS` mirror object when there is no native object to hang it on.
-
-So multi-STIG is not a new architecture — it is the `pushed` / ingest path applied
-to a new data source. What each new STIG needs is a decision per benchmark: which
-object it binds to, and which feed supplies the data.
-
-### Schema impact
-`benchmark.native.resource_kind` already carries the target object kind, so a
-Windows benchmark simply targets its object (e.g. the guest VM, or a `STIG_OS`
-kind) instead of `HostSystem`. New permanent object kinds (e.g. `STIG_OS`) are
-added the same deliberate way the vSphere kinds were. No pipeline change — just
-data and, for Tier B, an ingest job per source.
+### Optional later extension — other VMware-ecosystem STIGs
+The same native-attach pattern extends with no new machinery to STIGs for other
+components Aria already models through a VMware adapter — **NSX-T/NSX**, and the
+**Aria/VCF suite** itself. These stay native-bindable (new `rules/*.yaml` + native
+property keys only). They are a fast-follow, not part of the core vSphere
+deliverable, and they never cross into the guest OS.
 
 ## Packaging
 
