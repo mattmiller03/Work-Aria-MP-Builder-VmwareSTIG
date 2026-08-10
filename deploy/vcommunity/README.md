@@ -36,14 +36,32 @@ On the MP Builder (Photon) host, in the copied vCommunity project dir:
 cd /opt/aria/Work-Aria-MP-Builder/VCF-Operations-vCommunity
 mkdir -p wheels
 tar xzf <this-repo>/deploy/vcommunity/vcommunity-wheels.tgz -C wheels/
+```
 
-# point the Dockerfile at the local wheels (offline), reuse base's SDK lib:
+**The SDK lib is required and is NOT in the base image.** `base-adapter:python-1.2.0`
+does not ship `aria.ops`; the adapter imports it, so it must be installed into the
+container. The `vcommunity-wheels.tgz` bundle here does NOT include it (it's the
+one dep specific to your SDK version). Reuse the **Python 3.11 container wheels**
+from the Azure pak project — they carry `vmware_aria_operations_integration_sdk_lib-1.1.0`
+plus its `cffi`/`cryptography` C-ext deps, proven on this exact base:
+
+```bash
+cp /opt/aria/Work-Aria-MP-Builder/AzureGov/app/wheels/*.whl wheels/
+# (do NOT use /opt/aria/wheels — those are Python 3.12 host wheels, wrong ABI)
+ls wheels/ | grep -iE 'sdk_lib|cffi|cryptograph'   # must be present
+```
+
+Point the Dockerfile at the local wheels (offline) and install the SDK lib **by
+name, unpinned** (takes 1.1.0; vCommunity's `~=1.0.0` pin is bypassed — the
+`aria.ops` API it uses is stable and Azure runs 1.1.0 on this base):
+
+```bash
 cat > Dockerfile <<'EOF'
 FROM base-adapter:python-1.2.0
 COPY commands.cfg .
 COPY wheels/ /tmp/wheels/
 RUN pip3 install --no-cache-dir --no-index --find-links /tmp/wheels/ setuptools wheel && \
-    pip3 install --no-cache-dir --no-index --no-build-isolation --find-links /tmp/wheels/ pyvmomi requests
+    pip3 install --no-cache-dir --no-index --no-build-isolation --find-links /tmp/wheels/ vmware-aria-operations-integration-sdk-lib pyvmomi requests
 COPY app app
 EOF
 # NOTE: do NOT append `&& rm -rf /tmp/wheels` — the base image's final USER is the
@@ -53,9 +71,27 @@ EOF
 # build the .pak the air-gapped / local-registry way (mirrors the Azure pak):
 rm -rf build
 sudo mp-build -i --no-ttl --registry-tag "214.73.76.134:5000/vcfops-vcommunity-adapter" -P 8181
-sudo docker tag vcfoperationsvcommunity-test:0.3.0 214.73.76.134:5000/vcfops-vcommunity-adapter:latest
+# mp-build names the image from manifest "name" (iSDK_VCFOperationsvCommunity):
+sudo docker tag isdk_vcfoperationsvcommunity-test:0.3.0 214.73.76.134:5000/vcfops-vcommunity-adapter:latest
 sudo docker push 214.73.76.134:5000/vcfops-vcommunity-adapter:latest
 ```
 
 Then upload the `.pak` in Aria (Add/Upgrade → ignore unsigned → EULA) and, on the
 Cloud Proxy, `docker pull 214.73.76.134:5000/vcfops-vcommunity-adapter:latest`.
+
+## Configure which settings it collects (STIG scope)
+
+By default the adapter collects nothing. Point its working solution-config files at
+the STIG-scoped lists generated in this directory so it collects exactly the
+settings our compliance checks bind to:
+
+- `stig-esxi-advanced-settings.xml` → the vCommunity `esxi_advanced_system_settings.xml`
+  working config (32 ESXi advanced settings)
+- `stig-vm-advanced-parameters.xml` → the vCommunity `vm_advanced_parameters.xml`
+  working config (15 VM advanced parameters)
+- `stig-advanced-settings-reference.md` — rule → setting → compliant value → property
+  key map, used to author the compliance rules.
+
+Collected property keys land on the native objects as
+`vCommunity|Configuration|Advanced System Settings|<Setting>` (HostSystem) and
+`vCommunity|Configuration|Advanced Parameters|<Setting>` (VirtualMachine).
