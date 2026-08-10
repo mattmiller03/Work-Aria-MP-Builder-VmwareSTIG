@@ -94,7 +94,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-a438dfbc-9c9b-4084-a86c-22bea7231456",
-      "value": null
+      "value": 3.0
     },
     {
       "cat": 2,
@@ -103,7 +103,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-637de202-54ee-4557-897e-eb17fa3362fb",
-      "value": null
+      "value": 3.0
     },
     {
       "cat": 2,
@@ -112,7 +112,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-32a77f61-76bf-4eaa-9e14-d4d993797ce8",
-      "value": null
+      "value": 3.0
     }
   ],
   "ESXI-70-000006": [
@@ -123,7 +123,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-2781c250-094e-44ef-8e4e-1a4db5ae5b5a",
-      "value": null
+      "value": 900.0
     },
     {
       "cat": 2,
@@ -132,7 +132,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-44ec4cfb-b63c-4285-a0bd-0ab3aa187e53",
-      "value": null
+      "value": 900.0
     },
     {
       "cat": 2,
@@ -141,7 +141,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-26f196d2-05a3-4500-970a-435baa111aaf",
-      "value": null
+      "value": 900.0
     }
   ],
   "ESXI-70-000030": [
@@ -210,7 +210,7 @@
       "operator": "LT",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-2ec7fea9-2851-470c-ba1b-60f65d89eed1",
-      "value": null
+      "value": 5.0
     },
     {
       "cat": 2,
@@ -219,7 +219,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-574903b4-0d56-43b2-93d7-d6ab60acb3a3",
-      "value": null
+      "value": 5.0
     },
     {
       "cat": 2,
@@ -228,7 +228,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-bda4d115-e7b5-441c-a8d3-46f2b9d99fdb",
-      "value": null
+      "value": 5.0
     }
   ],
   "ESXI-70-000034": [
@@ -355,7 +355,7 @@
       "operator": "EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-ca1fb5ce-ab31-41e1-8912-05a6c84539ec",
-      "value": null
+      "value": 0.0
     },
     {
       "cat": 2,
@@ -364,7 +364,7 @@
       "operator": "EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-3261edbb-52d9-414e-aefe-7a281df34772",
-      "value": null
+      "value": 0.0
     },
     {
       "cat": 2,
@@ -373,7 +373,7 @@
       "operator": "EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-33db9056-61bc-4d90-864b-a2e74d9da7a4",
-      "value": null
+      "value": 0.0
     }
   ],
   "ESXI-70-000041": [
@@ -384,7 +384,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-e2450131-c3bb-4849-8363-c57dd9d17cb8",
-      "value": null
+      "value": 120.0
     },
     {
       "cat": 2,
@@ -393,7 +393,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-34fa1490-97b9-4093-9aa2-0f148f167bed",
-      "value": null
+      "value": 120.0
     },
     {
       "cat": 2,
@@ -402,7 +402,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-654fe6de-7b64-44c8-996f-59dc7f706cd6",
-      "value": null
+      "value": 120.0
     }
   ],
   "ESXI-70-000042": [
@@ -413,7 +413,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-29d9bcce-f2da-41a9-b631-0c5c5146c05b",
-      "value": null
+      "value": 600.0
     },
     {
       "cat": 2,
@@ -422,7 +422,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-569603eb-a77e-4718-a9e7-e7bf9bc63dab",
-      "value": null
+      "value": 600.0
     },
     {
       "cat": 2,
@@ -431,7 +431,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-be4a2a4c-6dba-4c3b-813e-d39a7978f6aa",
-      "value": null
+      "value": 600.0
     }
   ],
   "ESXI-70-000043": [
@@ -442,7 +442,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-4dac62b1-9856-4fc6-975a-ad2970d58ab6",
-      "value": null
+      "value": 120.0
     },
     {
       "cat": 2,
@@ -451,7 +451,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-6c304307-f56c-46b2-8e1a-4b85547eba4d",
-      "value": null
+      "value": 120.0
     },
     {
       "cat": 2,
@@ -460,7 +460,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-892bda24-cba2-4dda-9853-23119a73a9bf",
-      "value": null
+      "value": 120.0
     }
   ],
   "ESXI-70-000045": [
@@ -643,7 +643,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-3e0aa222-3b46-4bb6-b839-ed149ded4a82",
-      "value": null
+      "value": 2.0
     },
     {
       "cat": 3,
@@ -652,7 +652,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-93cdd9fa-a4b9-4b33-9cc4-3dc500b59a73",
-      "value": null
+      "value": 2.0
     },
     {
       "cat": 3,
@@ -661,7 +661,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-cde34030-4d58-4294-97fc-dd9d8e35c919",
-      "value": null
+      "value": 2.0
     }
   ],
   "ESXI-70-000056": [
@@ -701,7 +701,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-7694a709-6393-4c7d-984c-f412cd6ed819",
-      "value": null
+      "value": 1.0
     },
     {
       "cat": 2,
@@ -710,7 +710,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-f9e78d38-58a8-4660-8bbb-b6db26f02693",
-      "value": null
+      "value": 1.0
     },
     {
       "cat": 2,
@@ -719,7 +719,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-ca39139f-b1b8-46eb-8341-dbb06222d5b2",
-      "value": null
+      "value": 1.0
     }
   ],
   "ESXI-70-000059": [
@@ -875,7 +875,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-6b655f47-3a7c-4062-b1bd-0cb8e8cbf28c",
-      "value": null
+      "value": 0.0
     },
     {
       "cat": 2,
@@ -884,7 +884,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-0de71ce5-9f77-453b-819d-10be9324d608",
-      "value": null
+      "value": 0.0
     },
     {
       "cat": 2,
@@ -893,7 +893,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-84f28e11-943f-41eb-82de-b99c296bbb21",
-      "value": null
+      "value": 0.0
     }
   ],
   "ESXI-70-000081": [
@@ -904,7 +904,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-11d78954-0d81-4572-9eec-137b8fc54caa",
-      "value": null
+      "value": 0.0
     },
     {
       "cat": 2,
@@ -913,7 +913,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-9e6f6a72-725d-46b8-a17a-b4b461e5ace8",
-      "value": null
+      "value": 0.0
     },
     {
       "cat": 2,
@@ -922,7 +922,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "HostSystem",
       "symptom_id": "SymptomDefinition-42178993-049c-4bdc-800c-dacd5b48ccf0",
-      "value": null
+      "value": 0.0
     }
   ],
   "ESXI-70-000083": [
@@ -1036,7 +1036,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VMwareAdapter Instance",
       "symptom_id": "SymptomDefinition-4ba0930d-5cf2-4d2d-a286-da6ca8cdc6c4",
-      "value": null
+      "value": 3.0
     },
     {
       "cat": 2,
@@ -1045,7 +1045,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VMwareAdapter Instance",
       "symptom_id": "SymptomDefinition-c4d68147-f569-4396-a586-78675d8917a2",
-      "value": null
+      "value": 3.0
     }
   ],
   "VCSA-70-000148": [
@@ -1096,7 +1096,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VMwareAdapter Instance",
       "symptom_id": "SymptomDefinition-fc5bee72-3145-47cc-9906-d8010c81efd9",
-      "value": null
+      "value": 0.0
     },
     {
       "cat": 2,
@@ -1105,7 +1105,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VMwareAdapter Instance",
       "symptom_id": "SymptomDefinition-c5ef2b2d-cb48-4ca1-b59c-11e9484094ff",
-      "value": null
+      "value": 0.0
     }
   ],
   "VCSA-70-000267": [
@@ -1582,7 +1582,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-88aa1500-c710-45ac-b98f-2a059596a3cd",
-      "value": null
+      "value": 1.0
     },
     {
       "cat": 2,
@@ -1591,7 +1591,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-a111a38f-db8f-4e4a-982d-55c5c36cc0e5",
-      "value": null
+      "value": 1.0
     },
     {
       "cat": 2,
@@ -1600,7 +1600,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-a60361d2-8f81-4634-b88d-f116aee4155c",
-      "value": null
+      "value": 1.0
     }
   ],
   "VMCH-70-000015": [
@@ -1611,7 +1611,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-c032585c-0e82-47a1-b3c5-ed22c6e6eb07",
-      "value": null
+      "value": 1048576.0
     },
     {
       "cat": 3,
@@ -1620,7 +1620,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-dbc19a74-6e04-4df0-aca0-d96df3e21159",
-      "value": null
+      "value": 1048576.0
     },
     {
       "cat": 3,
@@ -1629,7 +1629,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-d7ce01e8-e7c2-4539-adfc-d087e870c9f8",
-      "value": null
+      "value": 1048576.0
     }
   ],
   "VMCH-70-000016": [
@@ -1863,7 +1863,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-0e181a1e-37b5-4911-b15a-887b0c7ac9ca",
-      "value": null
+      "value": 2048000.0
     },
     {
       "cat": 2,
@@ -1872,7 +1872,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-142ad96b-976d-439c-988f-78d3152183fa",
-      "value": null
+      "value": 2048000.0
     },
     {
       "cat": 2,
@@ -1881,7 +1881,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-cae57690-fc12-4add-b65a-0773aa71b2cd",
-      "value": null
+      "value": 2048000.0
     }
   ],
   "VMCH-70-000027": [
@@ -1892,7 +1892,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-95310017-ba20-4678-b3ae-fcc65c004b29",
-      "value": null
+      "value": 10.0
     },
     {
       "cat": 2,
@@ -1901,7 +1901,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-f0d1fb89-7c58-451b-9385-8582399db18b",
-      "value": null
+      "value": 10.0
     },
     {
       "cat": 2,
@@ -1910,7 +1910,7 @@
       "operator": "NOT_EQ",
       "resource_kind": "VirtualMachine",
       "symptom_id": "SymptomDefinition-ebccf1b2-c15b-44c8-b7ca-9a24daca2c44",
-      "value": null
+      "value": 10.0
     }
   ],
   "VMCH-70-000028": [

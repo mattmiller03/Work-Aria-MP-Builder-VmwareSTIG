@@ -35,8 +35,20 @@ CHECK_METHODS = {
     "suite_api":             {"path"},
     "ssh":                   {"command", "field"},
     "ssh_file":              {"path", "field"},
+    # Native-attach: bind a compliance symptom to a native VMWARE object property.
+    # The check reproduces the native pack's VIOLATION condition verbatim (a
+    # version-stable vROps property key + native operator + value), so it needs
+    # no operator/expected/default_when_absent — those describe the old
+    # STIG_*-adapter model and are forbidden here. See docs/native-attach-architecture.md.
+    "native_property":       {"property_key", "cond_type", "operator"},
     "manual":                set(),
 }
+
+# Native symptom condition vocabulary, read off the installed pack.
+COND_TYPES = {"string", "numeric"}
+NATIVE_OPERATORS = {"EQ", "NOT_EQ", "GT", "LT", "GT_EQ", "LT_EQ",
+                    "CONTAINS", "REGEX", "NOT_REGEX", "STARTS_WITH",
+                    "EXISTS", "NOT_EXISTS"}
 
 # Phase 2 — privileges above vCenter Read-only
 ELEVATED_METHODS = {"esxcli"}
@@ -107,6 +119,18 @@ def validate_file(path: Path, errors: list, require_verified: bool) -> dict | No
     if not isinstance(bm.get("applies_to"), list) or not bm.get("applies_to"):
         _fail(errors, path.name, "benchmark.applies_to must be a non-empty list")
 
+    # Native-attach binding target (optional). When present, native_property
+    # rules bind their symptoms to this adapter/resource kind, and the version
+    # gate partitions our content from VMware's on the same objects.
+    nb = bm.get("native")
+    if nb is not None:
+        if not isinstance(nb, dict):
+            _fail(errors, path.name, "benchmark.native must be a mapping")
+        else:
+            for k in ("adapter_kind", "resource_kind"):
+                if not nb.get(k):
+                    _fail(errors, path.name, f"benchmark.native missing `{k}`")
+
     rules = doc.get("rules")
     if not isinstance(rules, list) or not rules:
         _fail(errors, path.name, "missing or empty `rules` list")
@@ -162,6 +186,33 @@ def validate_file(path: Path, errors: list, require_verified: bool) -> dict | No
                 if forbidden in rule:
                     _fail(errors, where,
                           f"`{forbidden}` is meaningless for check_method: manual")
+            continue
+
+        if method == "native_property":
+            for forbidden in ("operator", "expected", "default_when_absent"):
+                if forbidden in rule:
+                    _fail(errors, where,
+                          f"`{forbidden}` belongs inside `check` for "
+                          "native_property, not at rule level")
+            check = rule.get("check")
+            if not isinstance(check, dict):
+                _fail(errors, where, "`check` mapping required for native_property")
+                continue
+            missing = CHECK_METHODS["native_property"] - set(check)
+            if missing:
+                _fail(errors, where, f"check missing {sorted(missing)}")
+            if check.get("cond_type") not in COND_TYPES:
+                _fail(errors, where,
+                      f"check.cond_type must be one of {sorted(COND_TYPES)}")
+            if check.get("operator") not in NATIVE_OPERATORS:
+                _fail(errors, where,
+                      f"check.operator `{check.get('operator')}` not a native "
+                      f"operator {sorted(NATIVE_OPERATORS)}")
+            # `value` may be omitted only for existence operators.
+            if check.get("operator") not in ("EXISTS", "NOT_EXISTS") \
+                    and "value" not in check:
+                _fail(errors, where,
+                      f"check.operator `{check.get('operator')}` requires `value`")
             continue
 
         # --- non-manual rules ---

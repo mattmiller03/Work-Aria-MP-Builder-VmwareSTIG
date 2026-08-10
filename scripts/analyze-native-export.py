@@ -71,7 +71,10 @@ def symptom_bindings(symptoms):
             "key": cond.get("key"),
             "operator": cond.get("operator"),
             "cond_type": cond.get("type"),
-            "value": cond.get("stringValue", cond.get("doubleValue")),
+            # STRING conditions store the value in stringValue; NUMERIC ones in
+            # value (a float). Check both, in that order.
+            "value": cond.get("stringValue",
+                              cond.get("value", cond.get("doubleValue"))),
             "cat": _cat(s.get("name", "")),
             "symptom_id": s.get("id"),
         })
