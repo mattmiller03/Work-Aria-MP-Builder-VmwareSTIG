@@ -8,4 +8,3 @@ __pycache__/
 *.tgz
 *.tar.gz
 /native-pak/
-/native-compliance/
