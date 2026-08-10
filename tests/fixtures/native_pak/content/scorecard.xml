@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic fixture: the compliance benchmark rollup. -->
+<scorecardContent>
+  <ComplianceScorecards>
+    <ComplianceScorecard description="VMware vSphere 8.0 DISA STIG"
+                         name="VMware vSphere 8.0 STIG" type="CUSTOM">
+      <AlertDefinitionIds>
+        <AlertDefinitionId id="Alert-VMWARE-VMCH-80-000001"/>
+        <AlertDefinitionId id="Alert-VMWARE-ESXI-80-000030"/>
+      </AlertDefinitionIds>
+    </ComplianceScorecard>
+  </ComplianceScorecards>
+</scorecardContent>
