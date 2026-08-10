@@ -33,6 +33,7 @@ import argparse
 import json
 import re
 import sys
+import tarfile
 import tempfile
 import zipfile
 from collections import Counter, defaultdict
@@ -78,23 +79,54 @@ def _collect_xml_files(root: Path):
     return sorted(p for p in root.rglob("*.xml"))
 
 
+def _safe_extract_tar(tf: tarfile.TarFile, dest: Path):
+    """Extract a tarball, refusing any member that would escape dest (path
+    traversal). Prefer the stdlib data filter when available (3.12+, and 3.8-3.11
+    security releases); fall back to a manual guard otherwise."""
+    try:
+        tf.extractall(dest, filter="data")
+        return
+    except TypeError:
+        pass  # older runtime without the filter kwarg
+    dest = dest.resolve()
+    for member in tf.getmembers():
+        target = (dest / member.name).resolve()
+        if not str(target).startswith(str(dest)):
+            raise SystemExit(f"unsafe path in tar: {member.name}")
+    tf.extractall(dest)
+
+
 def _unpack_if_needed(path: Path, scratch: Path) -> Path:
     if path.is_dir():
         return path
+
+    dest = scratch / "unpacked"
     if zipfile.is_zipfile(path):
-        dest = scratch / "unpacked"
         with zipfile.ZipFile(path) as zf:
             zf.extractall(dest)
-        # A .pak often wraps an inner adapter zip; unpack one nested level too.
-        for inner in list(dest.rglob("*.zip")) + list(dest.rglob("*.pak")):
+    elif tarfile.is_tarfile(path):
+        # Natural shape when a dir is tarred off an Aria node: .tgz / .tar.gz.
+        with tarfile.open(path) as tf:
+            _safe_extract_tar(tf, dest)
+    else:
+        raise SystemExit(
+            f"{path} is neither a directory nor a zip/.pak/.tar(.gz) archive")
+
+    # A .pak often wraps an inner adapter archive; unpack one nested level too.
+    for inner in (list(dest.rglob("*.zip")) + list(dest.rglob("*.pak"))
+                  + list(dest.rglob("*.tar")) + list(dest.rglob("*.tgz"))
+                  + list(dest.rglob("*.tar.gz"))):
+        sub = dest / (inner.stem + "_x")
+        try:
             if zipfile.is_zipfile(inner):
-                try:
-                    with zipfile.ZipFile(inner) as zf:
-                        zf.extractall(dest / (inner.stem + "_x"))
-                except zipfile.BadZipFile:
-                    pass
-        return dest
-    raise SystemExit(f"{path} is neither a directory nor a zip/.pak archive")
+                with zipfile.ZipFile(inner) as zf:
+                    zf.extractall(sub)
+            elif tarfile.is_tarfile(inner):
+                with tarfile.open(inner) as tf:
+                    _safe_extract_tar(tf, sub)
+        except (zipfile.BadZipFile, tarfile.TarError):
+            pass
+    return dest
 
 
 def parse_symptoms(elem):
