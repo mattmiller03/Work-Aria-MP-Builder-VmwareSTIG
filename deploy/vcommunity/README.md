@@ -43,10 +43,12 @@ FROM base-adapter:python-1.2.0
 COPY commands.cfg .
 COPY wheels/ /tmp/wheels/
 RUN pip3 install --no-cache-dir --no-index --find-links /tmp/wheels/ setuptools wheel && \
-    pip3 install --no-cache-dir --no-index --no-build-isolation --find-links /tmp/wheels/ pyvmomi requests && \
-    rm -rf /tmp/wheels
+    pip3 install --no-cache-dir --no-index --no-build-isolation --find-links /tmp/wheels/ pyvmomi requests
 COPY app app
 EOF
+# NOTE: do NOT append `&& rm -rf /tmp/wheels` — the base image's final USER is the
+# non-root aria-ops-adapter-user, which cannot delete the root-owned /tmp/wheels,
+# so the rm fails and breaks the build. Leaving the wheels in the image is harmless.
 
 # build the .pak the air-gapped / local-registry way (mirrors the Azure pak):
 rm -rf build
