@@ -1,0 +1,1945 @@
+{
+  "ESXI-70-000001": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|lockdown|lockdown_mode",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-5cd54808-4f61-4302-81db-6c490efea6b5",
+      "value": "lockdownDisabled"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|lockdown|lockdown_mode",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-43868eeb-0290-40df-823d-431d9d6f103f",
+      "value": "lockdownDisabled"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|lockdown|lockdown_mode",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-f5cfb371-4b2b-4612-98e3-913839096926",
+      "value": "lockdownDisabled"
+    }
+  ],
+  "ESXI-70-000002": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|dcui_access",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-572bb4ef-1e10-425c-a747-6a9ea3095f87",
+      "value": "root"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|dcui_access",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-b02a65aa-b827-4175-b336-86517dde68e0",
+      "value": "root"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|dcui_access",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-2aa5cc98-d8c5-439f-b7fc-616bbb92c779",
+      "value": "root"
+    }
+  ],
+  "ESXI-70-000004": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|syslog_host",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-d8e2ae16-4982-41fa-bacb-01d94c7299a8",
+      "value": "none"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|syslog_host",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-97a50a4b-583e-4e52-b960-a00e251956e3",
+      "value": "none"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|syslog_host",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-953e14ad-952a-440c-8cd9-e9b5640fa271",
+      "value": "none"
+    }
+  ],
+  "ESXI-70-000005": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|security_account_lock_failures",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-a438dfbc-9c9b-4084-a86c-22bea7231456",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|security_account_lock_failures",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-637de202-54ee-4557-897e-eb17fa3362fb",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|security_account_lock_failures",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-32a77f61-76bf-4eaa-9e14-d4d993797ce8",
+      "value": null
+    }
+  ],
+  "ESXI-70-000006": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|security_account_unlock_time",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-2781c250-094e-44ef-8e4e-1a4db5ae5b5a",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|security_account_unlock_time",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-44ec4cfb-b63c-4285-a0bd-0ab3aa187e53",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|security_account_unlock_time",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-26f196d2-05a3-4500-970a-435baa111aaf",
+      "value": null
+    }
+  ],
+  "ESXI-70-000030": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|host_agent_log_level",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-56b324c4-fc81-40c4-9e2a-b860ed99a60c",
+      "value": "info"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|host_agent_log_level",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-48cbfdd2-a558-4ae9-8789-840668534b99",
+      "value": "info"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|host_agent_log_level",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-af3b4f14-1e55-4f50-b09b-a1229476bda8",
+      "value": "info"
+    }
+  ],
+  "ESXI-70-000031": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|security_password_quality_control",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-37286226-503e-4dd1-a7e2-8c1c20c31366",
+      "value": "similar=deny retry=3 min=disabled,disabled,disabled,disabled,15"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|security_password_quality_control",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-b4749847-119f-4332-a27f-6165a1f052a7",
+      "value": "similar=deny retry=3 min=disabled,disabled,disabled,disabled,15"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|security_password_quality_control",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-bf46bfa2-38b4-4b1f-8fa7-b6a849257e86",
+      "value": "similar=deny retry=3 min=disabled,disabled,disabled,disabled,15"
+    }
+  ],
+  "ESXI-70-000032": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|security_password_history",
+      "operator": "LT",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-2ec7fea9-2851-470c-ba1b-60f65d89eed1",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|security_password_history",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-574903b4-0d56-43b2-93d7-d6ab60acb3a3",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|security_password_history",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-bda4d115-e7b5-441c-a8d3-46f2b9d99fdb",
+      "value": null
+    }
+  ],
+  "ESXI-70-000034": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_mob",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-14f22292-e3da-40cb-82d0-dcfafaf3aa31",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_mob",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-3a567f18-ac69-4d33-8535-020f49cd89b3",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_mob",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-e1531aed-d054-478e-869a-0adca121bf07",
+      "value": "false"
+    }
+  ],
+  "ESXI-70-000035": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SSH|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-1fad3341-200e-4ce4-93f3-f900ab263d56",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SSH|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-ebcffab4-b5f7-429a-91b4-eeaf652b3fef",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SSH|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-ff0878d8-118c-4d52-8fde-c4428c899db7",
+      "value": "true"
+    }
+  ],
+  "ESXI-70-000036": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:ESXi Shell|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-3a0d9e33-db06-4775-94e7-5b7759723658",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:ESXi Shell|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-a53a5ff6-a191-4f28-b680-62cba429e7e5",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:ESXi Shell|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-8bc3d2fa-34b2-4667-8d10-2d3cef75ad5f",
+      "value": "true"
+    }
+  ],
+  "ESXI-70-000037": [
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_ad_auth",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-b7474205-89c1-4a05-8313-1e378e8a3848",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_ad_auth",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-682de293-34f4-4189-82bb-a1eabbfd493a",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_ad_auth",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-906bb931-89b4-49c5-8227-990b284dffa4",
+      "value": "true"
+    }
+  ],
+  "ESXI-70-000038": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|enable_auth_proxy",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-ca1fb5ce-ab31-41e1-8912-05a6c84539ec",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|enable_auth_proxy",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-3261edbb-52d9-414e-aefe-7a281df34772",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|enable_auth_proxy",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-33db9056-61bc-4d90-864b-a2e74d9da7a4",
+      "value": null
+    }
+  ],
+  "ESXI-70-000041": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|shell_interactive_timeout",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-e2450131-c3bb-4849-8363-c57dd9d17cb8",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|shell_interactive_timeout",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-34fa1490-97b9-4093-9aa2-0f148f167bed",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|shell_interactive_timeout",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-654fe6de-7b64-44c8-996f-59dc7f706cd6",
+      "value": null
+    }
+  ],
+  "ESXI-70-000042": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|shell_timeout",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-29d9bcce-f2da-41a9-b631-0c5c5146c05b",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|shell_timeout",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-569603eb-a77e-4718-a9e7-e7bf9bc63dab",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|shell_timeout",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-be4a2a4c-6dba-4c3b-813e-d39a7978f6aa",
+      "value": null
+    }
+  ],
+  "ESXI-70-000043": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|dcui_timeout",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-4dac62b1-9856-4fc6-975a-ad2970d58ab6",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|dcui_timeout",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-6c304307-f56c-46b2-8e1a-4b85547eba4d",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|dcui_timeout",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-892bda24-cba2-4dda-9853-23119a73a9bf",
+      "value": null
+    }
+  ],
+  "ESXI-70-000045": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|syslog_dir",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-a6866a58-084c-42d1-a85f-d2a3bd4ec9ca",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|syslog_dir",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-9a26780e-ed0a-4e42-94aa-72760b67e66b",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|syslog_dir",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-2aa7b6e8-af23-4232-a684-5fc6f1727651",
+      "value": "false"
+    }
+  ],
+  "ESXI-70-000046": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:NTP Daemon|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-528ef292-49de-4afd-a86f-b3c1826a56f5",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|ntpServer",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-d3fe563a-a303-43d9-b64b-fbf527ea5d5f",
+      "value": "none"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:NTP Daemon|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-9da8b70a-896a-459d-9742-c3a4eb618130",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:NTP Daemon|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-81128743-f818-4ab7-bcc0-a84912f27480",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|ntpServer",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-e2cedd99-0bdd-47c8-a9d9-3847ef3ccaf0",
+      "value": "none"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|ntpServer",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-2da1a113-84aa-4e92-879f-d02d1d2c2f81",
+      "value": "none"
+    }
+  ],
+  "ESXI-70-000047": [
+    {
+      "cat": 1,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|imageConfig|acceptance_level_risk_profile_3",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-a267d5fb-4e89-4256-8bca-24f01230b00b",
+      "value": "true"
+    },
+    {
+      "cat": 1,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|imageConfig|acceptance_level_risk_profile_3",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-a526edf7-046d-4ebb-a079-d0355d2c509e",
+      "value": "true"
+    },
+    {
+      "cat": 1,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|imageConfig|acceptance_level_risk_profile_3",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-417e4b5a-128e-4f46-950b-a001344aab04",
+      "value": "true"
+    }
+  ],
+  "ESXI-70-000053": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SNMP Server|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-7627ae5c-b3d2-4d0a-8acc-2f42229564bd",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SNMP Server|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-061e350a-69fa-4c95-87db-53a7552dd108",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SNMP Server|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-78a2ad87-7584-4a73-baf0-dc552b16dcd8",
+      "value": "true"
+    }
+  ],
+  "ESXI-70-000054": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_chap_auth",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-10f5c505-b5a2-476f-a4f0-513f047eb9f0",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_chap_auth",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-002a4828-1386-433d-b2d9-86c3c3847503",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_chap_auth",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-82b7a29d-4aa8-44cc-8b76-aad2e39b4a68",
+      "value": "true"
+    }
+  ],
+  "ESXI-70-000055": [
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|tps_share_force_salting",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-3e0aa222-3b46-4bb6-b839-ed149ded4a82",
+      "value": null
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|tps_share_force_salting",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-93cdd9fa-a4b9-4b33-9cc4-3dc500b59a73",
+      "value": null
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|tps_share_force_salting",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-cde34030-4d58-4294-97fc-dd9d8e35c919",
+      "value": null
+    }
+  ],
+  "ESXI-70-000056": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|firewallRule:services|servicesConfigured",
+      "operator": "CONTAINS",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-13ae20cd-3df4-48ab-82c0-ca65aa5b674c",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|firewallRule:services|servicesConfigured",
+      "operator": "CONTAINS",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-3a70ff9e-fc9b-4bfb-80c4-f79e544b43c2",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|firewallRule:services|servicesConfigured",
+      "operator": "CONTAINS",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-13392674-150a-46d6-80c6-84717520ba64",
+      "value": "false"
+    }
+  ],
+  "ESXI-70-000058": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|net_block_guest_bpdu",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-7694a709-6393-4c7d-984c-f412cd6ed819",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|net_block_guest_bpdu",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-f9e78d38-58a8-4660-8bbb-b6db26f02693",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|net_block_guest_bpdu",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-ca39139f-b1b8-46eb-8341-dbb06222d5b2",
+      "value": null
+    }
+  ],
+  "ESXI-70-000059": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|network|portgroup|forged_transmits_rollup",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-f008a70b-eb3a-4822-8bdf-5eff37e59272",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|network|portgroup|forged_transmits_rollup",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-fa3f79e9-c2ae-4b6a-9516-9bc7acdf4f16",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|network|portgroup|forged_transmits_rollup",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-b8fb70f0-02b3-45f2-8a16-d712e89a62c1",
+      "value": "true"
+    }
+  ],
+  "ESXI-70-000060": [
+    {
+      "cat": 1,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|network|portgroup|mac_changes_rollup",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-d9246eeb-eb56-412b-9604-d531ecadbd8c",
+      "value": "true"
+    },
+    {
+      "cat": 1,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|network|portgroup|mac_changes_rollup",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-9c9720a2-0e73-4740-8dff-9f09c260628e",
+      "value": "true"
+    },
+    {
+      "cat": 1,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|network|portgroup|mac_changes_rollup",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-83fd6a84-e7df-4b5f-9ff6-24077e02142c",
+      "value": "true"
+    }
+  ],
+  "ESXI-70-000061": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|network|portgroup|allow_promiscuous_rollup",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-d1544669-0b29-40ca-b5b9-4aa7bfb106f1",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|network|portgroup|allow_promiscuous_rollup",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-cc35bbf3-9560-4df8-8b5d-8bff87e76485",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|network|portgroup|allow_promiscuous_rollup",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-e01b2b77-6e51-4037-a64c-e22097801c7d",
+      "value": "true"
+    }
+  ],
+  "ESXI-70-000062": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|dvfilter_bind_address",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-9a194e58-4a0f-456f-93da-ce64837eaf13",
+      "value": "none"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|dvfilter_bind_address",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-2a1c86da-be63-400e-9446-62154f1224f7",
+      "value": "none"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|dvfilter_bind_address",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-aec73ef3-488f-4c6f-8eb2-237dae81e62b",
+      "value": "none"
+    }
+  ],
+  "ESXI-70-000074": [
+    {
+      "cat": 1,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|tlsDisabledProtocols",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-0ca71be7-858c-4962-8efa-d0feefbb3f60",
+      "value": "tlsv1,tlsv1.1,sslv3"
+    },
+    {
+      "cat": 1,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|tlsDisabledProtocols",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-bacbbb0e-e125-4938-a64e-4c41c921a9cc",
+      "value": "tlsv1,tlsv1.1,sslv3"
+    },
+    {
+      "cat": 1,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|tlsDisabledProtocols",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-c3533555-a4a0-4577-a481-c1c06b963597",
+      "value": "tlsv1,tlsv1.1,sslv3"
+    }
+  ],
+  "ESXI-70-000079": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|suppressShellWarning",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-6b655f47-3a7c-4062-b1bd-0cb8e8cbf28c",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|suppressShellWarning",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-0de71ce5-9f77-453b-819d-10be9324d608",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|suppressShellWarning",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-84f28e11-943f-41eb-82de-b99c296bbb21",
+      "value": null
+    }
+  ],
+  "ESXI-70-000081": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|suppressHyperthreadWarning",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-11d78954-0d81-4572-9eec-137b8fc54caa",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|suppressHyperthreadWarning",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-9e6f6a72-725d-46b8-a17a-b4b461e5ace8",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|suppressHyperthreadWarning",
+      "operator": "NOT_EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-42178993-049c-4bdc-800c-dacd5b48ccf0",
+      "value": null
+    }
+  ],
+  "ESXI-70-000083": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SLP Service|policy",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-2ad0d2b5-2a45-466f-b7d4-f23678ad97af",
+      "value": "on"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SLP Service|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-ded34032-24d6-42e9-871d-b9cad7dd4c80",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SLP Service|policy",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-a168740f-f21b-4123-8b5d-687652a7943e",
+      "value": "on"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SLP Service|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-ba1c524b-e7bb-4ff6-b39b-81c95356ddba",
+      "value": "true"
+    }
+  ],
+  "ESXI-70-000097": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SFCB service|policy",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-b2682551-9c19-4ac4-882e-a03d30a612e9",
+      "value": "on"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SFCB service|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-526d5f5a-b554-4cbd-9b70-5812e694b0e6",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SFCB service|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-ddbde47a-6338-4fd0-ac02-c856a22d1e51",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SFCB service|policy",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-35805394-a991-4040-94e2-e28657d0b58e",
+      "value": "on"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SFCB service|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-7ad5475e-4d40-41db-b338-a6c1a29210da",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SFCB service|isRunning",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-ad2e0332-9e7e-423c-ab07-dca4e25b862a",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|service:SFCB service|policy",
+      "operator": "EQ",
+      "resource_kind": "HostSystem",
+      "symptom_id": "SymptomDefinition-8a7ce6c9-865e-4a2c-9720-270b02ef3f39",
+      "value": "on"
+    }
+  ],
+  "VCSA-70-000023": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "vc_appliance|sso_lockout_policy_failed_login_attempts",
+      "operator": "NOT_EQ",
+      "resource_kind": "VMwareAdapter Instance",
+      "symptom_id": "SymptomDefinition-4ba0930d-5cf2-4d2d-a286-da6ca8cdc6c4",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "vc_appliance|sso_lockout_policy_failed_login_attempts",
+      "operator": "NOT_EQ",
+      "resource_kind": "VMwareAdapter Instance",
+      "symptom_id": "SymptomDefinition-c4d68147-f569-4396-a586-78675d8917a2",
+      "value": null
+    }
+  ],
+  "VCSA-70-000148": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "vc_appliance|hasLoggingForwardingConfigs",
+      "operator": "EQ",
+      "resource_kind": "VMwareAdapter Instance",
+      "symptom_id": "SymptomDefinition-232bfb18-d5b2-44de-839a-c1f45b5d25f6",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "vc_appliance|hasLoggingForwardingConfigs",
+      "operator": "EQ",
+      "resource_kind": "VMwareAdapter Instance",
+      "symptom_id": "SymptomDefinition-7c0b9867-ad54-4c90-96f9-5c9e8c6ea664",
+      "value": "false"
+    }
+  ],
+  "VCSA-70-000158": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "vc_appliance|timeSyncMode",
+      "operator": "NOT_EQ",
+      "resource_kind": "VMwareAdapter Instance",
+      "symptom_id": "SymptomDefinition-171f10d2-d10c-4de4-b5a3-b6103347076d",
+      "value": "NTP"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "vc_appliance|timeSyncMode",
+      "operator": "NOT_EQ",
+      "resource_kind": "VMwareAdapter Instance",
+      "symptom_id": "SymptomDefinition-87e2fd1a-e111-4176-bb71-7c6d90392eba",
+      "value": "NTP"
+    }
+  ],
+  "VCSA-70-000266": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "vc_appliance|sso_lockout_policy_unlock_time",
+      "operator": "NOT_EQ",
+      "resource_kind": "VMwareAdapter Instance",
+      "symptom_id": "SymptomDefinition-fc5bee72-3145-47cc-9906-d8010c81efd9",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "vc_appliance|sso_lockout_policy_unlock_time",
+      "operator": "NOT_EQ",
+      "resource_kind": "VMwareAdapter Instance",
+      "symptom_id": "SymptomDefinition-c5ef2b2d-cb48-4ca1-b59c-11e9484094ff",
+      "value": null
+    }
+  ],
+  "VCSA-70-000267": [
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|health_check_config|health_check_config_vlan_mtu",
+      "operator": "EQ",
+      "resource_kind": "VmwareDistributedVirtualSwitch",
+      "symptom_id": "SymptomDefinition-52b53bf4-303d-4944-b169-4f07471c6da5",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|health_check_config|health_check_config_teaming",
+      "operator": "EQ",
+      "resource_kind": "VmwareDistributedVirtualSwitch",
+      "symptom_id": "SymptomDefinition-83462e5d-15ab-49c5-a30d-49dae0e44724",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|health_check_config|health_check_config_teaming",
+      "operator": "EQ",
+      "resource_kind": "VmwareDistributedVirtualSwitch",
+      "symptom_id": "SymptomDefinition-1c86b2d7-b230-4f24-957a-9375dde8540a",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|health_check_config|health_check_config_vlan_mtu",
+      "operator": "EQ",
+      "resource_kind": "VmwareDistributedVirtualSwitch",
+      "symptom_id": "SymptomDefinition-ed78382a-9a94-48cc-a0ff-12734f9d3d13",
+      "value": "true"
+    }
+  ],
+  "VCSA-70-000268": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|policies|security|forged_transmits",
+      "operator": "EQ",
+      "resource_kind": "DistributedVirtualPortgroup",
+      "symptom_id": "SymptomDefinition-25d0357d-1336-4df1-a23f-4f1a8e2430d9",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|policies|security|forged_transmits",
+      "operator": "EQ",
+      "resource_kind": "DistributedVirtualPortgroup",
+      "symptom_id": "SymptomDefinition-a522815c-21c7-4156-9455-2a44770faa48",
+      "value": "true"
+    }
+  ],
+  "VCSA-70-000269": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|policies|security|mac_changes",
+      "operator": "EQ",
+      "resource_kind": "DistributedVirtualPortgroup",
+      "symptom_id": "SymptomDefinition-2529d210-ae82-4c90-9e10-8dc95e967c94",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|policies|security|mac_changes",
+      "operator": "EQ",
+      "resource_kind": "DistributedVirtualPortgroup",
+      "symptom_id": "SymptomDefinition-da7edb1d-c9d2-401e-8401-cc663719a1bc",
+      "value": "true"
+    }
+  ],
+  "VCSA-70-000270": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|policies|security|allow_promiscuous",
+      "operator": "EQ",
+      "resource_kind": "DistributedVirtualPortgroup",
+      "symptom_id": "SymptomDefinition-fe45c84a-ec30-47ca-aee1-6749fdf4f33d",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|policies|security|allow_promiscuous",
+      "operator": "EQ",
+      "resource_kind": "DistributedVirtualPortgroup",
+      "symptom_id": "SymptomDefinition-edde8225-987c-4999-91e9-25932e4592d1",
+      "value": "true"
+    }
+  ],
+  "VCSA-70-000292": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "vc_appliance|hasRecoveryBackupJobs",
+      "operator": "EQ",
+      "resource_kind": "VMwareAdapter Instance",
+      "symptom_id": "SymptomDefinition-81eb0e5f-fa74-4bcd-ab6d-18ced6c65e8f",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "vc_appliance|hasRecoveryBackupJobs",
+      "operator": "EQ",
+      "resource_kind": "VMwareAdapter Instance",
+      "symptom_id": "SymptomDefinition-0865f033-edc8-4da1-86a4-f9b882dd5971",
+      "value": "false"
+    }
+  ],
+  "VMCH-70-000001": [
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_console_copy",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-6225c6b8-9d12-4581-8f70-261217844ab9",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_console_copy",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-2c81d3eb-b304-4f6a-ac67-d8f4baf4b167",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_console_copy",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-fc8331f8-bb73-4c3c-8182-ae2a587be4c7",
+      "value": "true"
+    }
+  ],
+  "VMCH-70-000002": [
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_console_dnd",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-59cf2a90-9522-4bee-916f-87c7eda191a4",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_console_dnd",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-0f420b63-b273-478a-bfb3-f7129a924e4f",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_console_dnd",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-ea947c82-866c-4d26-800a-793f8ad6eab3",
+      "value": "true"
+    }
+  ],
+  "VMCH-70-000003": [
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_console_paste",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-dcbdd533-0830-4135-af28-048395346560",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_console_paste",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-971fc1dd-d070-4a46-b0ed-fbf0f8910c98",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_console_paste",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-2c5dce44-3474-4945-806b-6e2cc2e57e5e",
+      "value": "true"
+    }
+  ],
+  "VMCH-70-000004": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_disk_shrinking_shrink",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-6607b510-47b7-4793-9dfb-dd1a3145ce51",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_disk_shrinking_shrink",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-f2969b6e-dbf2-4763-bead-7d46dd11fe15",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_disk_shrinking_shrink",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-8b31ad66-433e-4b40-8482-8a028eabcf7e",
+      "value": "true"
+    }
+  ],
+  "VMCH-70-000005": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_disk_shrinking_wiper",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-da2a9ce8-3ec3-415e-8e33-3c9111d009c9",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_disk_shrinking_wiper",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-2ced2332-8332-4112-887c-21af25bc73d1",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_disk_shrinking_wiper",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-a1caa885-496e-4cf7-b43a-d0c58d90a77c",
+      "value": "true"
+    }
+  ],
+  "VMCH-70-000006": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_independent_nonpersistent",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-b90fbba4-6c53-4a3b-b55e-5d960d40303d",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_independent_nonpersistent",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-5677a9e6-1971-4881-895d-d20e13b8c883",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_independent_nonpersistent",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-3bbf144d-545d-4c69-b5d6-63239301bb6a",
+      "value": "false"
+    }
+  ],
+  "VMCH-70-000007": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_hgfs",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-23b65146-921d-406e-b1c0-9cb8e7ccfb64",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_hgfs",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-2025c2e6-f023-4fc9-a404-9325069a1b3c",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_hgfs",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-d199c978-3898-46bc-89cf-cb3514ee62fd",
+      "value": "true"
+    }
+  ],
+  "VMCH-70-000008": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_floppy",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-3a40fb4c-c2bc-466e-8355-b0df93c46333",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_floppy",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-5f0f6c32-a271-4f8d-9886-476df0114cf1",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_floppy",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-5f263318-973d-4038-adca-3a969a5ff4f7",
+      "value": "false"
+    }
+  ],
+  "VMCH-70-000009": [
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_cd",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-ea5068b3-7047-47f0-a871-24a18872e691",
+      "value": "false"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_cd",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-2ffb0ce8-c7a5-42c0-bd51-282d47dca3b1",
+      "value": "false"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_cd",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-68648591-d010-4f68-990d-fa6224a37812",
+      "value": "false"
+    }
+  ],
+  "VMCH-70-000010": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_parallel",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-c23eb312-1df4-4003-b69c-ae1414584eaa",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_parallel",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-6488328b-400e-4963-86be-79a21d57080a",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_parallel",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-0a1035bd-0688-42eb-85aa-bd6bcd6dce77",
+      "value": "false"
+    }
+  ],
+  "VMCH-70-000011": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_serial",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-c652c621-941e-4a61-84f6-ff18dbcce4d3",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_serial",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-c6c2590c-f8e9-422c-a1a2-2714baef5b63",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_serial",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-ae30d267-afb3-4248-b79e-d7d902e65e9b",
+      "value": "false"
+    }
+  ],
+  "VMCH-70-000012": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_usb",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-1b9e034a-236c-4fd8-8b08-882eff8bcc03",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_usb",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-b9908caf-c8df-4ed3-9a75-088b08e6bea5",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disconnect_devices_usb",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-8ba6e283-b09b-42d9-9e72-12d3e84c3b87",
+      "value": "false"
+    }
+  ],
+  "VMCH-70-000013": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_console_connection",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-88aa1500-c710-45ac-b98f-2a059596a3cd",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_console_connection",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-a111a38f-db8f-4e4a-982d-55c5c36cc0e5",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_console_connection",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-a60361d2-8f81-4634-b88d-f116aee4155c",
+      "value": null
+    }
+  ],
+  "VMCH-70-000015": [
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_setinfo_size",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-c032585c-0e82-47a1-b3c5-ed22c6e6eb07",
+      "value": null
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_setinfo_size",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-dbc19a74-6e04-4df0-aca0-d96df3e21159",
+      "value": null
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_setinfo_size",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-d7ce01e8-e7c2-4539-adfc-d087e870c9f8",
+      "value": null
+    }
+  ],
+  "VMCH-70-000016": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_device_interaction_connect",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-b1cb2815-fb52-4f0c-95e0-10ada87c9ded",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_device_interaction_connect",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-616d2de8-6261-4ccb-940c-74263f135612",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|disable_device_interaction_connect",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-ebe4045c-47d1-4dbc-ba54-b0febe22d4da",
+      "value": "true"
+    }
+  ],
+  "VMCH-70-000017": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_host_info",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-19313c1b-b09a-4dd7-a3f3-5ab52e33c225",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_host_info",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-b1a3c264-e2c6-4832-add8-d7aa7395fb0b",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_host_info",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-62ee5180-e437-4fdb-b846-bffb40d25fd3",
+      "value": "false"
+    }
+  ],
+  "VMCH-70-000018": [
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|extraConfig|mem_tps_share",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-88d17837-208d-40a0-9c40-d24f7657f0bc",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|extraConfig|mem_tps_share",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-a83a6891-8885-4967-9de3-7a5ff2e5f337",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|extraConfig|mem_tps_share",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-7e4b3c98-3f3e-408b-a754-248b8f02bbdb",
+      "value": "true"
+    }
+  ],
+  "VMCH-70-000019": [
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|network_filter_enable",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-47608419-7d84-45ac-abdc-44da6405dbce",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|network_filter_enable",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-8e6c151c-26ff-4fea-9bae-3c069ff2227b",
+      "value": "true"
+    },
+    {
+      "cat": 3,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|network_filter_enable",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-68d513d0-403c-4d2e-8e46-786e51fdc50f",
+      "value": "true"
+    }
+  ],
+  "VMCH-70-000022": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|tools_guest_desktop_autolock",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-08e803a1-90a7-4ab0-9c16-8531b954b92a",
+      "value": "TRUE"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|tools_guest_desktop_autolock",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-94a672f6-09f6-4fd9-88f6-ea26b9ff13bb",
+      "value": "TRUE"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|tools_guest_desktop_autolock",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-5a359a69-fa72-4f57-bee0-d4c5967120e2",
+      "value": "TRUE"
+    }
+  ],
+  "VMCH-70-000023": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_non_essential_3D_features",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-820dda88-32fe-4f32-9350-493ac69f3b31",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_non_essential_3D_features",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-6f42e3ff-01b4-467c-be73-afdf20866cb1",
+      "value": "false"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_non_essential_3D_features",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-541bab4b-b585-43e1-8209-7c4fe60cb66f",
+      "value": "false"
+    }
+  ],
+  "VMCH-70-000024": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|migrateEncryption",
+      "operator": "NOT_REGEX",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-ec14c99c-8224-408e-93dd-437e2077eb0d",
+      "value": "required|opportunistic"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|migrateEncryption",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-dbc81f40-0374-487e-9b37-62fbbb2221ca",
+      "value": "required"
+    }
+  ],
+  "VMCH-70-000025": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_logging",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-f404ecba-e5ec-4936-8df0-22045888d688",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_logging",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-92fbbfc3-e053-4e11-a7c8-fbb3c02f215a",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|enable_logging",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-cd2f0b82-3b39-476b-b7c5-a35450582b84",
+      "value": "true"
+    }
+  ],
+  "VMCH-70-000026": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_log_size",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-0e181a1e-37b5-4911-b15a-887b0c7ac9ca",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_log_size",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-142ad96b-976d-439c-988f-78d3152183fa",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_log_size",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-cae57690-fc12-4add-b65a-0773aa71b2cd",
+      "value": null
+    }
+  ],
+  "VMCH-70-000027": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_log_number",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-95310017-ba20-4678-b3ae-fcc65c004b29",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_log_number",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-f0d1fb89-7c58-451b-9385-8582399db18b",
+      "value": null
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_NUMERIC",
+      "key": "config|security|limit_log_number",
+      "operator": "NOT_EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-ebccf1b2-c15b-44c8-b7ca-9a24daca2c44",
+      "value": null
+    }
+  ],
+  "VMCH-70-000028": [
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|pci_device_configured",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-83181705-7af7-4036-a8ea-8768733bab55",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|pci_device_configured",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-650168ee-a5a4-4d57-aab5-e90a07a12e44",
+      "value": "true"
+    },
+    {
+      "cat": 2,
+      "cond_type": "CONDITION_PROPERTY_STRING",
+      "key": "config|security|pci_device_configured",
+      "operator": "EQ",
+      "resource_kind": "VirtualMachine",
+      "symptom_id": "SymptomDefinition-1b45b270-0508-4224-8ae5-087348b40a15",
+      "value": "true"
+    }
+  ]
+}

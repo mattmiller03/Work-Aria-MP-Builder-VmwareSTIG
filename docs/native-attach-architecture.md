@@ -27,18 +27,38 @@ compliance alerts per object regardless of which pack defined them.
 ## The four facts we must match (from dissection, never guessed)
 
 Reproducing the native experience requires binding exactly the way VMware does.
-These come from `scripts/extract-native-compliance.py` (live Suite API) or
-`scripts/dissect-native-pak.py` (pack files) — see `README.md`. Until they land,
-they are the open unknowns and nothing downstream is finalized:
+These were read off the installed pack via `scripts/extract-native-compliance.py`
++ `scripts/analyze-native-export.py`. **The installed pack is vSphere 7.0 STIG
+content (V1R2)** — so our enhancement value is 8.0/9.0 coverage. Answers, no
+longer guesses:
 
-1. **adapterKind / resourceKind** each native symptom binds to
-   (expected `VMWARE` + `HostSystem` / `VirtualMachine` / the vCenter kind).
-2. **The exact property/metric KEYS** the native adapter collects and their
-   symptoms test — the vROps property key, which is NOT the vSphere API setting
-   name. This decides which of our rules can bind natively at all.
-3. **The alert `type` / `subType` / `impact`** that make an alert count as
-   COMPLIANCE (drives the Compliance tab) rather than an ordinary health alert.
-4. **VMware's existing alert IDs**, so our unified scorecard can reference them.
+1. **adapterKind = `VMWARE`.** resourceKinds: `VirtualMachine`, `HostSystem`,
+   `VMwareAdapter Instance` (the vCenter object), `VmwareDistributedVirtualSwitch`,
+   `DistributedVirtualPortgroup`.
+2. **Property keys are `config|security|…` / `config|…` / `vc_appliance|…`** — see
+   `native-compliance/property_keys.txt` (71 keys) and `native_bindings.json`
+   (rule → key/operator/value). They are **version-independent**, so an 8.0 rule
+   reuses the 7.0 key verbatim.
+3. **Compliance classification: `type=16`, `subType=21`, `severity=AUTO`,
+   `impact={impactType: BADGE, detail: risk}`.** The `BADGE` impact is what drives
+   the Compliance tab. (An earlier fixture guessed `19/19`; that was wrong — this
+   is the real value.)
+4. **Alert structure** (the template we mirror): one "…STIG Violation" alert per
+   resource kind, whose state `base-symptom-set` is a `SYMPTOM_SET_COMPOSITE` with
+   `operator=AND` of two symptom-sets:
+   - a **version gate** — `relation=ANCESTOR`, resourceKind `VMwareAdapter Instance`,
+     an `alertCondition` of `summary|version STARTS_WITH "7"`; and
+   - the **checks** — `relation=SELF`, `symptomSetOperator=OR`, referencing that
+     kind's standalone check symptoms by `symptomDefinitionIds`.
+   Fires (object non-compliant) when the vCenter is 7.x **and** any check symptom
+   is active. Our 8.0 alert is identical with the gate value `"8"`.
+
+Standalone **symptoms encode the violation, not the compliant state** — e.g.
+`config|security|disable_console_copy NOT_EQ "true"` fires when copy is *not*
+disabled. Our generator therefore inverts each rule's compliant condition when
+emitting the symptom. Observed violation operators: `EQ`, `NOT_EQ`, `CONTAINS`,
+`NOT_REGEX`, `LT` (condition types `CONDITION_PROPERTY_STRING` /
+`CONDITION_PROPERTY_NUMERIC`).
 
 ## Content model
 
@@ -63,10 +83,10 @@ benchmark:
 rules:
   - id: VMCH-80-000001
     native:
-      property_key: "config|tools|copyDisable"   # from dissection
-      key_source: native                          # native | pushed
+      property_key: "config|security|disable_console_copy"  # 7.0 key, reused
+      key_source: native                                    # native | pushed
     operator: equals
-    expected: "false"
+    expected: "true"        # compliant when copy IS disabled; symptom inverts to NOT_EQ "true"
 ```
 
 `key_source`:
@@ -76,25 +96,36 @@ rules:
   then our symptom tests it. The pack ships the workflow reference, not a collector.
 
 ### Operator → native symptom condition
-The generator translates our operator/expected into an Aria `Condition`. Exact
-operator tokens and `valueType` are confirmed against dissected native symptoms;
-the mapping is centralized so that confirmation is a one-line change:
+The symptom encodes the **violation**, so the generator emits the negation of the
+rule's compliant condition. Tokens below are the real ones read from the pack:
 
-| our operator | native condition |
+| our (compliant) operator | native violation condition |
 |---|---|
-| `equals` / `not_equals` | `EQ` / `NE`, single value |
-| `gte` / `lte` | `GT_EQ` / `LT_EQ`, numeric |
-| `in` / `not_in` | a `SymptomSet` of `EQ`/`NE` conditions, OR / AND |
-| `regex` | regex-match operator (token TBD from dissection) |
-| `exists` / `absent` | property-exists / property-absent |
+| `equals X` | `NOT_EQ X` (`CONDITION_PROPERTY_STRING`) |
+| `not_equals X` | `EQ X` |
+| `gte N` | `LT N` (`CONDITION_PROPERTY_NUMERIC`, `doubleValue`) |
+| `lte N` | `GT N` |
+| `in [a,b]` | a symptom per value or `NOT_REGEX "a|b"` |
+| `not_in [a,b]` | `CONTAINS` / `REGEX "a|b"` |
+| `regex R` | `NOT_REGEX R` |
 
-### The unified score
-We define **our own** `ComplianceScorecard` that references **both** our alert IDs
-**and** VMware's existing alert IDs (learned from dissection). Result: one STIG
-benchmark score on the Compliance tab that spans their coverage plus our gap
-coverage — without editing their content. This holds as long as their alert IDs
-are stable across revisions; a revision that renames them is a scorecard-diff, not
-a rebuild (the same reason dashboards bind to rollups, not rule IDs).
+The mapping is centralized in the generator so a newly-observed operator is a
+one-line add.
+
+### The score — driven by the BADGE alert + version gate
+There is **no scorecard-merging to do.** The Compliance tab/badge is computed from
+active `impact=BADGE` compliance alerts on an object. Our per-resource-kind
+Violation alert carries `impact=BADGE` and is **version-gated to `"8"`**; VMware's
+is gated to `"7"`. On any given object exactly one gate matches (an object is one
+vSphere generation), so ours drives the badge on 8.x objects and theirs on 7.x —
+one honest score per object, automatically, with no reference to their alert IDs
+and no edit to their content.
+
+A separate **compliance benchmark/scorecard definition** (`<ComplianceScorecards>`)
+may still exist in the installed pack to group these alerts under a named
+benchmark; the Suite API does not expose it. If we want a named "vSphere 8.0 STIG"
+benchmark entry we ship **our own**, referencing **our** alert ids only. Pull the
+native one from the node's plugin dir only to copy its shape, never its ids.
 
 ## Gap checks (not natively collected)
 
