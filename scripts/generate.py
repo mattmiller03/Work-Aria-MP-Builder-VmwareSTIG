@@ -179,7 +179,7 @@ def gen_metric_defs(pairs) -> str:
         for bm, rule in pairs:
             if bm["target_kind"] != kind:
                 continue
-            label = f"{rule['id']} — {rule['title']}"
+            label = f"{rule['id']} - {rule['title']}"
             lines.append(f"        ({rule['id']!r}, {label!r}),")
         lines.append("    ],")
     lines.append("}\n")
@@ -200,7 +200,7 @@ def define_stig_schema(kind, target_kind):
 
 # --------------------------------------------------------- symptoms/alerts
 def gen_symptoms_alerts(pairs) -> str:
-    out = ['<?xml version="1.0" encoding="UTF-8"?>', XML_BANNER.strip(),
+    out = ['<?xml version="1.0" encoding="UTF-8"?>',
            '<alertContent>',
            "  <SymptomDefinitions>"]
 
@@ -208,8 +208,8 @@ def gen_symptoms_alerts(pairs) -> str:
     for bm, rule in pairs:
         if rule["check_method"] == "manual":
             continue  # attested-only: metric slot, no symptom, no alert
-        sid = f"Symptom-{ADAPTER_KIND}-{rule['id']}"
-        aid = f"Alert-{ADAPTER_KIND}-{rule['id']}"
+        sid = f"SymptomDefinition-{ADAPTER_KIND}-{rule['id']}"
+        aid = f"AlertDefinition-{ADAPTER_KIND}-{rule['id']}"
         emitted.append((aid, bm, rule))
         sev = CAT_SEVERITY[rule["cat"]]
 
@@ -226,8 +226,8 @@ def gen_symptoms_alerts(pairs) -> str:
                 f'    <SymptomDefinition adapterKind="{NATIVE_VM_ADAPTER_KIND}" '
                 f'cancelCycle="2" disableInBasePolicy="true" '
                 f'id={quoteattr(sid)} '
-                f'name={quoteattr(f"{rule['id']} — {rule['title']}")} '
-                f'resourceKind="{NATIVE_VM_RESOURCE_KIND}" waitCycle="1">'
+                f'name={quoteattr(f"{rule['id']} - {rule['title']}")} '
+                f'resourceKind="{NATIVE_VM_RESOURCE_KIND}">'
             )
             out.append(f'      <State severity="{sev}">')
 
@@ -271,7 +271,7 @@ def gen_symptoms_alerts(pairs) -> str:
         else:
             out.append(
                 f'    <SymptomDefinition id={quoteattr(sid)} '
-                f'name={quoteattr(f"{rule['id']} — {rule['title']}")} '
+                f'name={quoteattr(f"{rule['id']} - {rule['title']}")} '
                 f'adapterKind="{ADAPTER_KIND}" '
                 f'resourceKind="{bm["target_kind"]}" '
                 f'waitCycles="1" cancelCycles="2">'
@@ -286,33 +286,42 @@ def gen_symptoms_alerts(pairs) -> str:
             out.append("    </SymptomDefinition>")
 
     out.append("  </SymptomDefinitions>")
+    out.append("</alertContent>")
 
+    # Alerts must precede symptoms inside <alertContent>. Build the alert block
+    # separately and splice it in before <SymptomDefinitions>.
+    alert_lines = ["  <AlertDefinitions>"]
     for aid, bm, rule in emitted:
-        sid = f"Symptom-{ADAPTER_KIND}-{rule['id']}"
+        sid = f"SymptomDefinition-{ADAPTER_KIND}-{rule['id']}"
         desc = (f"{rule['title']} "
                 f"({bm['title']} {bm['version']}, CAT {'I' * rule['cat']})")
         if rule["check_method"] == "vm_advanced_setting":
             a_adapter, a_kind = NATIVE_VM_ADAPTER_KIND, NATIVE_VM_RESOURCE_KIND
         else:
             a_adapter, a_kind = ADAPTER_KIND, bm["target_kind"]
-        out.append(
-            f'  <AlertDefinition id={quoteattr(aid)} '
-            f'name={quoteattr(f"{rule['id']} — {rule['title']}")} '
-            f'adapterKind="{a_adapter}" '
-            f'resourceKind="{a_kind}" '
-            f'waitCycles="1" cancelCycles="2" type="19" subType="19">'
+        alert_lines.append(
+            f'    <AlertDefinition adapterKind="{a_adapter}" '
+            f'description={quoteattr(desc)} '
+            f'id={quoteattr(aid)} '
+            f'name={quoteattr(f"{rule['id']} - {rule['title']}")} '
+            f'resourceKind="{a_kind}" subType="18" type="16">'
         )
-        out.append(f"    <Description>{escape(desc)}</Description>")
-        out.append('    <State severity="{}" impact="risk">'.format(
-            CAT_SEVERITY[rule["cat"]]))
-        out.append(f'      <SymptomSet operator="AND" applyOn="SELF">')
-        out.append(f'        <Symptom id={quoteattr(sid)}/>')
-        out.append("      </SymptomSet>")
-        out.append("    </State>")
-        out.append("  </AlertDefinition>")
+        alert_lines.append(f'      <State impact="risk" severity="{CAT_SEVERITY[rule["cat"]]}">')
+        alert_lines.append(f'        <SymptomSet applyOn="self" operator="or">')
+        alert_lines.append(f'          <Symptom ref={quoteattr(sid)}/>')
+        alert_lines.append(f'        </SymptomSet>')
+        alert_lines.append(f'        <Impact key="risk" type="badge"/>')
+        alert_lines.append("      </State>")
+        alert_lines.append("    </AlertDefinition>")
+    alert_lines.append("  </AlertDefinitions>")
 
-    out.append("</AlertDefinitions>")
-    return "\n".join(out) + "\n"
+    # splice: insert alert block right after <alertContent>
+    final = []
+    for line in out:
+        final.append(line)
+        if line == "<alertContent>":
+            final.extend(alert_lines)
+    return "\n".join(final) + "\n"
 
 
 # ------------------------------------------------------------- properties
