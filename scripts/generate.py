@@ -38,6 +38,18 @@ RESULT_NOT_REVIEWED = 3
 
 CAT_SEVERITY = {1: "CRITICAL", 2: "IMMEDIATE", 3: "WARNING"}
 
+# Native binding: vm_advanced_setting rules read vCommunity-collected
+# properties off the NATIVE VirtualMachine object so the Compliance tab
+# lights up on real VMs. Key format is fixed by vCommunity's collector
+# (properties/vm/vm_extra_config.py): vm_obj.with_property(
+#   f"vCommunity|Configuration|Advanced Parameters|{key}", value)
+NATIVE_VM_ADAPTER_KIND = "VMWARE"
+NATIVE_VM_RESOURCE_KIND = "VirtualMachine"
+VCOMMUNITY_VM_ADV_PREFIX = "vCommunity|Configuration|Advanced Parameters|"
+
+# STIG operator -> Aria symptom condition operator (string property compare)
+_OP_MAP = {"equals": "EQ", "not_equals": "NE"}
+
 # Stable rollups. Dashboards bind HERE, never to rule IDs.
 ROLLUP_METRICS = [
     ("summary|score_pct",        "STIG Score (%)"),
@@ -198,21 +210,53 @@ def gen_symptoms_alerts(pairs) -> str:
         aid = f"Alert-{ADAPTER_KIND}-{rule['id']}"
         emitted.append((aid, bm, rule))
         sev = CAT_SEVERITY[rule["cat"]]
-        out.append(
-            f'    <SymptomDefinition id={quoteattr(sid)} '
-            f'name={quoteattr(f"{rule['id']} — {rule['title']}")} '
-            f'adapterKind="{ADAPTER_KIND}" '
-            f'resourceKind="{bm["target_kind"]}" '
-            f'waitCycles="1" cancelCycles="2">'
-        )
-        out.append(f'      <State severity="{sev}">')
-        out.append(
-            f'        <Condition xsi:type="ConditionMetric" '
-            f'key="rules|{rule["id"]}" operator="EQ" value="{RESULT_OPEN}" '
-            f'valueType="NUMERIC" instanced="false" thresholdType="STATIC"/>'
-        )
-        out.append("      </State>")
-        out.append("    </SymptomDefinition>")
+
+        if rule["check_method"] == "vm_advanced_setting":
+            # Native binding: read vCommunity property off the real VM.
+            # Symptom fires (finding) when the collected value does NOT equal
+            # the expected value. The property is only present when the setting
+            # exists; default_when_absent governs the absent case (an absent
+            # property simply won't match, so no symptom fires — which is
+            # correct for notafinding, and handled by a companion symptom for
+            # the inverted/open cases below).
+            setting = rule["check"]["key"]
+            prop_key = f"{VCOMMUNITY_VM_ADV_PREFIX}{setting}"
+            op = rule.get("operator", "equals")
+            expected = str(rule.get("expected", ""))
+            # Finding = present AND value != expected  → operator NE on the property
+            cond_op = "NE" if op == "equals" else "EQ"
+            out.append(
+                f'    <SymptomDefinition id={quoteattr(sid)} '
+                f'name={quoteattr(f"{rule['id']} — {rule['title']}")} '
+                f'adapterKind="{NATIVE_VM_ADAPTER_KIND}" '
+                f'resourceKind="{NATIVE_VM_RESOURCE_KIND}" '
+                f'waitCycles="1" cancelCycles="2">'
+            )
+            out.append(f'      <State severity="{sev}">')
+            out.append(
+                f'        <Condition xsi:type="ConditionProperty" '
+                f'key={quoteattr(prop_key)} operator="{cond_op}" '
+                f'value={quoteattr(expected)} valueType="STRING" '
+                f'instanced="false" thresholdType="STATIC"/>'
+            )
+            out.append("      </State>")
+            out.append("    </SymptomDefinition>")
+        else:
+            out.append(
+                f'    <SymptomDefinition id={quoteattr(sid)} '
+                f'name={quoteattr(f"{rule['id']} — {rule['title']}")} '
+                f'adapterKind="{ADAPTER_KIND}" '
+                f'resourceKind="{bm["target_kind"]}" '
+                f'waitCycles="1" cancelCycles="2">'
+            )
+            out.append(f'      <State severity="{sev}">')
+            out.append(
+                f'        <Condition xsi:type="ConditionMetric" '
+                f'key="rules|{rule["id"]}" operator="EQ" value="{RESULT_OPEN}" '
+                f'valueType="NUMERIC" instanced="false" thresholdType="STATIC"/>'
+            )
+            out.append("      </State>")
+            out.append("    </SymptomDefinition>")
 
     out.append("  </SymptomDefinitions>")
 
@@ -220,11 +264,15 @@ def gen_symptoms_alerts(pairs) -> str:
         sid = f"Symptom-{ADAPTER_KIND}-{rule['id']}"
         desc = (f"{rule['title']} "
                 f"({bm['title']} {bm['version']}, CAT {'I' * rule['cat']})")
+        if rule["check_method"] == "vm_advanced_setting":
+            a_adapter, a_kind = NATIVE_VM_ADAPTER_KIND, NATIVE_VM_RESOURCE_KIND
+        else:
+            a_adapter, a_kind = ADAPTER_KIND, bm["target_kind"]
         out.append(
             f'  <AlertDefinition id={quoteattr(aid)} '
             f'name={quoteattr(f"{rule['id']} — {rule['title']}")} '
-            f'adapterKind="{ADAPTER_KIND}" '
-            f'resourceKind="{bm["target_kind"]}" '
+            f'adapterKind="{a_adapter}" '
+            f'resourceKind="{a_kind}" '
             f'waitCycles="1" cancelCycles="2" type="19" subType="19">'
         )
         out.append(f"    <Description>{escape(desc)}</Description>")

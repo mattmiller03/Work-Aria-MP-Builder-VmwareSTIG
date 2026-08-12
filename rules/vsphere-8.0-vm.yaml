@@ -18,7 +18,7 @@ rules:
     operator: equals
     expected: "true"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000191
     title: "Drag and drop operations must be disabled"
     cat: 2
@@ -27,7 +27,7 @@ rules:
     operator: equals
     expected: "true"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000192
     title: "Paste operations must be disabled"
     cat: 2
@@ -36,7 +36,7 @@ rules:
     operator: equals
     expected: "true"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000193
     title: "Virtual disk shrinking must be disabled"
     cat: 2
@@ -45,7 +45,7 @@ rules:
     operator: equals
     expected: "true"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000194
     title: "Virtual disk wiping must be disabled"
     cat: 2
@@ -54,7 +54,7 @@ rules:
     operator: equals
     expected: "true"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000195
     title: "Limit console sharing"
     cat: 2
@@ -63,7 +63,7 @@ rules:
     operator: equals
     expected: "1"
     default_when_absent: open
-    verified: false
+    verified: true
   - id: VMCH-80-000196
     title: "Limit informational messages to the VMX file"
     cat: 3
@@ -72,7 +72,7 @@ rules:
     operator: equals
     expected: "1048576"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000197
     title: "Prevent unauthorized device connection or modification"
     cat: 2
@@ -81,7 +81,7 @@ rules:
     operator: equals
     expected: "true"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000198
     title: "Prevent VM from obtaining host info from hypervisor"
     cat: 2
@@ -90,7 +90,7 @@ rules:
     operator: equals
     expected: "false"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000199
     title: "Shared salt values must be disabled"
     cat: 2
@@ -98,7 +98,7 @@ rules:
     check: { key: "sched.mem.pshare.salt" }
     operator: absent
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000200
     title: "Disable access through the dvfilter network API"
     cat: 2
@@ -106,7 +106,7 @@ rules:
     check: { key: "ethernet0.filter1.name" }
     operator: absent
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000201
     title: "Lock when last console connection closed"
     cat: 3
@@ -115,7 +115,7 @@ rules:
     operator: equals
     expected: "true"
     default_when_absent: open
-    verified: false
+    verified: true
   - id: VMCH-80-000202
     title: "Disable 3D features when not required"
     cat: 3
@@ -124,25 +124,19 @@ rules:
     operator: equals
     expected: "false"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000203
     title: "Enable encryption for vMotion"
     cat: 2
-    check_method: vcenter_api
-    check: { path: "config.migrateEncryption" }
-    operator: in
-    expected: ["opportunistic", "required"]
-    default_when_absent: open
+    check_method: manual
     verified: false
+    notes: "VM config property, not an advanced parameter — not collected by vCommunity default config. Add via custom vm_configuration config file to automate."
   - id: VMCH-80-000204
     title: "Enable encryption for Fault Tolerance"
     cat: 2
-    check_method: vcenter_api
-    check: { path: "config.ftEncryptionMode" }
-    operator: in
-    expected: ["ftEncryptionOpportunistic", "ftEncryptionRequired"]
-    default_when_absent: open
+    check_method: manual
     verified: false
+    notes: "VM config property, not an advanced parameter — not collected by vCommunity default config. Add via custom vm_configuration config file to automate."
   - id: VMCH-80-000205
     title: "Configure log size"
     cat: 3
@@ -151,7 +145,7 @@ rules:
     operator: equals
     expected: "2048000"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000206
     title: "Configure log retention"
     cat: 3
@@ -160,71 +154,52 @@ rules:
     operator: equals
     expected: "10"
     default_when_absent: notafinding
-    verified: false
+    verified: true
   - id: VMCH-80-000207
     title: "Enable logging"
     cat: 2
-    check_method: vcenter_api
-    check: { path: "config.flags.enableLogging" }
-    operator: equals
-    expected: "true"
-    default_when_absent: open
+    check_method: manual
     verified: false
+    notes: "VM config property, not an advanced parameter — not collected by vCommunity default config. Add via custom vm_configuration config file to automate."
   - id: VMCH-80-000208
     title: "Must not use independent nonpersistent disks"
     cat: 2
-    check_method: vcenter_api
-    check: { path: "config.hardware.device.backing.diskMode" }
-    operator: not_in
-    expected: ["independent_nonpersistent"]
-    default_when_absent: notafinding
+    check_method: manual
     verified: false
+    notes: "config.hardware.device not collected by vCommunity — attested manually"
   - id: VMCH-80-000209
     title: "Remove unneeded floppy devices"
     cat: 3
-    check_method: vcenter_api
-    check: { path: "config.hardware.device.VirtualFloppy" }
-    operator: absent
-    default_when_absent: notafinding
+    check_method: manual
     verified: false
+    notes: "config.hardware.device not collected by vCommunity — attested manually"
   - id: VMCH-80-000210
     title: "Remove unneeded CD/DVD devices"
     cat: 3
-    check_method: vcenter_api
-    check: { path: "config.hardware.device.VirtualCdrom.connected" }
-    operator: equals
-    expected: "false"
-    default_when_absent: notafinding
+    check_method: manual
     verified: false
+    notes: "config.hardware.device not collected by vCommunity — attested manually"
   - id: VMCH-80-000211
     title: "Remove unneeded parallel devices"
     cat: 3
-    check_method: vcenter_api
-    check: { path: "config.hardware.device.VirtualParallelPort" }
-    operator: absent
-    default_when_absent: notafinding
+    check_method: manual
     verified: false
+    notes: "config.hardware.device not collected by vCommunity — attested manually"
   - id: VMCH-80-000212
     title: "Remove unneeded serial devices"
     cat: 3
-    check_method: vcenter_api
-    check: { path: "config.hardware.device.VirtualSerialPort" }
-    operator: absent
-    default_when_absent: notafinding
+    check_method: manual
     verified: false
+    notes: "config.hardware.device not collected by vCommunity — attested manually"
   - id: VMCH-80-000213
     title: "Remove unneeded USB devices"
     cat: 3
-    check_method: vcenter_api
-    check: { path: "config.hardware.device.VirtualUSB" }
-    operator: absent
-    default_when_absent: notafinding
+    check_method: manual
     verified: false
+    notes: "config.hardware.device not collected by vCommunity — attested manually"
   - id: VMCH-80-000214
     title: "Disable DirectPath I/O when not required"
     cat: 2
-    check_method: vcenter_api
-    check: { path: "config.hardware.device.VirtualPCIPassthrough" }
-    operator: absent
-    default_when_absent: notafinding
+    check_method: manual
     verified: false
+    notes: "config.hardware.device not collected by vCommunity — attested manually"

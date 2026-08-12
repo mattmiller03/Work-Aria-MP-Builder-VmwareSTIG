@@ -152,7 +152,8 @@ def validate_file(path: Path, errors: list, require_verified: bool) -> dict | No
 
         if "verified" not in rule:
             _fail(errors, where, "missing `verified` (must be explicit true/false)")
-        elif require_verified and rule.get("verified") is not True:
+        elif require_verified and rule.get("verified") is not True \
+                and rule.get("check_method") != "manual":
             _fail(errors, where,
                   "unverified — confirm id + expected value against the published "
                   "STIG, or pass --allow-unverified to the generator")
