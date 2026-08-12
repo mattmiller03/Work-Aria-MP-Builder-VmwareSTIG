@@ -36,7 +36,7 @@ RESULT_NOTAFINDING = 1
 RESULT_NOT_APPLICABLE = 2
 RESULT_NOT_REVIEWED = 3
 
-CAT_SEVERITY = {1: "CRITICAL", 2: "IMMEDIATE", 3: "WARNING"}
+CAT_SEVERITY = {1: "critical", 2: "immediate", 3: "warning"}
 
 # Native binding: vm_advanced_setting rules read vCommunity-collected
 # properties off the NATIVE VirtualMachine object so the Compliance tab
@@ -47,8 +47,10 @@ NATIVE_VM_ADAPTER_KIND = "VMWARE"
 NATIVE_VM_RESOURCE_KIND = "VirtualMachine"
 VCOMMUNITY_VM_ADV_PREFIX = "vCommunity|Configuration|Advanced Parameters|"
 
-# STIG operator -> Aria symptom condition operator (string property compare)
-_OP_MAP = {"equals": "EQ", "not_equals": "NE"}
+# STIG operator -> Aria symptom condition operator (string property compare).
+# Aria uses symbolic operators and lowercase valueType (confirmed from a
+# shipped vCommunity symptom def). Finding fires when condition is TRUE.
+_OP_MAP = {"equals": "=", "not_equals": "!="}
 
 # Stable rollups. Dashboards bind HERE, never to rule IDs.
 ROLLUP_METRICS = [
@@ -199,7 +201,7 @@ def define_stig_schema(kind, target_kind):
 # --------------------------------------------------------- symptoms/alerts
 def gen_symptoms_alerts(pairs) -> str:
     out = ['<?xml version="1.0" encoding="UTF-8"?>', XML_BANNER.strip(),
-           '<AlertDefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">',
+           '<alertContent>',
            "  <SymptomDefinitions>"]
 
     emitted = []
@@ -213,32 +215,57 @@ def gen_symptoms_alerts(pairs) -> str:
 
         if rule["check_method"] == "vm_advanced_setting":
             # Native binding: read vCommunity property off the real VM.
-            # Symptom fires (finding) when the collected value does NOT equal
-            # the expected value. The property is only present when the setting
-            # exists; default_when_absent governs the absent case (an absent
-            # property simply won't match, so no symptom fires — which is
-            # correct for notafinding, and handled by a companion symptom for
-            # the inverted/open cases below).
+            # Property key format is fixed by vCommunity's collector.
             setting = rule["check"]["key"]
             prop_key = f"{VCOMMUNITY_VM_ADV_PREFIX}{setting}"
             op = rule.get("operator", "equals")
             expected = str(rule.get("expected", ""))
-            # Finding = present AND value != expected  → operator NE on the property
-            cond_op = "NE" if op == "equals" else "EQ"
+            absent = rule.get("default_when_absent", "notafinding")
+
             out.append(
-                f'    <SymptomDefinition id={quoteattr(sid)} '
+                f'    <SymptomDefinition adapterKind="{NATIVE_VM_ADAPTER_KIND}" '
+                f'cancelCycle="2" disableInBasePolicy="true" '
+                f'id={quoteattr(sid)} '
                 f'name={quoteattr(f"{rule['id']} — {rule['title']}")} '
-                f'adapterKind="{NATIVE_VM_ADAPTER_KIND}" '
-                f'resourceKind="{NATIVE_VM_RESOURCE_KIND}" '
-                f'waitCycles="1" cancelCycles="2">'
+                f'resourceKind="{NATIVE_VM_RESOURCE_KIND}" waitCycle="1">'
             )
             out.append(f'      <State severity="{sev}">')
-            out.append(
-                f'        <Condition xsi:type="ConditionProperty" '
-                f'key={quoteattr(prop_key)} operator="{cond_op}" '
-                f'value={quoteattr(expected)} valueType="STRING" '
-                f'instanced="false" thresholdType="STATIC"/>'
-            )
+
+            if op == "absent":
+                # Inverted rule (e.g. salt): the setting must NOT exist.
+                # Finding = property is present at all. vCommunity only writes
+                # the property when the setting exists, so "exists" == finding.
+                out.append(
+                    f'        <Condition instanced="false" '
+                    f'key={quoteattr(prop_key)} operator="exists" '
+                    f'thresholdType="static" type="property" '
+                    f'value="" valueType="string"/>'
+                )
+            elif absent == "open":
+                # Present-but-wrong OR absent are both findings. Two conditions
+                # OR'd: value != expected, OR property not set.
+                out.append(f'        <ConditionSet booleanOperator="or">')
+                out.append(
+                    f'          <Condition instanced="false" '
+                    f'key={quoteattr(prop_key)} operator="!=" '
+                    f'thresholdType="static" type="property" '
+                    f'value={quoteattr(expected)} valueType="string"/>'
+                )
+                out.append(
+                    f'          <Condition instanced="false" '
+                    f'key={quoteattr(prop_key)} operator="notExists" '
+                    f'thresholdType="static" type="property" '
+                    f'value="" valueType="string"/>'
+                )
+                out.append(f'        </ConditionSet>')
+            else:
+                # absent == notafinding: fire only when present AND wrong.
+                out.append(
+                    f'        <Condition instanced="false" '
+                    f'key={quoteattr(prop_key)} operator="!=" '
+                    f'thresholdType="static" type="property" '
+                    f'value={quoteattr(expected)} valueType="string"/>'
+                )
             out.append("      </State>")
             out.append("    </SymptomDefinition>")
         else:
