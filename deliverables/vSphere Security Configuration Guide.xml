@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?><PolicyContent>
+    <Policies>
+        <Policy key="d3c7d722-9002-498c-8fdc-c49aace3df7c" name="vSphere Security Configuration Guide">
+            <PackageSettings>
+                <Alerts adapterKind="VMWARE" resourceKind="VMwareAdapter Instance">
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-VCViolateHardeningGuideV7"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-VCViolateSecurityConfigGuideV8"/>
+                </Alerts>
+                <Alerts adapterKind="VMWARE" resourceKind="DistributedVirtualPortgroup">
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-DVPGViolateSecurityConfigGuideV8"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-DVPGViolatingHardeningGuideV_All"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-DVPGViolateSecurityConfigGuideV7"/>
+                </Alerts>
+                <Alerts adapterKind="VMWARE" resourceKind="VmwareDistributedVirtualSwitch">
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-DVSViolatingHardeningGuideV_All"/>
+                </Alerts>
+                <Alerts adapterKind="VMWARE" resourceKind="VirtualMachine">
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-VMViolateSecurityConfigGuideV8"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuideV7"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuide6.7"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuide6.5"/>
+                </Alerts>
+            </PackageSettings>
+        </Policy>
+    </Policies>
+    <alertContent>
+        <AlertDefinitions>
+            <AlertDefinition adapterKind="VMWARE" description="This vSphere Distributed Port Group is violating one or more guidelines in VMware vSphere Security Configuration Guide for vSphere version 7" disableInBasePolicy="true" id="AlertDefinition-VMWARE-DVPGViolateSecurityConfigGuideV7" name="vSphere Distributed Port Group is violating VMware vSphere Security Configuration Guide vSphere version 7" resourceKind="DistributedVirtualPortgroup" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSets operator="or">
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityAllowPromiscuous"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityMacChangesRP123"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelForgedTransmitsOverrideRP123"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="or">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelIpfixOverrideRP123"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelBlockOverrideRP123"/>
+                        </SymptomSet>
+                    </SymptomSets>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="VMware vSphere Security Configuration Guide's Risk profile 1 provides guidelines that should be implemented in highest security environments for vSphere version 6.5. This virtual machine is violating one or more guidelines." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuide6.5" name="Virtual Machine is violating Risk Profile 1 in VMware vSphere Security Configuration Guide for vSphere version 6.5" resourceKind="VirtualMachine" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-PciPassThroughConfiguredRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMIntraMemTPSEnabledV6RP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UseIndependentDisk"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMObtainInfoFromHost"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVirtualDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsolePasteNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DvfilterAPIEnabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantMaxVMXSize"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleVNCAccessNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleCopyDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMDisableNonEssential3DFeatures"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMEnableVGAOnlyMode"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-WindowcontentsNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-InterlockNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-TaskbarNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnityNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-AutoLogonNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-MemsFssNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMConsoleGuiRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-HGFSServerSetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-TrayiconNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VersionsetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShellactionNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnityPushNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VersiongetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleDragDropNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-UnityactiveNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ProtocolhandlerNotDisabled"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="This vCenter Server is violating one or more guidelines in VMware vSphere Security Configuration Guide." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VCViolateHardeningGuideV7" name="vCenter Server is violating VMware vSphere Security Configuration Guide for vCenter version 7" resourceKind="VMwareAdapter Instance" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantSSHAccess"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantVAMIBackup"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantNetworkingNICsCount"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantLogForwardingConfig"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantTimeSync"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="VMware vSphere Security Configuration Guide provides guidelines that should be implemented in highest security environments for vSphere version 8 and above. This virtual machine is violating one or more guidelines." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VMViolateSecurityConfigGuideV8" name="Virtual Machine is violating VMware vSphere Security Configuration Guide for vSphere version 8 and above" resourceKind="VirtualMachine" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleCopyDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsolePasteNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVirtualDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMDisableNonEssential3DFeatures"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnauthorizedConnectDisconnectDevice"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleDragDropNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMConsoleGuiRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VersiongetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantConsoleConnectionLimit"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantMaxVMXSize"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantRetainedNumberOfLogs"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantLogSizeLimit"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-PciPassThroughConfiguredRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-CdRomDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-FloppyDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ParallelDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-SerialDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualHdAudioCardConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualAHCIControllerConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualEnsoniq1371Connected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMObtainInfoFromHost"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMIntraMemTPSEnabledV6RP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantMigrationEncryption"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantDesktopAutolock"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantEFISecureBoot"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantVirtualHardwareV8"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="This vSphere Distributed Port Group is violating one or more guidelines in VMware vSphere Security Configuration Guide for all Versions of vCenter" disableInBasePolicy="true" id="AlertDefinition-VMWARE-DVPGViolatingHardeningGuideV_All" name="vSphere Distributed Port Group is violating VMware vSphere Security Configuration Guide for all Versions of vCenter" resourceKind="DistributedVirtualPortgroup" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelForgedTransmitsOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityMacChangesRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityAllowPromiscuous"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelSecurityPolicyOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelPortMovingOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelBlockOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelIpfixOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelVlanOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelVendorConfigOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelNetworkResourcePoolMovingOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelShapingOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelPortConfigResetAtDisconnectOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelUplinkTeamingOverrideRP123"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="VMware vSphere Security Configuration Guide provides guidelines that should be implemented in highest security environments for vSphere version 7. This virtual machine is violating one or more guidelines." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuideV7" name="Virtual Machine is violating VMware vSphere Security Configuration Guide for vSphere version 7" resourceKind="VirtualMachine" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleCopyDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsolePasteNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVirtualDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMDisableNonEssential3DFeatures"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-BiosBBSNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnauthorizedConnectDisconnectDevice"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnauthorizedDeviceModification"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShellactionNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ToporequestNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleDragDropNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-GetCredsNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-AutoLogonNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-LaunchMenuNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ProtocolhandlerNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-TrayiconNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VersionsetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-HGFSServerSetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-MemsFssNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMConsoleGuiRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-TrashfolderstateNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-UnityactiveImplemented"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnityNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-InterlockNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnityPushNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-TaskbarNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-WindowcontentsNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VIXMessageNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VersiongetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantConsoleConnectionLimit"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantMaxVMXSize"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantRetainedNumberOfLogs"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantLogSizeLimit"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-PciPassThroughConfiguredRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleVNCAccessNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-CdRomDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-FloppyDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ParallelDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-SerialDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualHdAudioCardConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualAHCIControllerConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualEnsoniq1371Connected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMObtainInfoFromHost"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMEnableVGAOnlyMode"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMIntraMemTPSEnabledV6RP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DvfilterAPIEnabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantMigrationEncryption"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantDesktopAutolock"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantEFISecureBoot"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantVirtualHardware"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="VMware's vSphere Security Configuration Guide provides guidelines that should be implemented in highest security environments for vSphere version 6.7 and above. This virtual machine is violating one or more guidelines." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuide6.7" name="Virtual Machine is violating VMware vSphere Security Configuration Guide for vSphere version 6.7" resourceKind="VirtualMachine" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleCopyDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsolePasteNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVirtualDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UseIndependentDisk"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMDisableNonEssential3DFeatures"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-FloppyDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ParallelDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-SerialDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMEnableVGAOnlyMode"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantMaxVMXSize"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleVNCAccessNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMObtainInfoFromHost"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMIntraMemTPSEnabledV6RP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DvfilterAPIEnabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-PciPassThroughConfiguredRP123"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="This vCenter Server is violating one or more guidelines in VMware vSphere Security Configuration Guide." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VCViolateSecurityConfigGuideV8" name="vCenter Server is violating VMware vSphere Security Configuration Guide for vCenter version 8 and above" resourceKind="VMwareAdapter Instance" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantSSHAccess"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantVAMIBackup"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantNetworkingNICsCount"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantLogForwardingConfig"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantTimeSync"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="This vSphere Distributed Port Group is violating one or more guidelines in VMware vSphere Security Configuration Guide for vSphere version 8 and above" disableInBasePolicy="true" id="AlertDefinition-VMWARE-DVPGViolateSecurityConfigGuideV8" name="vSphere Distributed Port Group is violating VMware vSphere Security Configuration Guide vSphere version 8 and above" resourceKind="DistributedVirtualPortgroup" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSets operator="or">
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelForgedTransmitsOverrideRP123"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityMacChangesRP123"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityAllowPromiscuous"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="or">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelIpfixOverrideRP123"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelBlockOverrideRP123"/>
+                        </SymptomSet>
+                    </SymptomSets>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="This vSphere Distributed Virtual Switch is violating one or more guidelines in VMware vSphere Security Configuration Guide for all Versions of vCenter" disableInBasePolicy="true" id="AlertDefinition-VMWARE-DVSViolatingHardeningGuideV_All" name="vSphere Distributed Virtual Switch is violating VMware vSphere Security Configuration Guide for all Versions of vCenter" resourceKind="VmwareDistributedVirtualSwitch" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-DVSHealthCheckConfigTeamingRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVSHealthCheckConfigVlanAndMtuRP123"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+        </AlertDefinitions>
+        <SymptomDefinitions>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelForgedTransmitsOverrideRP123" name="vNetwork.reject-forged-transmit-dvportgroup - The Forged Transmits policy is not set to reject" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|security|forged_transmits" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ProtocolhandlerNotDisabled" name="VM.disable-unexposed-features-protocolhandler - Protocolhandler feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_protocolhandler" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGSecurityMacChangesRP123" name="vNetwork.reject-mac-changes-dvportgroup - The MAC Address Changes policy is not set to reject" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|security|mac_changes" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VMDisableNonEssential3DFeatures" name="VM.disable-non-essential-3D-features Configure system security parameters - Deactivate 3D features on Server and desktop virtual machines" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|enable_non_essential_3D_features" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ConsoleVNCAccessNotDisabled" name="VM.minimize-console-VNC-use - Access to VM console is not controlled via VNC protocol" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|enable_console_VNC" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelIpfixOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Netflow overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|ipfix_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VMConsoleGuiRP123" name="VM.disable-console-gui-options - Copy/paste operations are activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|enable_console_gui_options" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelShapingOverrideRP123" name="vNetwork.restrict-port-level-overrides - Restrict port-level configuration Shaping overrides on VDS" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|shaping_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ConsolePasteNotDisabled" name="VM.disable-console-paste - Copy/paste operations are activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_console_paste" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NoncompliantConsoleConnectionLimit" name="VM.set-remote-console-connections-limit - The number of console connections is not set as per the acceptable limit" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|limit_console_connection" operator="!=" thresholdType="static" type="property" value="1.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-GetCredsNotDisabled" name="VM.disable-unexposed-features-getcreds - GetCreds feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_getcreds" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-HGFSServerSetNotDisabled" name="VM.disable-hgfs - HGFS file transfers are activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_hgfs" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VMEnableVGAOnlyMode" name="VM.Enable-VGA-Only-Mode Configure system security parameters - Deactivate all but VGA mode on specific virtual machines" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|enable_vga_only_mode" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantVAMIBackup" name="vCenter.set-file-based-backup-recovery - File-Based Backup and Recovery is not Configured" resourceKind="VMwareAdapter Instance">
+                <State severity="warning">
+                    <Condition key="vc_appliance|hasRecoveryBackupJobs" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ShrinkVirtualDiskNotDisabled" name="VM.disable-disk-shrinking-wiper - Virtual disk shrinking is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_disk_shrinking_wiper" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantVirtualHardwareV8" name="VM.set-virtual-hardware - The virtual machine hardware version not as per the recommended version" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|version" operator="regex" thresholdType="static" type="property" value="vmx-[1-9]|vmx-1[0-8]" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VersionsetNotDisabled" name="VM.disable-unexposed-features-versionset - Versionset feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_versionset" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-BiosBBSNotDisabled" name="VM.disable-unexposed-features-biosbbs - Bios Boot Specification feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_biosbbs" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NoncompliantMaxVMXSize" name="VM.limit-setinfo-size - Informational messages from the VM to the VMX file are not limited" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|limit_setinfo_size" operator="&gt;" thresholdType="static" type="property" value="1048576.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VirtualAHCIControllerConnected" name="Virtual AHCI controller connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_virtualahcicontroller" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-AutoLogonNotDisabled" name="VM.disable-unexposed-features-autologon - Autologon feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_autologon" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ShrinkVDiskNotDisabled" name="VM.disable-disk-shrinking-shrink - Virtual disk shrinking is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_disk_shrinking_shrink" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantVirtualHardware" name="VM.set-virtual-hardware - The virtual machine hardware version not as per the recommended version" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|version" operator="regex" thresholdType="static" type="property" value="vmx-[1-9]|vmx-1[0-2]" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-UnauthorizedDeviceModification" name="VM.prevent-device-interaction-edit - Users and processes without privileges can remove, connect and modify devices" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_device_interaction_edit" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-CdRomDeviceConnected" name="CD-ROM connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_cd" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantRetainedNumberOfLogs" name="VM.set-retained-logs-count - The number of retained VM diagnostic logs is larger than acceptable level" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|limit_log_number" operator="&gt;" thresholdType="static" type="property" value="10.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-TrayiconNotDisabled" name="VM.disable-unexposed-features-trayicon - Tray icon feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_trayicon" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-UseIndependentDisk" name="VM.disable-independent-nonpersistent - Independent nonpersistent disks are being used" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_independent_nonpersistent" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VersiongetNotDisabled" name="VM.disable-unexposed-features-versionget - version get feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_versionget" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-SerialDeviceConnected" name="VM.disconnect-devices-serial - Serial port connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_serial" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantMigrationEncryption" name="VM.set-vmotion-encrypted - The configured vMotion encryption is not set to required" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|migrateEncryption" operator="!=" thresholdType="static" type="property" value="required" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-PciPassThroughConfiguredRP123" name="VM.verify-PCI-Passthrough - PCI pass through device is configured on the virtual machine" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|pci_device_configured" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelSecurityPolicyOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Security Policy overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|security_policy_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelBlockOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Block overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|block_override_allowed" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink" name="vSphere Distributed Port Group is not an uplink" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|uplink" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-Unity-TaskbarNotDisabled" name="VM.disable-unexposed-features-unity-taskbar - Unity taskbar feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity_taskbar" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VMIntraMemTPSEnabledV6RP123" name="VM.TransparentPageSharing-inter-VM-Enabled - Inter VM Transparent Page Sharing is Enabled" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|extraConfig|mem_tps_share" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGSecurityAllowPromiscuous" name="vNetwork.reject-promiscuous-mode-dvportgroup - The Promiscuous Mode policy is not set to reject" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|security|allow_promiscuous" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantDesktopAutolock" name="VM.set-guest-session-locked - The console session is not locked" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|tools_guest_desktop_autolock" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-TrashfolderstateNotDisabled" name="VM.disable-unexposed-features-trashfolderstate - Trash folder state is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_trashfolderstate" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-FloppyDeviceConnected" name="VM.disconnect-devices-floppy - Floppy drive connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_floppy" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelUplinkTeamingOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Uplink Teaming overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|uplink_teaming_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-Unity-WindowcontentsNotDisabled" name="VM.disable-unexposed-features-unity-windowcontents - Unity window contents is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity_windowcontents" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantEFISecureBoot" name="VM.set-secure-boot - Secure boot is not enabled for guest OSes" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|boot_options_efi_secure_boot_enabled" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelNetworkResourcePoolMovingOverrideRP123" name="vNetwork.restrict-port-level-overrides - Restrict port-level configuration Network Resourcepool Moving overrides on VDS" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|network_resourcepool_moving_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantTimeSync" name="vCenter.set-time-keeping - Configure vCenter Server timekeeping" resourceKind="VMwareAdapter Instance">
+                <State severity="warning">
+                    <Condition key="vc_appliance|timeSyncMode" operator="!=" thresholdType="static" type="property" value="NTP" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantLogForwardingConfig" name="vCenter.set-remote-logging - Remote logging is not enabled" resourceKind="VMwareAdapter Instance">
+                <State severity="warning">
+                    <Condition key="vc_appliance|hasLoggingForwardingConfigs" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-UnityPushNotDisabled" name="VM.disable-unexposed-features-unitypush - Unity push feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unitypush" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVSHealthCheckConfigVlanAndMtuRP123" name="vNetwork.limit-network-healthcheck - VDS network healthcheck for VLAN and MTU Health Check is enabled" resourceKind="VmwareDistributedVirtualSwitch">
+                <State severity="warning">
+                    <Condition key="config|health_check_config|health_check_config_vlan_mtu" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelPortMovingOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Live Port Moving overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|live_port_moving_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-MemsFssNotDisabled" name="VM.disable-unexposed-features-memsfss - Memsfss feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_memsfss" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-Unity-InterlockNotDisabled" name="VM.disable-unexposed-features-unity-interlock - Unity Interlock is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity_interlock" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ToporequestNotDisabled" name="VM.disable-unexposed-features-toporequest - Toprequest feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_toporequest" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-Unity-UnityactiveNotDisabled" name="VM.disable-unexposed-features-unity-unityactive - Unity feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity_unityactive" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VirtualHdAudioCardConnected" name="Virtual HD audio card connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_virtualhdaudiocard" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelVlanOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration VLAN overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|vlan_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelPortConfigResetAtDisconnectOverrideRP123" name="vNetwork.restrict-port-level-overrides - Restrict port-level configuration overrides on VDS" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|port_config_reset_at_disconnect" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-UnityNotDisabled" name="VM.disable-unexposed-features-unity - Unity feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantLogSizeLimit" name="VM.set-logs-size - The configured log size is lesser than acceptable level" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|limit_log_size" operator="&lt;" thresholdType="static" type="property" value="2048000.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DvfilterAPIEnabled" name="VM.verify-network-filter - Access to VMs are not controlled through dvfilter network APIs" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|network_filter_enable" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantNetworkingNICsCount" name="The number of Network interface controllers is violating the recommended value" resourceKind="VMwareAdapter Instance">
+                <State severity="warning">
+                    <Condition key="vc_appliance|networkNICs" operator="&gt;" thresholdType="static" type="property" value="1.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ConsoleDragDropNotDisabled" name="VM.disable-console-drag-n-drop - Copy/paste operations are activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_console_dnd" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VIXMessageNotDisabled" name="VM.disable-vix-messages - VIX messages are activated on the VM" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_vix_messages" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-UnauthorizedConnectDisconnectDevice" name="VM.prevent-device-interaction-connect - Users and processes without privileges can remove, connect and modify devices" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_device_interaction_connect" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ShellactionNotDisabled" name="VM.disable-unexposed-features-shellaction - Shellaction is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_shellaction" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VMObtainInfoFromHost" name="VM.restrict-host-info - Guests can recieve host information" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|enable_host_info" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ParallelDeviceConnected" name="VM.disconnect-devices-parallel - Parallel port connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_parallel" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-LaunchMenuNotDisabled" name="VM.disable-unexposed-features-launchmenu - launchmenu feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_launchmenu" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantSSHAccess" name="SSH Access is not restricted" resourceKind="VMwareAdapter Instance">
+                <State severity="warning">
+                    <Condition key="vc_appliance|hasAccessSSH" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VirtualEnsoniq1371Connected" name="Virtual Ensoniq 1371 connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_virtualensoniq1371" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ConsoleCopyDisabled" name="VM.disable-console-copy - Copy/paste operations are activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_console_copy" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-Unity-UnityactiveImplemented" name="VM.disable-unexposed-features-unity-unityactive - Unity Active feature is implemented" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity_unityactive" operator="!=" thresholdType="static" type="property" value="none" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVSHealthCheckConfigTeamingRP123" name="vNetwork.limit-network-healthcheck - VDS network healthcheck for Teaming Health Check is enabled" resourceKind="VmwareDistributedVirtualSwitch">
+                <State severity="warning">
+                    <Condition key="config|health_check_config|health_check_config_teaming" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelVendorConfigOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Vendor configuration overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|vendor_config_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+        </SymptomDefinitions>
+        <Recommendations>
+            <Recommendation key="Recommendation-df-VMWARE-FixHardeningViolations">
+                <Description>Fix the vSphere Security Configuration Guide Rules Violations according to the recommendations available at &lt;a href="http://www.vmware.com/security/hardening-guides.html" target="_blank"&gt;vSphere Security Configuration Guide&lt;/a&gt;.</Description>
+            </Recommendation>
+        </Recommendations>
+    </alertContent>
+</PolicyContent>

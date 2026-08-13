@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><PolicyContent>
+    <Policies>
+        <Policy key="715efa71-47cf-4fc4-a193-83dfce030cf7" name="vSAN Security Configuration Policy">
+            <PackageSettings>
+                <Alerts adapterKind="VirtualAndPhysicalSANAdapter" resourceKind="CapacityDisk">
+                    <Alert enabled="true" id="AlertDefinition-VirtualAndPhysicalSANAdapter-VsanCapacityDiskViolatingHardeningGuide"/>
+                </Alerts>
+                <Alerts adapterKind="VirtualAndPhysicalSANAdapter" resourceKind="VirtualSANDCCluster">
+                    <Alert enabled="true" id="AlertDefinition-VirtualAndPhysicalSANAdapter-VsanClusterViolatingHardeningGuide"/>
+                </Alerts>
+                <Alerts adapterKind="VMWARE" resourceKind="VirtualMachine">
+                    <Alert enabled="true" id="AlertDefinition-VirtualAndPhysicalSANAdapter-VsanVirtualMachineViolatingHardeningGuide"/>
+                </Alerts>
+                <Alerts adapterKind="VirtualAndPhysicalSANAdapter" resourceKind="CacheDisk">
+                    <Alert enabled="true" id="AlertDefinition-VirtualAndPhysicalSANAdapter-VsanCacheDiskViolatingHardeningGuide"/>
+                </Alerts>
+            </PackageSettings>
+        </Policy>
+    </Policies>
+    <alertContent>
+        <AlertDefinitions>
+            <AlertDefinition adapterKind="VirtualAndPhysicalSANAdapter" description="40005" disableInBasePolicy="true" id="AlertDefinition-VirtualAndPhysicalSANAdapter-VsanCacheDiskViolatingHardeningGuide" name="vSAN cache disk is violating vSphere Security Configuration Guide" resourceKind="CacheDisk" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or" ref="SymptomDefinition-VirtualAndPhysicalSANAdapter-VsanCacheDiskComplianceEncryptionNotEnabled"/>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VirtualAndPhysicalSANAdapter-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="40003" disableInBasePolicy="true" id="AlertDefinition-VirtualAndPhysicalSANAdapter-VsanVirtualMachineViolatingHardeningGuide" name="Virtual machine is violating vSphere Security Configuration Guide" resourceKind="VirtualMachine" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or" ref="SymptomDefinition-VirtualAndPhysicalSANAdapter-VsanVirtualMachineComplianceIsNotCompliant"/>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VirtualAndPhysicalSANAdapter-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VirtualAndPhysicalSANAdapter" description="40001" disableInBasePolicy="true" id="AlertDefinition-VirtualAndPhysicalSANAdapter-VsanClusterViolatingHardeningGuide" name="vSAN cluster is violating vSphere Security Configuration Guide" resourceKind="VirtualSANDCCluster" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or" ref="SymptomDefinition-VirtualAndPhysicalSANAdapter-VsanClusterComplianceEncryptionNotEnabled"/>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VirtualAndPhysicalSANAdapter-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VirtualAndPhysicalSANAdapter" description="40004" disableInBasePolicy="true" id="AlertDefinition-VirtualAndPhysicalSANAdapter-VsanCapacityDiskViolatingHardeningGuide" name="vSAN capacity disk is violating vSphere Security Configuration Guide" resourceKind="CapacityDisk" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or" ref="SymptomDefinition-VirtualAndPhysicalSANAdapter-VsanCapacityDiskComplianceEncryptionNotEnabled"/>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VirtualAndPhysicalSANAdapter-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+        </AlertDefinitions>
+        <SymptomDefinitions>
+            <SymptomDefinition adapterKind="VirtualAndPhysicalSANAdapter" id="SymptomDefinition-VirtualAndPhysicalSANAdapter-VsanCacheDiskComplianceEncryptionNotEnabled" name="Encryption is not enabled on vSAN cache disk." resourceKind="CacheDisk">
+                <State severity="warning">
+                    <Condition key="ConfigurationProperties|vsan|encryption" operator="!=" thresholdType="static" type="property" value="Enabled" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VirtualAndPhysicalSANAdapter" id="SymptomDefinition-VirtualAndPhysicalSANAdapter-VsanCapacityDiskComplianceEncryptionNotEnabled" name="Encryption is not enabled on vSAN capacity disk." resourceKind="CapacityDisk">
+                <State severity="warning">
+                    <Condition key="ConfigurationProperties|vsan|encryption" operator="!=" thresholdType="static" type="property" value="Enabled" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMware" id="SymptomDefinition-VirtualAndPhysicalSANAdapter-VsanVirtualMachineComplianceIsNotCompliant" name="Virtual machine does not comply with to storage policy." resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="vsan|policy|compliance" operator="!=" thresholdType="static" type="property" value="Compliant" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VirtualAndPhysicalSANAdapter" disableInBasePolicy="true" id="SymptomDefinition-VirtualAndPhysicalSANAdapter-VsanClusterComplianceEncryptionNotEnabled" name="vSAN cluster encryption is not enabled." resourceKind="VirtualSANDCCluster">
+                <State severity="warning">
+                    <Condition key="configuration|vsan|encryption" operator="!=" thresholdType="static" type="property" value="Enabled" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+        </SymptomDefinitions>
+        <Recommendations>
+            <Recommendation key="Recommendation-df-VirtualAndPhysicalSANAdapter-FixHardeningViolations">
+                <Description>Fix the vSphere Security Configuration Guide Rules Violations according to the recommendations available at &lt;a href="http://www.vmware.com/security/hardening-guides.html" target="_blank"&gt;vSphere Security Configuration Guide&lt;/a&gt;.</Description>
+            </Recommendation>
+        </Recommendations>
+    </alertContent>
+</PolicyContent>

@@ -1,0 +1,1281 @@
+<?xml version="1.0" encoding="UTF-8"?><PolicyContent>
+    <Policies>
+        <Policy key="51635df3-d581-4366-b6fd-876626023b0c" name="Foundation Policy">
+            <PackageSettings>
+                <Alerts adapterKind="VMWARE" resourceKind="HostSystem">
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-FatalMemoryErrorAlert"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-RecoverablePCIeErrorAlert"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-NicLinkDownAlert"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-HAHostFailureAlert"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-FatalPCIeErrorAlert"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-FanSensorAlert"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-NicLinkFlappingAlert"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-BatterySensorAlert"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-RecoverableMemoryErrorAlert"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-LostConnectivityDVPortAlert"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-BMCSensorAlert"/>
+                </Alerts>
+                <Alerts adapterKind="VMWARE" resourceKind="VirtualMachine">
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuideV7"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuide6.5"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuide6.7"/>
+                    <Alert enabled="true" id="AlertDefinition-VMWARE-VMViolateSecurityConfigGuideV8"/>
+                </Alerts>
+                <Alerts adapterKind="vCenter Operations Adapter" resourceKind="vC-Ops-Cluster">
+                    <Alert enabled="false" id="AlertDefinition-vCenter Operations Adapter-NodeIsDownFault"/>
+                    <Alert enabled="false" id="AlertDefinition-vCenter Operations Adapter-ClusterDiskSpaceAlert"/>
+                </Alerts>
+                <Alerts adapterKind="vCenter Operations Adapter" resourceKind="vC-Ops-Node">
+                    <Alert enabled="false" id="AlertDefinition-vCenter Operations Adapter-AnalyticsForwardDataNearMaximumAlert"/>
+                    <Alert enabled="false" id="AlertDefinition-vCenter Operations Adapter-LowDiskSpace"/>
+                </Alerts>
+                <Alerts adapterKind="VMWARE" resourceKind="VmwareDistributedVirtualSwitch">
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-HostAttachedPnicsInvalid"/>
+                </Alerts>
+                <Alerts adapterKind="VMWARE" resourceKind="Datastore">
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-DatastoreUsage"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-StorageRedundancyLostAlert"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-StorageDeviceOffAlert"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-StorageConnectivityLostAlert"/>
+                </Alerts>
+                <Alerts adapterKind="VMWARE" resourceKind="DistributedVirtualPortgroup">
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-DVPGViolatingHardeningGuideV_All"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-DVPGViolateSecurityConfigGuideV8"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-DVPGViolateSecurityConfigGuideV7"/>
+                </Alerts>
+                <Alerts adapterKind="VMWARE" resourceKind="VMwareAdapter Instance">
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-VCHealthChangedAlert"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-VCViolateHardeningGuideV7"/>
+                    <Alert enabled="false" id="AlertDefinition-VMWARE-VCViolateSecurityConfigGuideV8"/>
+                </Alerts>
+                <Alerts adapterKind="ALL" resourceKind="All">
+                    <Alert enabled="false" id="AlertDefinition-vCenter Operations Adapter-ResourceStatusErrorAlert"/>
+                    <Alert enabled="false" id="AlertDefinition-vCenter Operations Adapter-AdapterInstanceIsDownAlert"/>
+                    <Alert enabled="false" id="AlertDefinition-vCenter Operations Adapter-GroupPopulationRiskElevated"/>
+                </Alerts>
+                <Alerts adapterKind="vCenter Operations Adapter" resourceKind="vC-Ops-Collector">
+                    <Alert enabled="false" id="AlertDefinition-vCenter Operations Adapter-CollectorClockOutOfSyncAlert"/>
+                </Alerts>
+            </PackageSettings>
+        </Policy>
+    </Policies>
+    <alertContent>
+        <AlertDefinitions>
+            <AlertDefinition adapterKind="VMWARE" description="ESXi host has detected a link status down on a physical NIC." id="AlertDefinition-VMWARE-NicLinkDownAlert" name="ESXi host has detected a link status down on a physical NIC" resourceKind="HostSystem" subType="18" type="19">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-NicLinkDown"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-LinkFlappingRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="vCenter Operations Adapter" description="Disk space on node is low" id="AlertDefinition-vCenter Operations Adapter-LowDiskSpace" name="Disk space on node is low" resourceKind="vC-Ops-Node" subType="20" type="20">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-vCenter Operations Adapter-DBLowDiskSpaceSymptom"/>
+                        <Symptom ref="SymptomDefinition-vCenter Operations Adapter-DBVeryLowDiskSpaceSymptom"/>
+                        <Symptom ref="SymptomDefinition-vCenter Operations Adapter-DBCriticallyLowDiskSpaceSymptom"/>
+                        <Symptom ref="SymptomDefinition-vCenter Operations Adapter-LogLowDiskSpaceSymptom"/>
+                        <Symptom ref="SymptomDefinition-vCenter Operations Adapter-LogVeryLowDiskSpaceSymptom"/>
+                        <Symptom ref="SymptomDefinition-vCenter Operations Adapter-LogCriticallyLowDiskSpaceSymptom"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-vCenter Operations Adapter-ClusterDiskSpaceDataLossWarningRecommendation"/>
+                        <Recommendation priority="3" ref="Recommendation-df-vCenter Operations Adapter-ClusterDiskSpaceAddNodeRecommendation"/>
+                        <Recommendation priority="2" ref="Recommendation-df-vCenter Operations Adapter-ClusterDiskSpaceOneNodeExpandRecommendation"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="This vSphere Distributed Port Group is violating one or more guidelines in VMware vSphere Security Configuration Guide for vSphere version 7" disableInBasePolicy="true" id="AlertDefinition-VMWARE-DVPGViolateSecurityConfigGuideV7" name="vSphere Distributed Port Group is violating VMware vSphere Security Configuration Guide vSphere version 7" resourceKind="DistributedVirtualPortgroup" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSets operator="or">
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityAllowPromiscuous"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityMacChangesRP123"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelForgedTransmitsOverrideRP123"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="or">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelIpfixOverrideRP123"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelBlockOverrideRP123"/>
+                        </SymptomSet>
+                    </SymptomSets>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="VMware vSphere Security Configuration Guide provides guidelines that should be implemented in highest security environments for vSphere version 8 and above. This virtual machine is violating one or more guidelines." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VMViolateSecurityConfigGuideV8" name="Virtual Machine is violating VMware vSphere Security Configuration Guide for vSphere version 8 and above" resourceKind="VirtualMachine" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleCopyDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsolePasteNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVirtualDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMDisableNonEssential3DFeatures"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnauthorizedConnectDisconnectDevice"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleDragDropNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMConsoleGuiRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VersiongetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantConsoleConnectionLimit"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantMaxVMXSize"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantRetainedNumberOfLogs"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantLogSizeLimit"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-PciPassThroughConfiguredRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-CdRomDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-FloppyDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ParallelDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-SerialDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualHdAudioCardConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualAHCIControllerConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualEnsoniq1371Connected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMObtainInfoFromHost"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMIntraMemTPSEnabledV6RP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantMigrationEncryption"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantDesktopAutolock"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantEFISecureBoot"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantVirtualHardwareV8"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="Datastore is consuming disk space as expected, but will soon run out of space" id="AlertDefinition-VMWARE-DatastoreUsage" name="Datastore is running out of disk space" resourceKind="Datastore" subType="20" type="18">
+                <State severity="automatic">
+                    <SymptomSets operator="or">
+                        <SymptomSet applyOn="self" operator="or">
+                            <Symptom ref="SymptomDefinition-VMWARE-DatastoreUsageWarning"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DatastoreUsageCritical"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="and" ref="SymptomDefinition-VMWARE-DatastoreSpaceRemainingIs"/>
+                    </SymptomSets>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-StorageVMotionVM"/>
+                        <Recommendation priority="2" ref="Recommendation-df-VMWARE-DeleteUnusedTemplates"/>
+                        <Recommendation priority="3" ref="Recommendation-df-VMWARE-DeleteUnusedSnapshotsOfVm"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="vCenter Operations Adapter" description="A node may be down and it is failing to report any Objects. If HA/CA is deactivated, it will impact performance and cause some operations to fail." id="AlertDefinition-vCenter Operations Adapter-NodeIsDownFault" name="A node may be down and it is failing to report any Objects. If HA/CA is deactivated, it will impact performance and cause some operations to fail." resourceKind="vC-Ops-Cluster" subType="19" type="20">
+                <State severity="automatic">
+                    <SymptomSets operator="or">
+                        <SymptomSet aggregation="any" applyOn="descendant" operator="and">
+                            <Symptom ref="SymptomDefinition-vCenter Operations Adapter-NodeDownHAEnabledSymptom"/>
+                            <Symptom ref="SymptomDefinition-vCenter Operations Adapter-NodeDownHADisabledSymptom"/>
+                        </SymptomSet>
+                        <SymptomSet aggregation="any" applyOn="descendant" operator="and" ref="SymptomDefinition-vCenter Operations Adapter-RemoteCollectorDownSymptom"/>
+                        <SymptomSet aggregation="any" applyOn="descendant" operator="and" ref="SymptomDefinition-vCenter Operations Adapter-CloudProxyDownSymptom"/>
+                    </SymptomSets>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="2" ref="Recommendation-df-vCenter Operations Adapter-NodeIsDownRemoveRecommendation"/>
+                        <Recommendation priority="3" ref="Recommendation-df-vCenter Operations Adapter-ContactSupport"/>
+                        <Recommendation priority="1" ref="Recommendation-df-vCenter Operations Adapter-NodeIsDownRecommendation"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="This vSphere Distributed Port Group is violating one or more guidelines in VMware vSphere Security Configuration Guide for vSphere version 8 and above" disableInBasePolicy="true" id="AlertDefinition-VMWARE-DVPGViolateSecurityConfigGuideV8" name="vSphere Distributed Port Group is violating VMware vSphere Security Configuration Guide vSphere version 8 and above" resourceKind="DistributedVirtualPortgroup" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSets operator="or">
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelForgedTransmitsOverrideRP123"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityMacChangesRP123"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="and">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityAllowPromiscuous"/>
+                        </SymptomSet>
+                        <SymptomSet applyOn="self" operator="or">
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelIpfixOverrideRP123"/>
+                            <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelBlockOverrideRP123"/>
+                        </SymptomSet>
+                    </SymptomSets>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="Connectivity has been lost to the specified storage device. The symptom details contains the hosts, storage devices, and paths that are affected by the fault. The path indicated for a host or device is the last path that went down. virtual machines that use the affected datastore might become unresponsive. If the service console root file system is on the affected datastore, the service console is unresponsive and you cannot manage the ESX host.&#10;&#10;NOTE: For vSphere versions earlier than 5.0, this fault might indicate a permanent loss of the storage device. If you expect the storage device to be permanently lost because of an upgrades or decommissioning of storage, you must manually cancel the fault. The alert will be canceled automatically after that." id="AlertDefinition-VMWARE-StorageConnectivityLostAlert" name="Datastore has lost connectivity to a storage device" resourceKind="Datastore" subType="18" type="18">
+                <State severity="critical">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-StorageConnectivityLost"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-StorageTroubleshootingRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="A fatal error was detected on a Peripheral Component Interconnect Express (PCIe) bus during the previous reboot. Typically, this problem is caused by faulty hardware. The bus is faulty and might cause unstable system behavior. The device, bus number, vendor name, and other device-related information should appear in the symptom details." id="AlertDefinition-VMWARE-FatalPCIeErrorAlert" name="A fatal error occured on a PCIe bus during system reboot" resourceKind="HostSystem" subType="18" type="17">
+                <State severity="critical">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-FatalPCIeError"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-ReplacePCIeRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="ALL" description="Adapter instance object has error status and no data is being collected" id="AlertDefinition-vCenter Operations Adapter-ResourceStatusErrorAlert" name="Adapter instance object has error status" resourceKind="All" subType="18" type="20">
+                <State severity="automatic">
+                    <SymptomSet aggregation="any" applyOn="self" operator="and">
+                        <Symptom ref="SymptomDefinition-vCenter Operations Adapter-AdapterInstanceResource"/>
+                        <Symptom ref="SymptomDefinition-vCenter Operations Adapter-ResourceStatusError"/>
+                    </SymptomSet>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="2" ref="Recommendation-df-vCenter Operations Adapter-ResourceIsDownRecommendation"/>
+                        <Recommendation priority="1" ref="Recommendation-df-vCenter Operations Adapter-AdapterInstanceDownRecommendation"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="An error was detected in the system memory when the system was previously booted. Typically, this error is caused by faulty memory hardware. Card or module and other memory device information should appear in the symptom details." id="AlertDefinition-VMWARE-FatalMemoryErrorAlert" name="A fatal memory error was detected at system boot time" resourceKind="HostSystem" subType="18" type="17">
+                <State severity="critical">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-FatalMemoryError"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-ReplaceMemoryRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="The turned off SCSI devices are unavailable to the hosts and virtual machines to which they are connected." id="AlertDefinition-VMWARE-StorageDeviceOffAlert" name="A storage device for a datastore has been detected to be off" resourceKind="Datastore" subType="18" type="18">
+                <State severity="critical">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-StorageDeviceOff"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-TurnOnDeviceRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="ALL" description="A significant number of group members are exhibiting risk and causing group risk to be elevated" id="AlertDefinition-vCenter Operations Adapter-GroupPopulationRiskElevated" name="Group population risk is elevated" resourceKind="All" subType="19" type="15">
+                <State severity="automatic">
+                    <SymptomSets operator="and">
+                        <SymptomSet applyOn="self" ref="SymptomDefinition-vCenter Operations Adapter-ResourceIsAGroup"/>
+                        <SymptomSet applyOn="self" operator="or">
+                            <Symptom ref="SymptomDefinition-vCenter Operations Adapter-GroupPopulationRiskRed"/>
+                            <Symptom ref="SymptomDefinition-vCenter Operations Adapter-GroupPopulationRiskOrange"/>
+                            <Symptom ref="SymptomDefinition-vCenter Operations Adapter-GroupPopulationRiskYellow"/>
+                        </SymptomSet>
+                    </SymptomSets>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-vCenter Operations Adapter-CheckMemberTopAlertsRisk"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="This vCenter Server is violating one or more guidelines in VMware vSphere Security Configuration Guide." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VCViolateSecurityConfigGuideV8" name="vCenter Server is violating VMware vSphere Security Configuration Guide for vCenter version 8 and above" resourceKind="VMwareAdapter Instance" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantSSHAccess"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantVAMIBackup"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantNetworkingNICsCount"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantLogForwardingConfig"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantTimeSync"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="ALL" description="Adapter instance Object is reported as down. This may be caused by adapter configuration or connectivity issues." id="AlertDefinition-vCenter Operations Adapter-AdapterInstanceIsDownAlert" name="Adapter instance Object is down" resourceKind="All" subType="18" type="20">
+                <State severity="automatic">
+                    <SymptomSet aggregation="any" applyOn="self" operator="and">
+                        <Symptom ref="SymptomDefinition-vCenter Operations Adapter-AdapterInstanceResource"/>
+                        <Symptom ref="SymptomDefinition-vCenter Operations Adapter-ResourceIsDownSymptom"/>
+                    </SymptomSet>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-vCenter Operations Adapter-AdapterInstanceDownRecommendation"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="One or more fan sensors on the host are reporting problems. Specific details should be available in the symptom details. For more information, check the Hardware Status of the host in vSphere Client." id="AlertDefinition-VMWARE-FanSensorAlert" name="Fan sensors are reporting problems" resourceKind="HostSystem" subType="18" type="17">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-FanSensorRed"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-FanSensorYellow"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-FanSensorDegraded"/>
+                    </SymptomSet>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-ReplaceHardwareRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="This vCenter Server is violating one or more guidelines in VMware vSphere Security Configuration Guide." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VCViolateHardeningGuideV7" name="vCenter Server is violating VMware vSphere Security Configuration Guide for vCenter version 7" resourceKind="VMwareAdapter Instance" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantSSHAccess"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantVAMIBackup"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantNetworkingNICsCount"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantLogForwardingConfig"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantTimeSync"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="One or more Baseboard Management Controller sensors on the host are reporting problems. Specific details should be available in the symptom details. For more information, check the Hardware Status of the host in vSphere Client." id="AlertDefinition-VMWARE-BMCSensorAlert" name="Baseboard Management Controller sensors are reporting problems" resourceKind="HostSystem" subType="18" type="17">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-BMCSensorRed"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-BMCSensorYellow"/>
+                    </SymptomSet>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-ReplaceHardwareRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="A vSphere HA master agent considers a host to have failed if it loses contact with the vSphere HA agent on the host, the host does not respond to pings on any of the management interfaces, and the master does not observe any datastore heartbeats. This problem can occur when a computer on the network is configured to have the same IP address as one of the ESX/ESXi hosts in a HA cluster. In this situation, the HA agent receives invalid data and generates errors. The HA agent does not function properly until it is reconfigured. The frequency of this problem depends on how often the IP address conflict occurs." id="AlertDefinition-VMWARE-HAHostFailureAlert" name="vSphere High Availability (HA) has detected a possible host failure" resourceKind="HostSystem" subType="18" type="16">
+                <State severity="critical">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-HAHostFailure"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixDuplicateIpRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="The Distributed Switch configuration for the host(s) indicated in the issue details is incorrect. A single NIC on the host is connected to the Distributed Switch" id="AlertDefinition-VMWARE-HostAttachedPnicsInvalid" name="The Distributed Switch configuration is incorrect" resourceKind="VmwareDistributedVirtualSwitch" subType="22" type="19">
+                <State severity="warning">
+                    <SymptomSet applyOn="self" operator="and" ref="SymptomDefinition-VMWARE-HostConfigError"/>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-VerifyTwoHostNicsConnectedToDVS"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="A recoverable Peripheral Component Interconnect Express (PCIe) error was detected when the system was previously booted. This error is typically caused by a faulty PCIe bus and might cause unstable system behavior, but the error is recoverable. The device, bus number, vendor name etc should appear in the fault description." id="AlertDefinition-VMWARE-RecoverablePCIeErrorAlert" name="A PCIe error occurred during system boot, but the error is recoverable" resourceKind="HostSystem" subType="18" type="17">
+                <State severity="immediate">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-RecoverablePCIeError"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-RecoverablePCIeRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="An error was detected in the system memory when the system was previously booted. This error is typically caused by faulty memory hardware, but is recoverable. The card or module and other memory device information should appear in the symptom details." id="AlertDefinition-VMWARE-RecoverableMemoryErrorAlert" name="A recoverable memory error has occurred on the host" resourceKind="HostSystem" subType="18" type="17">
+                <State severity="immediate">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-RecoverableMemoryError"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-RecoverableMemErrRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="vCenter Operations Adapter" description="The Collector's clock is not synchronized with the main server. As a result, data can be incorrect or lost" id="AlertDefinition-vCenter Operations Adapter-CollectorClockOutOfSyncAlert" name="Collector clock is not synchronized with the main server" resourceKind="vC-Ops-Collector" subType="19" type="20">
+                <State severity="automatic">
+                    <SymptomSet aggregation="any" applyOn="self" operator="or" ref="SymptomDefinition-vCenter Operations Adapter-CollectorClockOutOfSyncSymptom"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-vCenter Operations Adapter-CollectorClockOutOfSyncRecommendation"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="VMware vSphere Security Configuration Guide's Risk profile 1 provides guidelines that should be implemented in highest security environments for vSphere version 6.5. This virtual machine is violating one or more guidelines." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuide6.5" name="Virtual Machine is violating Risk Profile 1 in VMware vSphere Security Configuration Guide for vSphere version 6.5" resourceKind="VirtualMachine" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-PciPassThroughConfiguredRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMIntraMemTPSEnabledV6RP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UseIndependentDisk"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMObtainInfoFromHost"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVirtualDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsolePasteNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DvfilterAPIEnabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantMaxVMXSize"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleVNCAccessNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleCopyDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMDisableNonEssential3DFeatures"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMEnableVGAOnlyMode"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-WindowcontentsNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-InterlockNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-TaskbarNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnityNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-AutoLogonNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-MemsFssNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMConsoleGuiRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-HGFSServerSetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-TrayiconNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VersionsetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShellactionNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnityPushNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VersiongetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleDragDropNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-UnityactiveNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ProtocolhandlerNotDisabled"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="vCenter Health Service detected problems with one or more of vCenter components. Check the symptom details for specific information." id="AlertDefinition-VMWARE-VCHealthChangedAlert" name="A problem occurred with a vCenter component" resourceKind="VMwareAdapter Instance" subType="18" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-VCHealthChanged"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-VcHealthFixRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="This vSphere Distributed Port Group is violating one or more guidelines in VMware vSphere Security Configuration Guide for all Versions of vCenter" disableInBasePolicy="true" id="AlertDefinition-VMWARE-DVPGViolatingHardeningGuideV_All" name="vSphere Distributed Port Group is violating VMware vSphere Security Configuration Guide for all Versions of vCenter" resourceKind="DistributedVirtualPortgroup" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelForgedTransmitsOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityMacChangesRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGSecurityAllowPromiscuous"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelSecurityPolicyOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelPortMovingOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelBlockOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelIpfixOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelVlanOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelVendorConfigOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelNetworkResourcePoolMovingOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelShapingOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelPortConfigResetAtDisconnectOverrideRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DVPGPortLevelUplinkTeamingOverrideRP123"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="Datastore has hosts that have lost all of the redundant paths to a storage device and only one active path remains. The symptom details contains the hosts, storage devices, and paths affected by this fault. The ESX host and virtual machines can still access the storage device through the remaining active path, but connectivity will be lost if the last active path is lost.&#10;&#10;NOTE: For vSphere versions earlier than 5.0, this fault might indicate a permanent loss of the storage device. If you expect the storage device to be permanently lost because of an upgrades or decommissioning of storage, you must manually cancel the alert." id="AlertDefinition-VMWARE-StorageRedundancyLostAlert" name="Datastore has one or more hosts that have lost redundant paths to a storage device" resourceKind="Datastore" subType="18" type="18">
+                <State severity="immediate">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-StorageRedundancyLost"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-StorageTroubleshootingRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="VMware vSphere Security Configuration Guide provides guidelines that should be implemented in highest security environments for vSphere version 7. This virtual machine is violating one or more guidelines." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuideV7" name="Virtual Machine is violating VMware vSphere Security Configuration Guide for vSphere version 7" resourceKind="VirtualMachine" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleCopyDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsolePasteNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVirtualDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMDisableNonEssential3DFeatures"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-BiosBBSNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnauthorizedConnectDisconnectDevice"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnauthorizedDeviceModification"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShellactionNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ToporequestNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleDragDropNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-GetCredsNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-AutoLogonNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-LaunchMenuNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ProtocolhandlerNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-TrayiconNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VersionsetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-HGFSServerSetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-MemsFssNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMConsoleGuiRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-TrashfolderstateNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-UnityactiveImplemented"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnityNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-InterlockNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UnityPushNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-TaskbarNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-Unity-WindowcontentsNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VIXMessageNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VersiongetNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantConsoleConnectionLimit"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantMaxVMXSize"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantRetainedNumberOfLogs"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantLogSizeLimit"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-PciPassThroughConfiguredRP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleVNCAccessNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-CdRomDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-FloppyDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ParallelDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-SerialDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualHdAudioCardConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualAHCIControllerConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VirtualEnsoniq1371Connected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMObtainInfoFromHost"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMEnableVGAOnlyMode"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMIntraMemTPSEnabledV6RP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DvfilterAPIEnabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantMigrationEncryption"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantDesktopAutolock"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantEFISecureBoot"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NonCompliantVirtualHardware"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="VMware's vSphere Security Configuration Guide provides guidelines that should be implemented in highest security environments for vSphere version 6.7 and above. This virtual machine is violating one or more guidelines." disableInBasePolicy="true" id="AlertDefinition-VMWARE-VMViolateHardeningGuide6.7" name="Virtual Machine is violating VMware vSphere Security Configuration Guide for vSphere version 6.7" resourceKind="VirtualMachine" subType="21" type="16">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleCopyDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsolePasteNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ShrinkVirtualDiskNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-UseIndependentDisk"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMDisableNonEssential3DFeatures"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-FloppyDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ParallelDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-SerialDeviceConnected"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMEnableVGAOnlyMode"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-NoncompliantMaxVMXSize"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-ConsoleVNCAccessNotDisabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMObtainInfoFromHost"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-VMIntraMemTPSEnabledV6RP123"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-DvfilterAPIEnabled"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-PciPassThroughConfiguredRP123"/>
+                    </SymptomSet>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-FixHardeningViolations"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="vCenter Operations Adapter" description="Node processing queue is backing up. The node is unable to process incoming metric observations leading to stale data. If this continues observation data may be lost." id="AlertDefinition-vCenter Operations Adapter-AnalyticsForwardDataNearMaximumAlert" name="Node processing queue is backing up" resourceKind="vC-Ops-Node" subType="20" type="20">
+                <State severity="warning">
+                    <SymptomSet aggregation="any" applyOn="child" operator="or" ref="SymptomDefinition-vCenter Operations Adapter-AnalyticsForwardDataNearMaximumSymptom"/>
+                    <Impact key="risk" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="3" ref="Recommendation-df-vCenter Operations Adapter-ContactSupport"/>
+                        <Recommendation priority="1" ref="Recommendation-df-vCenter Operations Adapter-ForwardDataRemainWithinGuidelines"/>
+                        <Recommendation priority="2" ref="Recommendation-df-vCenter Operations Adapter-ForwardDataExamineKeyMetrics"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="When a physical NIC experiences frequent link status flapping, ESXi might turn off the physical NIC to avoid unnecessary link failover and network instability. For example, a physical NIC driver might reset the physical NIC when it detects &quot;tx Hang&quot;. A reset causes a link down or up event to be generated. If the physical NIC is faulty, this problem causes periodic reset and link status flapping.&#10;&#10;During link status flapping, traffic might migrate between different physical NICs. If the flapping is too frequent, network problems occur, such as bandwidth reduction or an unstable network." id="AlertDefinition-VMWARE-NicLinkFlappingAlert" name="ESXi host has detected a link status &quot;flapping&quot; on a physical NIC" resourceKind="HostSystem" subType="18" type="19">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-NicLinkFlapping"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-LinkFlappingRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="One or more battery sensors on the host are reporting problems. Specific details should be available in the symptom details. For more information, check the Hardware Status of the host in vSphere Client." id="AlertDefinition-VMWARE-BatterySensorAlert" name="Battery sensors are reporting problems" resourceKind="HostSystem" subType="18" type="17">
+                <State severity="automatic">
+                    <SymptomSet applyOn="self" operator="or">
+                        <Symptom ref="SymptomDefinition-VMWARE-BatterySensorRed"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-BatterySensorYellow"/>
+                        <Symptom ref="SymptomDefinition-VMWARE-BatterySensorDegraded"/>
+                    </SymptomSet>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-ReplaceHardwareRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="vCenter Operations Adapter" description="Database storage remaining capacity is running low for the vRealize Operations Cluster" id="AlertDefinition-vCenter Operations Adapter-ClusterDiskSpaceAlert" name="Database storage capacity is running low for the vRealize Operations Cluster" resourceKind="vC-Ops-Cluster" subType="19" type="20">
+                <State severity="automatic">
+                    <SymptomSet aggregation="any" applyOn="self" operator="and" ref="SymptomDefinition-vCenter Operations Adapter-ClusterDatabaseIsRunningOutOfDiskSpace"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="2" ref="Recommendation-df-vCenter Operations Adapter-ClusterDiskSpaceAddNodeRecommendation"/>
+                        <Recommendation priority="1" ref="Recommendation-df-vCenter Operations Adapter-ClusterDiskSpaceOneNodeExpandRecommendation"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+            <AlertDefinition adapterKind="VMWARE" description="One or more portgroups in the host lost connectivity to the dvPort. As a result, the services associated with the affected dvPorts are disconnected from the associated physical networks. All physical connections to the dvPort from the associated switch will become unavailable." id="AlertDefinition-VMWARE-LostConnectivityDVPortAlert" name="The host has lost connectivity to a dvPort" resourceKind="HostSystem" subType="18" type="19">
+                <State severity="critical">
+                    <SymptomSet applyOn="self" ref="SymptomDefinition-VMWARE-LostConnectivityDVPort"/>
+                    <Impact key="health" type="badge"/>
+                    <Recommendations>
+                        <Recommendation priority="1" ref="Recommendation-df-VMWARE-ReplaceAdapterRec"/>
+                    </Recommendations>
+                </State>
+            </AlertDefinition>
+        </AlertDefinitions>
+        <SymptomDefinitions>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGSecurityMacChangesRP123" name="vNetwork.reject-mac-changes-dvportgroup - The MAC Address Changes policy is not set to reject" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|security|mac_changes" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="ALL" id="SymptomDefinition-vCenter Operations Adapter-ResourceIsDownSymptom" name="Object is down" resourceKind="All">
+                <State severity="critical">
+                    <Condition eventMsg="Resource is down" eventSubType="3" eventType="9" operator="contains" type="msg_event"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ConsoleVNCAccessNotDisabled" name="VM.minimize-console-VNC-use - Access to VM console is not controlled via VNC protocol" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|enable_console_VNC" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="ALL" id="SymptomDefinition-vCenter Operations Adapter-AdapterInstanceResource" name="Object is an adapter instance" resourceKind="All">
+                <State severity="info">
+                    <Condition key="System Properties|resource_kind_type" operator="=" thresholdType="static" type="property" value="ADAPTER_INSTANCE" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelIpfixOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Netflow overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|ipfix_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VMConsoleGuiRP123" name="VM.disable-console-gui-options - Copy/paste operations are activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|enable_console_gui_options" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelShapingOverrideRP123" name="vNetwork.restrict-port-level-overrides - Restrict port-level configuration Shaping overrides on VDS" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|shaping_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-NicLinkFlapping" name="Physical NIC link state flapping" resourceKind="HostSystem">
+                <State severity="immediate">
+                    <Condition eventSubType="5" eventType="12" faultevent="esx.problem.net.vmnic.linkstate.flapping" key="fault|nw|vnic" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-FatalMemoryError" name="A fatal memory error occurred" resourceKind="HostSystem">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="esx.problem.apei.bert.memory.error.fatal" key="fault|comp|error" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ConsolePasteNotDisabled" name="VM.disable-console-paste - Copy/paste operations are activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_console_paste" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-StorageDeviceOff" name="Storage device has been turned off administratively" resourceKind="Datastore">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="esx.problem.scsi.device.state.off" key="fault|scsi|state" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-LogVeryLowDiskSpaceSymptom" name="Log file system available space is very low" resourceKind="vC-Ops-Node" waitCycle="3">
+                <State severity="critical">
+                    <Condition key="PercentLogStorageAvailable" operator="&lt;" thresholdType="static" type="metric" value="5.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-GetCredsNotDisabled" name="VM.disable-unexposed-features-getcreds - GetCreds feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_getcreds" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-FanSensorYellow" name="Fan sensor health is yellow" resourceKind="HostSystem">
+                <State severity="warning">
+                    <Condition eventSubType="5" eventType="12" faultevent="com.vmware.vc.cim.CIMGroupHealthStateChanged.Fan.newState.yellow" key="fault|hw|fan" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-AnalyticsForwardDataNearMaximumSymptom" name="Node processing queue is backing up" resourceKind="vC-Ops-Analytics" waitCycle="4">
+                <State severity="warning">
+                    <Condition key="LocalPrimaryFDSize" operator="&gt;=" thresholdType="static" type="metric" value="15000.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantVirtualHardwareV8" name="VM.set-virtual-hardware - The virtual machine hardware version not as per the recommended version" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|version" operator="regex" thresholdType="static" type="property" value="vmx-[1-9]|vmx-1[0-8]" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VersionsetNotDisabled" name="VM.disable-unexposed-features-versionset - Versionset feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_versionset" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="ALL" id="SymptomDefinition-vCenter Operations Adapter-ResourceStatusError" name="Object has error status" resourceKind="All">
+                <State severity="immediate">
+                    <Condition eventMsg="Object has error status" eventSubType="4" eventType="3" operator="equals" type="msg_event"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NoncompliantMaxVMXSize" name="VM.limit-setinfo-size - Informational messages from the VM to the VMX file are not limited" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|limit_setinfo_size" operator="&gt;" thresholdType="static" type="property" value="1048576.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VirtualAHCIControllerConnected" name="Virtual AHCI controller connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_virtualahcicontroller" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantVirtualHardware" name="VM.set-virtual-hardware - The virtual machine hardware version not as per the recommended version" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|version" operator="regex" thresholdType="static" type="property" value="vmx-[1-9]|vmx-1[0-2]" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-StorageConnectivityLost" name="Connectivity loss to storage device(s)" resourceKind="Datastore">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="esx.problem.storage.apd.start, esx.problem.storage.connectivity.lost" key="fault|st|conn" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-BatterySensorDegraded" name="Battery sensor health state degraded" resourceKind="HostSystem">
+                <State severity="automatic">
+                    <Condition eventMsg="Hardware sensor health state degraded. Sensor information: Type = battery,.*" eventSubType="5" eventType="11" operator="regex" type="msg_event"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-PciPassThroughConfiguredRP123" name="VM.verify-PCI-Passthrough - PCI pass through device is configured on the virtual machine" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|pci_device_configured" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelSecurityPolicyOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Security Policy overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|security_policy_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelBlockOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Block overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|block_override_allowed" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-FanSensorDegraded" name="Fan sensor health state degraded" resourceKind="HostSystem">
+                <State severity="automatic">
+                    <Condition eventMsg="Hardware sensor health state degraded. Sensor information: Type = fan,.*" eventSubType="5" eventType="11" operator="regex" type="msg_event"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-DVPGPortGroupIsNotUplink" name="vSphere Distributed Port Group is not an uplink" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|uplink" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-Unity-TaskbarNotDisabled" name="VM.disable-unexposed-features-unity-taskbar - Unity taskbar feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity_taskbar" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGSecurityAllowPromiscuous" name="vNetwork.reject-promiscuous-mode-dvportgroup - The Promiscuous Mode policy is not set to reject" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|security|allow_promiscuous" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantDesktopAutolock" name="VM.set-guest-session-locked - The console session is not locked" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|tools_guest_desktop_autolock" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-TrashfolderstateNotDisabled" name="VM.disable-unexposed-features-trashfolderstate - Trash folder state is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_trashfolderstate" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-FloppyDeviceConnected" name="VM.disconnect-devices-floppy - Floppy drive connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_floppy" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-Unity-WindowcontentsNotDisabled" name="VM.disable-unexposed-features-unity-windowcontents - Unity window contents is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity_windowcontents" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-BMCSensorYellow" name="Baseboard Management Controller sensor health is yellow" resourceKind="HostSystem">
+                <State severity="warning">
+                    <Condition eventSubType="5" eventType="12" faultevent="com.vmware.vc.cim.CIMGroupHealthStateChanged.BMC.newState.yellow" key="fault|hw|bmc" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantEFISecureBoot" name="VM.set-secure-boot - Secure boot is not enabled for guest OSes" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|boot_options_efi_secure_boot_enabled" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="ALL" id="SymptomDefinition-vCenter Operations Adapter-GroupPopulationRiskRed" name="Average Risk of group members is critically high" resourceKind="All">
+                <State severity="critical">
+                    <Condition key="Risk|populationAverage" operator="&gt;=" thresholdType="static" type="metric" value="75.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-MemsFssNotDisabled" name="VM.disable-unexposed-features-memsfss - Memsfss feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_memsfss" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="ALL" id="SymptomDefinition-vCenter Operations Adapter-ResourceIsAGroup" name="Object is a group" resourceKind="All">
+                <State severity="info">
+                    <Condition key="System Properties|resource_kind_type" operator="=" thresholdType="static" type="property" value="GROUP" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ToporequestNotDisabled" name="VM.disable-unexposed-features-toporequest - Toprequest feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_toporequest" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VirtualHdAudioCardConnected" name="Virtual HD audio card connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_virtualhdaudiocard" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelVlanOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration VLAN overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|vlan_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DvfilterAPIEnabled" name="VM.verify-network-filter - Access to VMs are not controlled through dvfilter network APIs" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|network_filter_enable" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VIXMessageNotDisabled" name="VM.disable-vix-messages - VIX messages are activated on the VM" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_vix_messages" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-UnauthorizedConnectDisconnectDevice" name="VM.prevent-device-interaction-connect - Users and processes without privileges can remove, connect and modify devices" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_device_interaction_connect" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-LogCriticallyLowDiskSpaceSymptom" name="Log file system available space is critically low" resourceKind="vC-Ops-Node" waitCycle="3">
+                <State severity="critical">
+                    <Condition key="PercentLogStorageAvailable" operator="&lt;" thresholdType="static" type="metric" value="2.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ShellactionNotDisabled" name="VM.disable-unexposed-features-shellaction - Shellaction is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_shellaction" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ParallelDeviceConnected" name="VM.disconnect-devices-parallel - Parallel port connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_parallel" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VMObtainInfoFromHost" name="VM.restrict-host-info - Guests can recieve host information" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|enable_host_info" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="ALL" id="SymptomDefinition-vCenter Operations Adapter-GroupPopulationRiskOrange" name="Average Risk of group members is moderately high" resourceKind="All">
+                <State severity="immediate">
+                    <Condition key="Risk|populationAverage" operator="&gt;=" thresholdType="static" type="metric" value="50.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-LaunchMenuNotDisabled" name="VM.disable-unexposed-features-launchmenu - launchmenu feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_launchmenu" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantSSHAccess" name="SSH Access is not restricted" resourceKind="VMwareAdapter Instance">
+                <State severity="warning">
+                    <Condition key="vc_appliance|hasAccessSSH" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VirtualEnsoniq1371Connected" name="Virtual Ensoniq 1371 connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_virtualensoniq1371" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-NicLinkDown" name="Physical NIC link state down" resourceKind="HostSystem">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="esx.problem.net.vmnic.linkstate.down" key="fault|nw|vnic" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-CollectorClockOutOfSyncSymptom" name="Collector clock is not synchronized with the main server" resourceKind="vC-Ops-Collector">
+                <State severity="critical">
+                    <Condition eventMsg="is out of sync with the main controller time" eventSubType="13" eventType="5" operator="contains" type="msg_event"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" cancelCycle="3" id="SymptomDefinition-VMWARE-DatastoreSpaceRemainingIs" name="Space Remaining on the Datastore is" resourceKind="Datastore" waitCycle="3">
+                <State severity="critical">
+                    <Condition key="capacity|available_space" operator="=" thresholdType="static" type="metric" value="0.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-NodeDownHADisabledSymptom" name="Node is down and HA is deactivated" resourceKind="vC-Ops-Node">
+                <State severity="critical">
+                    <Condition key="nodedown" operator="=" thresholdType="static" type="metric" value="2.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" cancelCycle="3" id="SymptomDefinition-VMWARE-HostConfigError" name="Host without redundant physical connectivity to the Distributed Switch" resourceKind="VmwareDistributedVirtualSwitch" waitCycle="3">
+                <State severity="warning">
+                    <Condition instanced="true" key="host|attached_pnics" operator="&lt;" thresholdType="static" type="metric" value="2.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-DBCriticallyLowDiskSpaceSymptom" name="DB file system available space is critically low" resourceKind="vC-Ops-Node">
+                <State severity="critical">
+                    <Condition key="PercentDBStorageAvailable" operator="&lt;" thresholdType="static" type="metric" value="5.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-NodeDownHAEnabledSymptom" name="Node is down and HA is activated" resourceKind="vC-Ops-Node">
+                <State severity="immediate">
+                    <Condition key="nodedown" operator="=" thresholdType="static" type="metric" value="1.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" cancelCycle="3" id="SymptomDefinition-VMWARE-DatastoreUsageWarning" name="Datastore space usage reaching warning limit" resourceKind="Datastore" waitCycle="3">
+                <State severity="warning">
+                    <Condition key="capacity|usedSpacePct" operator="&gt;" thresholdType="static" type="metric" value="90.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelForgedTransmitsOverrideRP123" name="vNetwork.reject-forged-transmit-dvportgroup - The Forged Transmits policy is not set to reject" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|security|forged_transmits" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ProtocolhandlerNotDisabled" name="VM.disable-unexposed-features-protocolhandler - Protocolhandler feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_protocolhandler" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VMDisableNonEssential3DFeatures" name="VM.disable-non-essential-3D-features Configure system security parameters - Deactivate 3D features on Server and desktop virtual machines" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|enable_non_essential_3D_features" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-HAHostFailure" name="vSphere HA detected a host failure" resourceKind="HostSystem">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="com.vmware.vc.HA.DasHostFailedEvent" key="fault|host|ha" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-VCHealthChanged" name="vCenter Server health changed" resourceKind="VMwareAdapter Instance">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="com.vmware.vc.VCHealthStateChangedEvent" key="fault|vc|health" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-RecoverablePCIeError" name="A recoverable PCIe error occurred" resourceKind="HostSystem">
+                <State severity="immediate">
+                    <Condition eventSubType="5" eventType="12" faultevent="esx.problem.apei.bert.pcie.error.recoverable" key="fault|comp|pcie" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NoncompliantConsoleConnectionLimit" name="VM.set-remote-console-connections-limit - The number of console connections is not set as per the acceptable limit" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|limit_console_connection" operator="!=" thresholdType="static" type="property" value="1.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="ALL" id="SymptomDefinition-vCenter Operations Adapter-GroupPopulationRiskYellow" name="Average Risk of group members is starting to get high" resourceKind="All">
+                <State severity="warning">
+                    <Condition key="Risk|populationAverage" operator="&gt;=" thresholdType="static" type="metric" value="25.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-HGFSServerSetNotDisabled" name="VM.disable-hgfs - HGFS file transfers are activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_hgfs" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VMEnableVGAOnlyMode" name="VM.Enable-VGA-Only-Mode Configure system security parameters - Deactivate all but VGA mode on specific virtual machines" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|enable_vga_only_mode" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantVAMIBackup" name="vCenter.set-file-based-backup-recovery - File-Based Backup and Recovery is not Configured" resourceKind="VMwareAdapter Instance">
+                <State severity="warning">
+                    <Condition key="vc_appliance|hasRecoveryBackupJobs" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ShrinkVirtualDiskNotDisabled" name="VM.disable-disk-shrinking-wiper - Virtual disk shrinking is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_disk_shrinking_wiper" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-BiosBBSNotDisabled" name="VM.disable-unexposed-features-biosbbs - Bios Boot Specification feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_biosbbs" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-AutoLogonNotDisabled" name="VM.disable-unexposed-features-autologon - Autologon feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_autologon" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ShrinkVDiskNotDisabled" name="VM.disable-disk-shrinking-shrink - Virtual disk shrinking is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_disk_shrinking_shrink" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-UnauthorizedDeviceModification" name="VM.prevent-device-interaction-edit - Users and processes without privileges can remove, connect and modify devices" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_device_interaction_edit" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-CdRomDeviceConnected" name="CD-ROM connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_cd" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantRetainedNumberOfLogs" name="VM.set-retained-logs-count - The number of retained VM diagnostic logs is larger than acceptable level" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|limit_log_number" operator="&gt;" thresholdType="static" type="property" value="10.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-TrayiconNotDisabled" name="VM.disable-unexposed-features-trayicon - Tray icon feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_trayicon" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" cancelCycle="3" id="SymptomDefinition-VMWARE-DatastoreUsageCritical" name="Datastore space usage reaching critical limit" resourceKind="Datastore" waitCycle="3">
+                <State severity="critical">
+                    <Condition key="capacity|usedSpacePct" operator="&gt;" thresholdType="static" type="metric" value="95.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-UseIndependentDisk" name="VM.disable-independent-nonpersistent - Independent nonpersistent disks are being used" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_independent_nonpersistent" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VersiongetNotDisabled" name="VM.disable-unexposed-features-versionget - version get feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_versionget" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-SerialDeviceConnected" name="VM.disconnect-devices-serial - Serial port connected" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disconnect_devices_serial" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantMigrationEncryption" name="VM.set-vmotion-encrypted - The configured vMotion encryption is not set to required" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|migrateEncryption" operator="!=" thresholdType="static" type="property" value="required" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-VMIntraMemTPSEnabledV6RP123" name="VM.TransparentPageSharing-inter-VM-Enabled - Inter VM Transparent Page Sharing is Enabled" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|extraConfig|mem_tps_share" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-BatterySensorYellow" name="Battery sensor health is yellow" resourceKind="HostSystem">
+                <State severity="warning">
+                    <Condition eventSubType="5" eventType="12" faultevent="com.vmware.vc.cim.CIMGroupHealthStateChanged.Battery.newState.yellow" key="fault|hw|battery" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-DBLowDiskSpaceSymptom" name="DB file system available space is low" resourceKind="vC-Ops-Node">
+                <State severity="immediate">
+                    <Condition key="PercentDBStorageAvailable" operator="&lt;" thresholdType="static" type="metric" value="20.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-StorageRedundancyLost" name="Host(s) lost redundancy to storage device(s)" resourceKind="Datastore">
+                <State severity="immediate">
+                    <Condition eventSubType="5" eventType="12" faultevent="esx.problem.storage.redundancy.lost" key="fault|st|redun" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelUplinkTeamingOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Uplink Teaming overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|uplink_teaming_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelNetworkResourcePoolMovingOverrideRP123" name="vNetwork.restrict-port-level-overrides - Restrict port-level configuration Network Resourcepool Moving overrides on VDS" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|network_resourcepool_moving_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantLogForwardingConfig" name="vCenter.set-remote-logging - Remote logging is not enabled" resourceKind="VMwareAdapter Instance">
+                <State severity="warning">
+                    <Condition key="vc_appliance|hasLoggingForwardingConfigs" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantTimeSync" name="vCenter.set-time-keeping - Configure vCenter Server timekeeping" resourceKind="VMwareAdapter Instance">
+                <State severity="warning">
+                    <Condition key="vc_appliance|timeSyncMode" operator="!=" thresholdType="static" type="property" value="NTP" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-UnityPushNotDisabled" name="VM.disable-unexposed-features-unitypush - Unity push feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unitypush" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelPortMovingOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Live Port Moving overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|live_port_moving_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-Unity-InterlockNotDisabled" name="VM.disable-unexposed-features-unity-interlock - Unity Interlock is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity_interlock" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-Unity-UnityactiveNotDisabled" name="VM.disable-unexposed-features-unity-unityactive - Unity feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity_unityactive" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-DBVeryLowDiskSpaceSymptom" name="DB file system available space is very low" resourceKind="vC-Ops-Node">
+                <State severity="critical">
+                    <Condition key="PercentDBStorageAvailable" operator="&lt;" thresholdType="static" type="metric" value="15.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-CloudProxyDownSymptom" name="Cloud Proxy is down" resourceKind="Cloud-Proxy">
+                <State severity="immediate">
+                    <Condition key="remotecollectordown" operator="=" thresholdType="static" type="metric" value="1.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-UnityNotDisabled" name="VM.disable-unexposed-features-unity - Unity feature is activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelPortConfigResetAtDisconnectOverrideRP123" name="vNetwork.restrict-port-level-overrides - Restrict port-level configuration overrides on VDS" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|port_config_reset_at_disconnect" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantLogSizeLimit" name="VM.set-logs-size - The configured log size is lesser than acceptable level" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|limit_log_size" operator="&lt;" thresholdType="static" type="property" value="2048000.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-BatterySensorRed" name="Battery sensor health is red" resourceKind="HostSystem">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="com.vmware.vc.cim.CIMGroupHealthStateChanged.Battery.newState.red" key="fault|hw|battery" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-NonCompliantNetworkingNICsCount" name="The number of Network interface controllers is violating the recommended value" resourceKind="VMwareAdapter Instance">
+                <State severity="warning">
+                    <Condition key="vc_appliance|networkNICs" operator="&gt;" thresholdType="static" type="property" value="1.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ConsoleDragDropNotDisabled" name="VM.disable-console-drag-n-drop - Copy/paste operations are activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_console_dnd" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-RecoverableMemoryError" name="A recoverable memory error occurred" resourceKind="HostSystem">
+                <State severity="immediate">
+                    <Condition eventSubType="5" eventType="12" faultevent="esx.problem.apei.bert.memory.error.recoverable" key="fault|comp|error" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-FatalPCIeError" name="A fatal PCIe error occurred" resourceKind="HostSystem">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="esx.problem.apei.bert.pcie.error.fatal" key="fault|comp|pcie" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-ConsoleCopyDisabled" name="VM.disable-console-copy - Copy/paste operations are activated" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_console_copy" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-FanSensorRed" name="Fan sensor health is red" resourceKind="HostSystem">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="com.vmware.vc.cim.CIMGroupHealthStateChanged.Fan.newState.red" key="fault|hw|fan" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-BMCSensorRed" name="Baseboard Management Controller sensor health is red" resourceKind="HostSystem">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="com.vmware.vc.cim.CIMGroupHealthStateChanged.BMC.newState.red" key="fault|hw|bmc" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-RemoteCollectorDownSymptom" name="Remote Collector is down" resourceKind="vC-Ops-Remote-Collector">
+                <State severity="immediate">
+                    <Condition key="remotecollectordown" operator="=" thresholdType="static" type="metric" value="1.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" cancelCycle="3" id="SymptomDefinition-vCenter Operations Adapter-ClusterDatabaseIsRunningOutOfDiskSpace" name="vRealize Operations Cluster database is running out of disk space" resourceKind="vC-Ops-Cluster" waitCycle="3">
+                <State severity="critical">
+                    <Condition key="Disk|DatabaseStorage|TotalAvailable" operator="&lt;" thresholdType="static" type="metric" value="10.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" id="SymptomDefinition-VMWARE-LostConnectivityDVPort" name="Lost network connectivity to DVPorts" resourceKind="HostSystem">
+                <State severity="critical">
+                    <Condition eventSubType="5" eventType="12" faultevent="esx.problem.net.dvport.connectivity.lost" key="fault|dvp|conn" operator="equals" type="fault"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-Unity-UnityactiveImplemented" name="VM.disable-unexposed-features-unity-unityactive - Unity Active feature is implemented" resourceKind="VirtualMachine">
+                <State severity="warning">
+                    <Condition key="config|security|disable_unexposed_features_unity_unityactive" operator="!=" thresholdType="static" type="property" value="none" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="vCenter Operations Adapter" id="SymptomDefinition-vCenter Operations Adapter-LogLowDiskSpaceSymptom" name="Log file system available space is low" resourceKind="vC-Ops-Node" waitCycle="3">
+                <State severity="immediate">
+                    <Condition key="PercentLogStorageAvailable" operator="&lt;" thresholdType="static" type="metric" value="10.0" valueType="numeric"/>
+                </State>
+            </SymptomDefinition>
+            <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-VMWARE-DVPGPortLevelVendorConfigOverrideRP123" name="vNetwork.restrict-port-level-overrides - Port-level configuration Vendor configuration overrides on VDS is not restricted" resourceKind="DistributedVirtualPortgroup">
+                <State severity="warning">
+                    <Condition key="config|policies|override|vendor_config_override_allowed" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+                </State>
+            </SymptomDefinition>
+        </SymptomDefinitions>
+        <Recommendations>
+            <Recommendation key="Recommendation-df-VMWARE-RecoverablePCIeRec">
+                <Description>The PCIe error is recoverable, but system behavior is dependent on how the error is handed by the OEM vendor's firmware. Contact the vendor for assistance.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-TurnOnDeviceRec">
+                <Description>Ask the administrator about the device state. If the device is turned on, the fault will be resolved and the alert will be canceled. If SCSI devices are detached or permanently removed, you must manually cancel the alert.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-RecoverableMemErrRec">
+                <Description>Because recoverable errors are vendor specific, contact the vendor for assistance.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-ReplacePCIeRec">
+                <Description>Check and replace the PCIe device identified in the alert as the cause of the problem. Contact the vendor for assistance.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-ClusterDiskSpaceAddNodeRecommendation">
+                <Description>If adding more disk space to the impacted Node is not possible then add a new vRealize Operations Manager Node to the cluster</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-ReplaceMemoryRec">
+                <Description>Replace the faulty memory or contact the vendor for assistance.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-CollectorClockOutOfSyncRecommendation">
+                <Description>Examine the clock settings for the machine running the Collector and sync it to an NTP server if necessary</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-FixDuplicateIpRec">
+                <Description>Find the computer that has the duplicate IP address and reconfigure it to have a different IP address. This fault will be cleared and the alert canceled when the underlying problem is resolved and the vSphere HA master agent is able to connect to the HA agent on the host.&lt;br/&gt;&lt;br/&gt;NOTE: You can use the Duplicate IP warning in the /var/log/vmkernel log file on an ESX host or the /var/log/messages log file on an ESXi host to identify the computer that has the duplicate IP address.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-StorageTroubleshootingRec">
+                <Description>The storage device path, for example, vmhba35:C1:T0:L7, contains several potential failure points:&lt;br/&gt;Path Element | Failure Point&lt;br/&gt;---------------------------------------&lt;br/&gt;vmhba35 | HBA (Host Bus Adapter)&lt;br/&gt;C1 | Channel&lt;br/&gt;T0 | Target (storage processor port)&lt;br/&gt;L7 | LUN (Logical Unit Number or Disk Unit)&lt;br/&gt;&lt;br/&gt;Use the following guidance to determine the cause of the failure or to eliminate possible problems.&lt;br/&gt;&lt;br/&gt;Identify the available storage paths to the reported storage device by running the command esxcfg-mpath - l. For more information, see VMware &lt;a href="http://kb.vmware.com/kb/1003973" target="_blank"&gt;KB 1003973&lt;/a&gt;.&lt;br/&gt;&lt;br/&gt;Verify that a rescan does not restore visibility to the targets. For information about using the command-line interface and VMware vSphere Client to rescan the storage device, see VMware &lt;a href="http://kb.vmware.com/kb/1003988" target="_blank"&gt;KB 1003988&lt;/a&gt;.&lt;br/&gt;&lt;br/&gt;Determine whether the connectivity issue is with the iSCSI storage or the fiber storage. Troubleshoot the connectivity to the iSCSI storage by using the software initiator:&lt;br/&gt;1) Check whether a ping to the storage array fails from ESX. For more information, see VMware &lt;a href="http://kb.vmware.com/kb/1003486" target="_blank"&gt;KB 1003486&lt;/a&gt;.&lt;br/&gt;2) Check whether a vmkping to each network portal of the storage array fails. For more information, see VMware &lt;a href="http://kb.vmware.com/kb/1003728" target="_blank"&gt;KB 1003728&lt;/a&gt;.&lt;br/&gt;3) Check that the initiator is registered on the array. For more information, contact your storage vendor.&lt;br/&gt;4) Check that the following physical hardware is functioning correctly: Ethernet switch, Ethernet cables between the switch and the ESX host, and Ethernet cables between the switch and the storage array.&lt;br/&gt;&lt;br/&gt;To troubleshoot the connectivity to the fiber-attached storage, check the fiber switch. The fiber switch zoning configuration permits the ESX host to see the storage array. If you require assistance, contact your switch vendor. The fiber switch propagates RSCN messages to the ESX hosts. For more information about configuring the fiber switch, see VMware &lt;a href="http://kb.vmware.com/kb/1002301" target="_blank"&gt;KB 1002301&lt;/a&gt;.&lt;br/&gt;&lt;br/&gt;Finally, check the following physical hardware: the storage processors on the array, the fiber switch and the Gigabit Interface Converter (GBIC) units in the switch, the fiber cables between the fiber switch and the array, and the array itself.&lt;br/&gt;&lt;br/&gt;You must rescan after making changes to make sure that the targets are detected. If storage connectivity is restored for all of the affected host and storage device combinations, the fault is cleared and the alert canceled. If storage connectivity for the devices indicated is caused by a permanent loss or change, you must cancel the fault alert as a workaround. The alert will be canceled automatically after that.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-ClusterDiskSpaceOneNodeExpandRecommendation">
+                <Description>Add more disk space to the vRealize Operations Manager Node</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-LinkFlappingRec">
+                <Description>ESXi deactivates the device to avoid the link flapping state. You might need to replace the physical NIC. The alert will be canceled when the NIC is repaired and functioning. If you replace the physical NIC, you might need to manually cancel the alert.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-DeleteUnusedTemplates">
+                <Description>Delete any unused templates on the datastore.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-DeleteUnusedSnapshotsOfVm">
+                <Description>Delete unused snapshots of virtual machines from datastore</Description>
+                <Action actionAdapterKey="VMWARE" actionKey="Delete Unused Snapshots For Datastore" targetAdapterKey="VMWARE" targetResourceKind="Datastore"/>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-ForwardDataExamineKeyMetrics">
+                <Description>Examine the following key metrics: 1) CPU Usage - Make sure the VM or Host does not have consistently high CPU usage. 2) Swap - Make sure the VM or host does not have consistent high swap memory usage. 3) GC Collection - Make sure the analytics JVM does not have consistent high garbage collection activity.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-AdapterInstanceDownRecommendation">
+                <Description>Verify that the adapter configuration and credentials are correct. Ensure that the remote endpoint of the data source is available and can be reached from the Collector where this adapter instance is running</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-CheckMemberTopAlertsRisk">
+                <Description>Check the top alerts for the group members that are most risky and resolve them</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-ContactSupport">
+                <Description>Contact VMware support</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-ResourceIsDownRecommendation">
+                <Description>Check the status of the Object. Refer to the adapter documentation for details and troubleshooting steps</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-ForwardDataRemainWithinGuidelines">
+                <Description>Please review and follow the host or machine sizing limits described in the sizing guidelines &lt;a href="http://kb.vmware.com/kb/2093783" target="_blank"&gt;KB 2093783&lt;/a&gt;.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-ReplaceHardwareRec">
+                <Description>Change or replace the hardware, if necessary. Contact the hardware vendor for assistance. After the problem is resolved, the alert will be canceled when the sensor that reported the problem indicates that the problem no longer exists.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-StorageVMotionVM">
+                <Description>Use Storage vMotion to migrate some virtual machines to a different datastore</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-FixHardeningViolations">
+                <Description>Fix the vSphere Security Configuration Guide Rules Violations according to the recommendations available at &lt;a href="http://www.vmware.com/security/hardening-guides.html" target="_blank"&gt;vSphere Security Configuration Guide&lt;/a&gt;.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-ReplaceAdapterRec">
+                <Description>Replace the physical adapter or reset the physical switch. The alert will be canceled when connectivity is restored to the dvPort.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-NodeIsDownRemoveRecommendation">
+                <Description>Remove the vRealize Operations Node from the vRealize Operations Cluster</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-VcHealthFixRec">
+                <Description>The actions to take to resolve the problems depend on the specific problem that caused the fault. Review the issue details and check the vSphere documentation.</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-VMWARE-VerifyTwoHostNicsConnectedToDVS">
+                <Description>Verify that at least two NICs on each host is connected to the Distributed Switch</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-NodeIsDownRecommendation">
+                <Description>Bring the vRealize Operations Node back online</Description>
+            </Recommendation>
+            <Recommendation key="Recommendation-df-vCenter Operations Adapter-ClusterDiskSpaceDataLossWarningRecommendation">
+                <Description>Additional disk space is required so that data collection and storage are not affected. To keep data collection and data storage from being affected, you must add disk space.</Description>
+            </Recommendation>
+        </Recommendations>
+    </alertContent>
+</PolicyContent>
