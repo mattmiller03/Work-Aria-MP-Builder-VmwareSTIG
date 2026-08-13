@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><alertContent>
+    <AlertDefinitions>
+        <AlertDefinition adapterKind="CiscoUcsAdapter" description="This fault typically occurs when the server power sensors have detected a problem." id="AlertDefinition-CiscoUcsAdapter-alert_fltProcessorUnitVoltageThresholdNonCritical_bm_ucs_blade" name="Fault: Compute Board Power Error" resourceKind="bm_ucs_blade" subType="21" type="17">
+            <State severity="warning">
+                <SymptomSet aggregation="any" applyOn="self" operator="and" ref="SymptomDefinition-CiscoUcsAdapter-fltProcessorUnitVoltageThresholdNonCritical"/>
+                <Impact key="health" type="badge"/>
+                <Recommendations>
+                    <Recommendation priority="1" ref="Recommendation-df-CiscoUcsAdapter-recommendation-664664717"/>
+                </Recommendations>
+            </State>
+        </AlertDefinition>
+    </AlertDefinitions>
+    <SymptomDefinitions>
+        <SymptomDefinition adapterKind="CiscoUcsAdapter" id="SymptomDefinition-CiscoUcsAdapter-fltProcessorUnitVoltageThresholdNonCritical" name="Fault: Compute Board Power Error" resourceKind="bm_ucs_blade">
+            <State severity="warning">
+                <Condition eventMsg="178" eventSubType="13" eventType="5" operator="contains" type="msg_event"/>
+            </State>
+        </SymptomDefinition>
+    </SymptomDefinitions>
+    <Recommendations>
+        <Recommendation key="Recommendation-df-CiscoUcsAdapter-recommendation-664664717">
+            <Description>Copy the message exactly as it appears on the console or in the system log. Research and attempt to resolve the issue using the tools and utilities provided at http://www.cisco.com/tac. Also refer to the Release Notes for Cisco UCS Manager and the Cisco UCS Troubleshooting Guide. If you cannot resolve the issue, run the show tech-support command and contact Cisco Technical Support.&lt;br /&gt;&lt;br /&gt;Reference: &lt;a href="http://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/ts/faults/reference/ErrMess/UCS_SEMs.html" target="_blank"&gt;Cisco UCS Faults&lt;/a&gt;&lt;br /&gt;</Description>
+        </Recommendation>
+    </Recommendations>
+</alertContent>
