@@ -26,14 +26,6 @@
         <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|isolation.tools.diskWiper.disable" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
       </State>
     </SymptomDefinition>
-    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000195" name="VMCH-80-000195 - Limit console sharing" resourceKind="VirtualMachine">
-      <State severity="immediate">
-        <ConditionSet booleanOperator="or">
-          <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|RemoteDisplay.maxConnections" operator="!=" thresholdType="static" type="property" value="1" valueType="string"/>
-          <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|RemoteDisplay.maxConnections" operator="notExists" thresholdType="static" type="property" value="" valueType="string"/>
-        </ConditionSet>
-      </State>
-    </SymptomDefinition>
     <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000196" name="VMCH-80-000196 - Limit informational messages to the VMX file" resourceKind="VirtualMachine">
       <State severity="warning">
         <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|tools.setinfo.sizeLimit" operator="!=" thresholdType="static" type="property" value="1048576" valueType="string"/>
@@ -47,24 +39,6 @@
     <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000198" name="VMCH-80-000198 - Prevent VM from obtaining host info from hypervisor" resourceKind="VirtualMachine">
       <State severity="immediate">
         <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|tools.guestlib.enableHostInfo" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
-      </State>
-    </SymptomDefinition>
-    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000199" name="VMCH-80-000199 - Shared salt values must be disabled" resourceKind="VirtualMachine">
-      <State severity="immediate">
-        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|sched.mem.pshare.salt" operator="exists" thresholdType="static" type="property" value="" valueType="string"/>
-      </State>
-    </SymptomDefinition>
-    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000200" name="VMCH-80-000200 - Disable access through the dvfilter network API" resourceKind="VirtualMachine">
-      <State severity="immediate">
-        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|ethernet0.filter1.name" operator="exists" thresholdType="static" type="property" value="" valueType="string"/>
-      </State>
-    </SymptomDefinition>
-    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000201" name="VMCH-80-000201 - Lock when last console connection closed" resourceKind="VirtualMachine">
-      <State severity="warning">
-        <ConditionSet booleanOperator="or">
-          <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|tools.guest.desktop.autolock" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
-          <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|tools.guest.desktop.autolock" operator="notExists" thresholdType="static" type="property" value="" valueType="string"/>
-        </ConditionSet>
       </State>
     </SymptomDefinition>
     <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000202" name="VMCH-80-000202 - Disable 3D features when not required" resourceKind="VirtualMachine">

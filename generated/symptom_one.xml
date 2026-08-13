@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alertContent>
+  <SymptomDefinitions>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000189" name="VMCH-80-000189 - Copy operations must be disabled" resourceKind="VirtualMachine">
+      <State severity="immediate">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|isolation.tools.copy.disable" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+  </SymptomDefinitions>
+</alertContent>

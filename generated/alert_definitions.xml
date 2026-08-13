@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alertContent>
+  <AlertDefinitions>
+    <AlertDefinition adapterKind="VMWARE" description="Copy operations must be disabled (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT II)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000189" name="VMCH-80-000189 - Copy operations must be disabled" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="immediate">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000189"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" description="Drag and drop operations must be disabled (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT II)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000191" name="VMCH-80-000191 - Drag and drop operations must be disabled" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="immediate">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000191"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" description="Paste operations must be disabled (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT II)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000192" name="VMCH-80-000192 - Paste operations must be disabled" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="immediate">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000192"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" description="Virtual disk shrinking must be disabled (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT II)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000193" name="VMCH-80-000193 - Virtual disk shrinking must be disabled" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="immediate">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000193"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" description="Virtual disk wiping must be disabled (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT II)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000194" name="VMCH-80-000194 - Virtual disk wiping must be disabled" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="immediate">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000194"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" description="Limit informational messages to the VMX file (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT III)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000196" name="VMCH-80-000196 - Limit informational messages to the VMX file" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="warning">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000196"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" description="Prevent unauthorized device connection or modification (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT II)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000197" name="VMCH-80-000197 - Prevent unauthorized device connection or modification" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="immediate">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000197"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" description="Prevent VM from obtaining host info from hypervisor (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT II)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000198" name="VMCH-80-000198 - Prevent VM from obtaining host info from hypervisor" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="immediate">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000198"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" description="Disable 3D features when not required (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT III)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000202" name="VMCH-80-000202 - Disable 3D features when not required" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="warning">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000202"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" description="Configure log size (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT III)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000205" name="VMCH-80-000205 - Configure log size" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="warning">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000205"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" description="Configure log retention (VMware vSphere 8.0 Virtual Machine STIG V2R3, CAT III)" id="AlertDefinition-VMwareStigAdapter-VMCH-80-000206" name="VMCH-80-000206 - Configure log retention" resourceKind="VirtualMachine" subType="18" type="16">
+      <State impact="risk" severity="warning">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-VMwareStigAdapter-VMCH-80-000206"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+  </AlertDefinitions>
+  <SymptomDefinitions>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000189" name="VMCH-80-000189 - Copy operations must be disabled" resourceKind="VirtualMachine">
+      <State severity="immediate">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|isolation.tools.copy.disable" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000191" name="VMCH-80-000191 - Drag and drop operations must be disabled" resourceKind="VirtualMachine">
+      <State severity="immediate">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|isolation.tools.dnd.disable" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000192" name="VMCH-80-000192 - Paste operations must be disabled" resourceKind="VirtualMachine">
+      <State severity="immediate">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|isolation.tools.paste.disable" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000193" name="VMCH-80-000193 - Virtual disk shrinking must be disabled" resourceKind="VirtualMachine">
+      <State severity="immediate">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|isolation.tools.diskShrink.disable" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000194" name="VMCH-80-000194 - Virtual disk wiping must be disabled" resourceKind="VirtualMachine">
+      <State severity="immediate">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|isolation.tools.diskWiper.disable" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000196" name="VMCH-80-000196 - Limit informational messages to the VMX file" resourceKind="VirtualMachine">
+      <State severity="warning">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|tools.setinfo.sizeLimit" operator="!=" thresholdType="static" type="property" value="1048576" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000197" name="VMCH-80-000197 - Prevent unauthorized device connection or modification" resourceKind="VirtualMachine">
+      <State severity="immediate">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|isolation.device.connectable.disable" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000198" name="VMCH-80-000198 - Prevent VM from obtaining host info from hypervisor" resourceKind="VirtualMachine">
+      <State severity="immediate">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|tools.guestlib.enableHostInfo" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000202" name="VMCH-80-000202 - Disable 3D features when not required" resourceKind="VirtualMachine">
+      <State severity="warning">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|mks.enable3d" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000205" name="VMCH-80-000205 - Configure log size" resourceKind="VirtualMachine">
+      <State severity="warning">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|log.rotateSize" operator="!=" thresholdType="static" type="property" value="2048000" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" cancelCycle="2" disableInBasePolicy="true" id="SymptomDefinition-VMwareStigAdapter-VMCH-80-000206" name="VMCH-80-000206 - Configure log retention" resourceKind="VirtualMachine">
+      <State severity="warning">
+        <Condition instanced="false" key="vCommunity|Configuration|Advanced Parameters|log.keepOld" operator="!=" thresholdType="static" type="property" value="10" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+  </SymptomDefinitions>
+</alertContent>
