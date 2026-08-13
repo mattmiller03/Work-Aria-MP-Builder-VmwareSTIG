@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><alertContent>
+    <AlertDefinitions>
+        <AlertDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="AlertDefinition-ba9cb09a-aca8-4b30-94a7-4c738f87e376" name="test" resourceKind="VirtualMachine" subType="21" type="15">
+            <State severity="automatic">
+                <SymptomSet applyOn="self" operator="and" ref="SymptomDefinition-e2b423ad-406d-491f-8756-0d7a66698f68"/>
+                <Impact key="health" type="badge"/>
+            </State>
+        </AlertDefinition>
+    </AlertDefinitions>
+    <SymptomDefinitions>
+        <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-e2b423ad-406d-491f-8756-0d7a66698f68" name="Condition_71387de9-fcd1-4d53-9fe1-d237240e4157" resourceKind="VirtualMachine" symptomDefType="condition_self">
+            <State severity="warning">
+                <Condition key="config|extraConfig|mem_hotadd" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+            </State>
+        </SymptomDefinition>
+    </SymptomDefinitions>
+</alertContent>
