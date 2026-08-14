@@ -1,205 +1,238 @@
 # VMware vSphere 8.0 Virtual Machine STIG — V2R3
-# Triaged from real InSpec baseline. Collected by vCommunity onto native
-# VirtualMachine objects (Properties > Configuration).
+# ALL-NATIVE: binds to Aria native config|security|* properties.
+# No vCommunity dependency. finding_operator/value describe the FINDING state.
 benchmark:
   id: vsphere-8.0-vm
   title: VMware vSphere 8.0 Virtual Machine STIG
   version: V2R3
   status: stig
-  applies_to: ["8.0"]
+  applies_to:
+  - '8.0'
   target_kind: STIG_VM
-
 rules:
-  - id: VMCH-80-000189
-    title: "Copy operations must be disabled"
-    cat: 2
-    check_method: vm_advanced_setting
-    check: { key: "isolation.tools.copy.disable" }
-    operator: equals
-    expected: "true"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000191
-    title: "Drag and drop operations must be disabled"
-    cat: 2
-    check_method: vm_advanced_setting
-    check: { key: "isolation.tools.dnd.disable" }
-    operator: equals
-    expected: "true"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000192
-    title: "Paste operations must be disabled"
-    cat: 2
-    check_method: vm_advanced_setting
-    check: { key: "isolation.tools.paste.disable" }
-    operator: equals
-    expected: "true"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000193
-    title: "Virtual disk shrinking must be disabled"
-    cat: 2
-    check_method: vm_advanced_setting
-    check: { key: "isolation.tools.diskShrink.disable" }
-    operator: equals
-    expected: "true"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000194
-    title: "Virtual disk wiping must be disabled"
-    cat: 2
-    check_method: vm_advanced_setting
-    check: { key: "isolation.tools.diskWiper.disable" }
-    operator: equals
-    expected: "true"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000195
-    title: "Limit console sharing"
-    cat: 2
-    check_method: vm_advanced_setting
-    check: { key: "RemoteDisplay.maxConnections" }
-    operator: equals
-    expected: "1"
-    default_when_absent: open
-    verified: true
-  - id: VMCH-80-000196
-    title: "Limit informational messages to the VMX file"
-    cat: 3
-    check_method: vm_advanced_setting
-    check: { key: "tools.setinfo.sizeLimit" }
-    operator: equals
-    expected: "1048576"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000197
-    title: "Prevent unauthorized device connection or modification"
-    cat: 2
-    check_method: vm_advanced_setting
-    check: { key: "isolation.device.connectable.disable" }
-    operator: equals
-    expected: "true"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000198
-    title: "Prevent VM from obtaining host info from hypervisor"
-    cat: 2
-    check_method: vm_advanced_setting
-    check: { key: "tools.guestlib.enableHostInfo" }
-    operator: equals
-    expected: "false"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000199
-    title: "Shared salt values must be disabled"
-    cat: 2
-    check_method: vm_advanced_setting
-    check: { key: "sched.mem.pshare.salt" }
-    operator: absent
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000200
-    title: "Disable access through the dvfilter network API"
-    cat: 2
-    check_method: vm_advanced_setting
-    check: { key: "ethernet0.filter1.name" }
-    operator: absent
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000201
-    title: "Lock when last console connection closed"
-    cat: 3
-    check_method: vm_advanced_setting
-    check: { key: "tools.guest.desktop.autolock" }
-    operator: equals
-    expected: "true"
-    default_when_absent: open
-    verified: true
-  - id: VMCH-80-000202
-    title: "Disable 3D features when not required"
-    cat: 3
-    check_method: vm_advanced_setting
-    check: { key: "mks.enable3d" }
-    operator: equals
-    expected: "false"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000203
-    title: "Enable encryption for vMotion"
-    cat: 2
-    check_method: manual
-    verified: false
-    notes: "VM config property, not an advanced parameter — not collected by vCommunity default config. Add via custom vm_configuration config file to automate."
-  - id: VMCH-80-000204
-    title: "Enable encryption for Fault Tolerance"
-    cat: 2
-    check_method: manual
-    verified: false
-    notes: "VM config property, not an advanced parameter — not collected by vCommunity default config. Add via custom vm_configuration config file to automate."
-  - id: VMCH-80-000205
-    title: "Configure log size"
-    cat: 3
-    check_method: vm_advanced_setting
-    check: { key: "log.rotateSize" }
-    operator: equals
-    expected: "2048000"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000206
-    title: "Configure log retention"
-    cat: 3
-    check_method: vm_advanced_setting
-    check: { key: "log.keepOld" }
-    operator: equals
-    expected: "10"
-    default_when_absent: notafinding
-    verified: true
-  - id: VMCH-80-000207
-    title: "Enable logging"
-    cat: 2
-    check_method: manual
-    verified: false
-    notes: "VM config property, not an advanced parameter — not collected by vCommunity default config. Add via custom vm_configuration config file to automate."
-  - id: VMCH-80-000208
-    title: "Must not use independent nonpersistent disks"
-    cat: 2
-    check_method: manual
-    verified: false
-    notes: "config.hardware.device not collected by vCommunity — attested manually"
-  - id: VMCH-80-000209
-    title: "Remove unneeded floppy devices"
-    cat: 3
-    check_method: manual
-    verified: false
-    notes: "config.hardware.device not collected by vCommunity — attested manually"
-  - id: VMCH-80-000210
-    title: "Remove unneeded CD/DVD devices"
-    cat: 3
-    check_method: manual
-    verified: false
-    notes: "config.hardware.device not collected by vCommunity — attested manually"
-  - id: VMCH-80-000211
-    title: "Remove unneeded parallel devices"
-    cat: 3
-    check_method: manual
-    verified: false
-    notes: "config.hardware.device not collected by vCommunity — attested manually"
-  - id: VMCH-80-000212
-    title: "Remove unneeded serial devices"
-    cat: 3
-    check_method: manual
-    verified: false
-    notes: "config.hardware.device not collected by vCommunity — attested manually"
-  - id: VMCH-80-000213
-    title: "Remove unneeded USB devices"
-    cat: 3
-    check_method: manual
-    verified: false
-    notes: "config.hardware.device not collected by vCommunity — attested manually"
-  - id: VMCH-80-000214
-    title: "Disable DirectPath I/O when not required"
-    cat: 2
-    check_method: manual
-    verified: false
-    notes: "config.hardware.device not collected by vCommunity — attested manually"
+- id: VMCH-80-000189
+  title: Copy operations must be disabled
+  cat: 2
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disable_console_copy
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000191
+  title: Drag and drop operations must be disabled
+  cat: 2
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disable_console_dnd
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000192
+  title: Paste operations must be disabled
+  cat: 2
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disable_console_paste
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000193
+  title: Virtual disk shrinking must be disabled
+  cat: 2
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disable_disk_shrinking_shrink
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000194
+  title: Virtual disk wiping must be disabled
+  cat: 2
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disable_disk_shrinking_wiper
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000195
+  title: Limit console sharing
+  cat: 2
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|limit_console_connection
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '1'
+- id: VMCH-80-000196
+  title: Limit informational messages to the VMX file
+  cat: 3
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|limit_setinfo_size
+  value_type: numeric
+  finding_operator: '>'
+  finding_value: '1048576'
+- id: VMCH-80-000197
+  title: Prevent unauthorized device connection or modification
+  cat: 2
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disable_device_interaction_connect
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000198
+  title: Prevent VM from obtaining host info from hypervisor
+  cat: 2
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|enable_host_info
+  value_type: string
+  finding_operator: ==
+  finding_value: 'true'
+- id: VMCH-80-000199
+  title: Shared salt values must be disabled
+  cat: 2
+  verified: false
+  check_method: manual
+  notes: salt setting has no native config|security key
+- id: VMCH-80-000200
+  title: Disable access through the dvfilter network API
+  cat: 2
+  verified: false
+  check_method: manual
+  notes: "dvfilter \u2014 network_filter_enable mapping unconfirmed"
+- id: VMCH-80-000201
+  title: Lock when last console connection closed
+  cat: 3
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|tools_guest_desktop_autolock
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000202
+  title: Disable 3D features when not required
+  cat: 3
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|enable_non_essential_3D_features
+  value_type: string
+  finding_operator: ==
+  finding_value: 'true'
+- id: VMCH-80-000203
+  title: Enable encryption for vMotion
+  cat: 2
+  verified: false
+  check_method: manual
+  notes: "migrateEncryption is config|migrateEncryption (different namespace) \u2014 TODO map"
+- id: VMCH-80-000204
+  title: Enable encryption for Fault Tolerance
+  cat: 2
+  verified: false
+  check_method: manual
+  notes: FT encryption not collected natively
+- id: VMCH-80-000205
+  title: Configure log size
+  cat: 3
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|limit_log_size
+  value_type: numeric
+  finding_operator: <
+  finding_value: '2048000'
+- id: VMCH-80-000206
+  title: Configure log retention
+  cat: 3
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|limit_log_number
+  value_type: numeric
+  finding_operator: <
+  finding_value: '10'
+- id: VMCH-80-000207
+  title: Enable logging
+  cat: 2
+  verified: false
+  check_method: manual
+  notes: "enableLogging is config|extraConfig \u2014 TODO map"
+- id: VMCH-80-000208
+  title: Must not use independent nonpersistent disks
+  cat: 2
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disable_independent_nonpersistent
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000209
+  title: Remove unneeded floppy devices
+  cat: 3
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disconnect_devices_floppy
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000210
+  title: Remove unneeded CD/DVD devices
+  cat: 3
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disconnect_devices_cd
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000211
+  title: Remove unneeded parallel devices
+  cat: 3
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disconnect_devices_parallel
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000212
+  title: Remove unneeded serial devices
+  cat: 3
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disconnect_devices_serial
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+- id: VMCH-80-000213
+  title: Remove unneeded USB devices
+  cat: 3
+  verified: false
+  check_method: manual
+  notes: "USB \u2014 no native config|security key"
+- id: VMCH-80-000214
+  title: Disable DirectPath I/O when not required
+  cat: 2
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|pci_device_configured
+  value_type: string
+  finding_operator: ==
+  finding_value: 'true'
