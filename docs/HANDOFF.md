@@ -31,48 +31,85 @@ don't inherit Azure specifics.
    Real VM IDs are **`VMCH-80-000189`–`000214`** (25 controls). ESXi = 76
    controls (~30 native-bindable, the rest esxcli-only → out of native scope,
    same as VMware's own pack). vCenter = 67 (~9 native-bindable).
-5. **vCommunity MP is the collector for advanced settings the native adapter
-   doesn't expose.** `vmbro/VCF-Operations-vCommunity` — an Integration SDK
-   adapter that enriches the **native VMWARE HostSystem/VirtualMachine** objects
-   (matched by MoRef via Suite API) with any ESXi advanced setting / VM advanced
-   parameter as `vCommunity|Configuration|Advanced System Settings|<Setting>`
-   (host) and `vCommunity|Configuration|Advanced Parameters|<Setting>` (VM).
-   This is what makes the advanced-setting checks natively bindable.
+5. **⚠ SUPERSEDED — the VM tier no longer needs vCommunity.** This decision
+   originally made `vmbro/VCF-Operations-vCommunity` the collector for advanced
+   settings the native adapter doesn't expose (as
+   `vCommunity|Configuration|Advanced Parameters|<Setting>`).
 
-## Repo state — three diverging lines (re-check before acting)
-- **`main`**: real content work is happening here — imported the real STIG
-  baseline, **triaged all 25 VM rules**, and **rewrote `scripts/generate.py` to
-  the native-attach direction** (binds `vm_advanced_setting` rules to
-  `VMWARE/VirtualMachine` via vCommunity property keys). Also committed built
-  `.pak` binaries. Actively advancing.
-- **PR #1 branch** `claude/aria-disa-stig-compliance-c3uyrg`: this session's
-  tooling — eval core (`adapter/stig_eval.py`) + tests, generator bug-fixes,
-  offline-build tooling in `deploy/vcommunity/`, native-pack dissection tools +
-  committed Suite-API export under `native-compliance/`, and
-  `docs/native-attach-architecture.md`. PR #1 is **open, draft**.
-- **PR #1 is `mergeable_state: dirty`** — one conflicting file:
-  `scripts/generate.py` (see below). `validate_rules.py` auto-merges clean.
+   **All 25 VM rules were then remapped to native `config|security|*` property
+   keys, which the stock VMWARE adapter already collects** — no adapter, no
+   collector, nothing to deploy. `rules/vsphere-8.0-vm.yaml` has zero vCommunity
+   dependency, and `scripts/generate_native.py` emits against
+   `VMWARE/VirtualMachine` directly.
 
-## THE IMMEDIATE BLOCKER — `scripts/generate.py`
-`main`'s new native-attach `generate.py` is the **correct direction** but is
-**currently broken on Python 3.11** (the Photon MP-builder env). PR #1 already
-fixes exactly what's broken. Two bugs in main's copy:
-1. **Won't parse on 3.11** — nested same-quote f-strings (~lines 229/274/300):
-   `f'name={quoteattr(f"{rule['id']} — {rule['title']}")} '` is 3.12-only.
-   **Fix:** hoist `rule_name = f"{rule['id']} — {rule['title']}"`, then
-   `quoteattr(rule_name)` (all 3 spots).
-2. **`datetime.date(...)` → `NameError`** in generated `rule_registry.py`
-   (~line 140 `f"    {entry!r},"`). **Fix:** add `import datetime`, add the
-   `_literal_safe()` helper (see this branch's `generate.py`), change to
-   `f"    {_literal_safe(entry)!r},"`.
+   vCommunity is therefore **not on the critical path for the VM tier**. It is
+   still the fallback for ESXi/vCenter checks that need advanced settings with
+   no native equivalent — decide that per-rule during ESXi/vCenter triage
+   (see `deploy/vcommunity/stig-advanced-settings-reference.md`) rather than
+   assuming it up front. **Check first whether a native `config|*` key already
+   exposes the setting** — that is what collapsed the VM tier's dependency.
 
-**Resolution plan:** keep main's native-attach `generate.py` as the base,
-re-apply those two fixes, verify `python3 -c "import ast; ast.parse(...)"` on
-3.11 + a clean `generate.py` run, push. (Cannot push to `main` without explicit
-user OK — bugs live in main, so either resolve on the branch and merge, or the
-user patches main directly.)
+## Repo state — CONVERGED (was three diverging lines)
+Branch **`claude/aria-stig-compliance-pack-8jahho`** now carries `main`'s
+content work **and** the PR #1 tooling, merged and verified. It is the line to
+work from.
 
-## vCommunity deployment status
+- **`main`** contributed: the real STIG baseline import, **all 25 VM rules
+  triaged**, the native-attach `generate.py`, and `generate_native.py` (the
+  all-native emitter — no vCommunity dependency).
+- **PR #1 branch** `claude/aria-disa-stig-compliance-c3uyrg` contributed: eval
+  core (`adapter/stig_eval.py`) + tests, `deploy/vcommunity/` offline-build
+  tooling, native-pack dissection + Suite-API export under `native-compliance/`,
+  and `docs/native-attach-architecture.md`.
+- The only merge conflict was `scripts/generate.py`, resolved by keeping main's
+  native-attach generator and re-applying PR #1's two fixes.
+
+### THE IMMEDIATE BLOCKER — RESOLVED
+Both 3.11 bugs are fixed, plus two the previous handoff had not caught:
+
+1. ✅ **3.12-only nested f-strings** in `generate.py` (3 sites) — hoisted.
+2. ✅ **`datetime.date(...)` → `NameError`** in generated `rule_registry.py` —
+   `_literal_safe()` added; the registry imports clean (26 rules).
+3. ✅ **`generate_native.py` had the SAME 3.12-only f-string bug.** It postdates
+   the PR #1 branch, so that branch never fixed it. It did not parse on 3.11
+   either — fixing only `generate.py` would have left the build broken.
+4. ✅ **Validator was checking the wrong operator vocabulary** (see below).
+
+**All 12 Python modules now parse on 3.11** (two were failing).
+
+### Operator vocabulary — a trap worth remembering
+The same condition is spelled **two different ways** depending on the channel:
+
+| Channel | Vocabulary | Where you see it |
+|---|---|---|
+| Suite API (REST) | `EQ` `NOT_EQ` `GT` `CONTAINS` | `native-compliance/symptomdefs_raw.json` |
+| Alert-content **XML import** | `=` `!=` `>` `contains` | `deliverables/*.xml` (7 confirmed-good exports) |
+
+Our content ships as **XML import**, so the XML vocabulary is authoritative.
+`validate_rules.py` previously validated `native_property` rules against the
+REST vocabulary, which rejected all 19 correct VM rules. It now matches the
+emitted dialect (`check.key` / `value_type` / `finding_operator` /
+`finding_value`).
+
+### ⚠ OPEN — needs confirming in the UI
+Three VM rules (`VMCH-80-000198`, `-000202`, `-000214`) specified
+`finding_operator: ==`, copied verbatim into the XML. `==` appears in **none**
+of the seven confirmed exports — the token is `=`. Normalized to `=`.
+
+This matters because **Aria's import does not validate operator tokens**: the
+earlier commit reporting "imports clean" with `==` is not evidence the operator
+was honored. A bad token yields a symptom that imports fine and then **never
+fires** — a silent false-pass, exactly what the validator exists to prevent.
+**Confirm in the UI that these three symptoms now evaluate**, and if `==` did
+work, relax `NATIVE_OPERATORS` in `validate_rules.py` rather than reverting.
+
+## vCommunity deployment status — DEPRIORITIZED (see decision 5)
+> The VM tier no longer depends on this, and the adapter was uninstalled from
+> the live instance during the all-native pivot. Everything below is preserved
+> because it is hard-won and still applies **if** ESXi/vCenter triage turns up
+> a setting with no native key. Do not treat the account-validation item as a
+> blocker on VM work — it no longer is.
+
 - `.pak` (v0.3.1) **builds + installs** on the air-gapped Photon builder.
   Solved gotchas:
   - Base image `base-adapter:python-1.2.0` (already on the builder from Azure).
@@ -105,32 +142,50 @@ user patches main directly.)
   `vCommunity|Configuration|Advanced System Settings|Config.Etc.issue` populates
   on a host object.
 
-## Key references (PR #1 branch)
+## Key references (all now on `claude/aria-stig-compliance-pack-8jahho`)
 - `deploy/vcommunity/` — offline wheels bundle, README (full build runbook),
   STIG settings config XMLs, `stig-advanced-settings-reference.md`
   (rule → setting → compliant value → property key).
 - `native-compliance/` — dissected native 7.0 pack (Suite-API export +
   `native_bindings.json` + anatomy report).
 - `docs/native-attach-architecture.md` — full spec.
-- `scripts/` — `validate_rules.py` (has `native_property` check_method on this
-  branch), `generate.py`, `analyze-native-export.py`, `dissect-native-pak.py`,
-  `import_inspec.py`.
+- `scripts/` — `generate_native.py` (**the emitter in use**: all-native VM
+  content), `validate_rules.py` (`native_property` schema, XML operator
+  vocabulary), `generate.py` (older STIG_*-adapter + vCommunity path — still
+  builds the registry/metrics/scorecard), `analyze-native-export.py`,
+  `dissect-native-pak.py`, `import_inspec.py`.
+- `deliverables/*.xml` — seven **confirmed-good Aria exports**. These are the
+  ground truth for import-format questions (element shape, operator spelling,
+  `type`/`subType`). Check here before guessing at schema.
 - Local clones on this session's disk (re-clone in a new session):
   `/workspace/vmware/dod-compliance-and-automation` (8.0 v2r4 STIG source),
   `/workspace/vmbro/vcf-operations-vcommunity`, `/workspace/azuregov`.
 
 ## Suggested first actions in the new session
-1. Resolve `generate.py` (main's native generator + the two 3.11/datetime fixes).
-2. Reconcile PR #1 branch tooling with main's content work — they must converge
-   (main has the native generator + triaged rules; the branch has the deploy
-   tooling, dissection, native_property validator, docs).
-3. Finish vCommunity account validation (9.x nav), then load the STIG settings
-   config and confirm properties populate on native objects.
-4. Author/verify the 8.0 native symptom/alert/scorecard content for VM (25
-   rules), then ESXi (~30) and vCenter (~9), using `native_bindings.json` +
-   `stig-advanced-settings-reference.md` as the binding source.
+1. ✅ ~~Resolve `generate.py`~~ — done, plus `generate_native.py` and the
+   validator vocabulary.
+2. ✅ ~~Reconcile PR #1 tooling with main's content work~~ — done; converged on
+   `claude/aria-stig-compliance-pack-8jahho`.
+3. **Confirm the three `=` operator fixes actually evaluate in the UI**
+   (`VMCH-80-000198`, `-000202`, `-000214`) — the one open correctness question.
+4. **Triage the ESXi/vCenter backlog — the bulk of remaining work.** 143 rules
+   are still `check_method: TODO`, and `validate_rules.py` hard-fails on each,
+   which also blocks a full `generate.py` run. Expect ~30 of 76 ESXi and ~9 of
+   67 vCenter to be native-bindable; the rest are esxcli/shell-only and should
+   be marked out-of-native-scope rather than left TODO. For each, **check for a
+   native `config|*` key before reaching for vCommunity.**
+5. Author/verify the ESXi + vCenter symptom/alert/scorecard content, using
+   `native-compliance/native_bindings.json` as the binding source and
+   `deliverables/*.xml` as the format reference.
+
+### Known-good verification loop
+```bash
+python3 scripts/validate_rules.py rules/          # 143 errors = the TODO backlog
+python3 scripts/generate_native.py rules/vsphere-8.0-vm.yaml --out /tmp/n.xml
+python3 tests/test_stig_eval.py && python3 tests/test_dissect.py   # 23/23, 7/7
+```
 
 ## PR-watch note
-A self-check-in loop is monitoring PR #1 (state/mergeability). Current: PR #1
-open/draft, `dirty` on `scripts/generate.py`, awaiting the resolve-vs-patch-main
-decision above.
+PR #1 (`claude/aria-disa-stig-compliance-c3uyrg`) is **superseded** — its
+content is merged into `claude/aria-stig-compliance-pack-8jahho`. Close it in
+favour of the PR for that branch rather than trying to un-`dirty` it.
