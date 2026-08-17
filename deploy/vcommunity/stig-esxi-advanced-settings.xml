@@ -1,0 +1,39 @@
+<advancedSettings>
+  <!-- STIG-scoped collection list for the vSphere 8.0 v2r4 STIG.
+       Generated from the DISA InSpec baseline. Each entry backs one or
+       more compliance checks. Drop this in as the vCommunity working
+       config (clone of the default). Comma-separated, last line no comma. -->
+
+  Annotations.WelcomeMessage,    <!-- ESXI-80-000006 CAT II -->
+  Config.Etc.issue,    <!-- ESXI-80-000191 CAT II -->
+  Config.HostAgent.log.level,    <!-- ESXI-80-000015 CAT II -->
+  Config.HostAgent.plugins.hostsvc.esxAdminsGroup,    <!-- ESXI-80-000241 CAT II -->
+  Config.HostAgent.plugins.solo.enableMob,    <!-- ESXI-80-000047 CAT II -->
+  Config.HostAgent.vmacore.soap.sessionTimeout,    <!-- ESXI-80-000226 CAT II -->
+  DCUI.Access,    <!-- ESXI-80-000189 CAT II -->
+  Mem.MemEagerZero,    <!-- ESXI-80-000225 CAT II -->
+  Mem.ShareForceSalting,    <!-- ESXI-80-000213 CAT III -->
+  Net.BlockGuestBPDU,    <!-- ESXI-80-000215 CAT II -->
+  Net.BMCNetworkEnable,    <!-- ESXI-80-000250 CAT II -->
+  Net.DVFilterBindIpAddress,    <!-- ESXI-80-000219 CAT II -->
+  Security.AccountLockFailures,    <!-- ESXI-80-000005 CAT II -->
+  Security.AccountUnlockTime,    <!-- ESXI-80-000111 CAT II -->
+  Security.PasswordHistory,    <!-- ESXI-80-000043 CAT II -->
+  Security.PasswordMaxDays,    <!-- ESXI-80-000227 CAT II -->
+  Security.PasswordQualityControl,    <!-- ESXI-80-000035 CAT II -->
+  Syslog.global.auditRecord.remoteEnable,    <!-- ESXI-80-000233 CAT II -->
+  Syslog.global.auditRecord.storageCapacity,    <!-- ESXI-80-000113 CAT II -->
+  Syslog.global.auditRecord.storageEnable,    <!-- ESXI-80-000232 CAT II -->
+  Syslog.global.certificate.checkSSLCerts,    <!-- ESXI-80-000224 CAT II -->
+  Syslog.global.certificate.strictX509Compliance,    <!-- ESXI-80-000234 CAT II -->
+  Syslog.global.logDir,    <!-- ESXI-80-000243 CAT II -->
+  Syslog.global.logHost,    <!-- ESXI-80-000114 CAT II -->
+  Syslog.global.logLevel,    <!-- ESXI-80-000235 CAT II -->
+  UserVars.DcuiTimeOut,    <!-- ESXI-80-000196 CAT II -->
+  UserVars.ESXiShellInteractiveTimeOut,    <!-- ESXI-80-000068 CAT II -->
+  UserVars.ESXiShellTimeOut,    <!-- ESXI-80-000195 CAT II -->
+  UserVars.HostClientSessionTimeout,    <!-- ESXI-80-000010 CAT II -->
+  UserVars.SuppressHyperthreadWarning,    <!-- ESXI-80-000223 CAT II -->
+  UserVars.SuppressShellWarning,    <!-- ESXI-80-000222 CAT II -->
+  VMkernel.Boot.execInstalledOnly    <!-- ESXI-80-000244 CAT II -->
+</advancedSettings>

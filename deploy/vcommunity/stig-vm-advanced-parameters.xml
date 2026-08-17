@@ -1,0 +1,21 @@
+<vmAdvParameters>
+  <!-- STIG-scoped collection list for the vSphere 8.0 v2r4 STIG.
+       Generated from the DISA InSpec baseline. Each entry backs one or
+       more compliance checks. Drop this in as the vCommunity working
+       config (clone of the default). Comma-separated, last line no comma. -->
+
+  isolation.device.connectable.disable,    <!-- VMCH-80-000197 CAT II -->
+  isolation.tools.copy.disable,    <!-- VMCH-80-000189 CAT III -->
+  isolation.tools.diskShrink.disable,    <!-- VMCH-80-000193 CAT II -->
+  isolation.tools.diskWiper.disable,    <!-- VMCH-80-000194 CAT II -->
+  isolation.tools.dnd.disable,    <!-- VMCH-80-000191 CAT III -->
+  isolation.tools.paste.disable,    <!-- VMCH-80-000192 CAT III -->
+  log.keepOld,    <!-- VMCH-80-000206 CAT II -->
+  log.rotateSize,    <!-- VMCH-80-000205 CAT II -->
+  mks.enable3d,    <!-- VMCH-80-000202 CAT III -->
+  RemoteDisplay.maxConnections,    <!-- VMCH-80-000195 CAT II -->
+  sched.mem.pshare.salt,    <!-- VMCH-80-000199 CAT III -->
+  tools.guest.desktop.autolock,    <!-- VMCH-80-000201 CAT II -->
+  tools.guestlib.enableHostInfo,    <!-- VMCH-80-000198 CAT II -->
+  tools.setinfo.sizeLimit    <!-- VMCH-80-000196 CAT III -->
+</vmAdvParameters>

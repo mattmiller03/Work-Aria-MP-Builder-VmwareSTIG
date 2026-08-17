@@ -98,7 +98,7 @@ rules:
   check:
     key: config|security|enable_host_info
   value_type: string
-  finding_operator: ==
+  finding_operator: '='
   finding_value: 'true'
 - id: VMCH-80-000199
   title: Shared salt values must be disabled
@@ -130,7 +130,7 @@ rules:
   check:
     key: config|security|enable_non_essential_3D_features
   value_type: string
-  finding_operator: ==
+  finding_operator: '='
   finding_value: 'true'
 - id: VMCH-80-000203
   title: Enable encryption for vMotion
@@ -234,5 +234,5 @@ rules:
   check:
     key: config|security|pci_device_configured
   value_type: string
-  finding_operator: ==
+  finding_operator: '='
   finding_value: 'true'

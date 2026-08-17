@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic fixture: a native compliance symptom + alert bound to the VMWARE
+     adapter's VirtualMachine kind, testing a property the vCenter adapter
+     collects. Shapes mirror real native content so the dissector is exercised
+     against the structure it must parse in the field. -->
+<AlertDefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SymptomDefinitions>
+    <SymptomDefinition id="Symptom-VMWARE-VMCH-80-000001"
+                       name="VMCH-80-000001 — Copy operations must be disabled"
+                       adapterKind="VMWARE" resourceKind="VirtualMachine"
+                       waitCycles="1" cancelCycles="1">
+      <State severity="IMMEDIATE">
+        <Condition xsi:type="ConditionProperty"
+                   key="config|tools|copyDisable" operator="EQ" value="false"
+                   valueType="STRING" instanced="false" thresholdType="STATIC"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition id="Symptom-VMWARE-ESXI-80-000030"
+                       name="ESXI-80-000030 — TLS profile must be enforced"
+                       adapterKind="VMWARE" resourceKind="HostSystem"
+                       waitCycles="1" cancelCycles="1">
+      <State severity="IMMEDIATE">
+        <Condition xsi:type="ConditionProperty"
+                   key="config|security|tlsProfile" operator="NE" value="NIST_2024"
+                   valueType="STRING" instanced="false" thresholdType="STATIC"/>
+      </State>
+    </SymptomDefinition>
+  </SymptomDefinitions>
+
+  <AlertDefinition id="Alert-VMWARE-VMCH-80-000001"
+                   name="VMCH-80-000001 — Copy operations must be disabled"
+                   adapterKind="VMWARE" resourceKind="VirtualMachine"
+                   waitCycles="1" cancelCycles="1" type="19" subType="19">
+    <Description>Copy operations must be disabled on the virtual machine.</Description>
+    <State severity="IMMEDIATE" impact="risk">
+      <SymptomSet operator="AND" applyOn="SELF">
+        <Symptom id="Symptom-VMWARE-VMCH-80-000001"/>
+      </SymptomSet>
+    </State>
+  </AlertDefinition>
+
+  <AlertDefinition id="Alert-VMWARE-ESXI-80-000030"
+                   name="ESXI-80-000030 — TLS profile must be enforced"
+                   adapterKind="VMWARE" resourceKind="HostSystem"
+                   waitCycles="1" cancelCycles="1" type="19" subType="19">
+    <Description>The ESXi host must enforce the required TLS profile.</Description>
+    <State severity="IMMEDIATE" impact="risk">
+      <SymptomSet operator="AND" applyOn="SELF">
+        <Symptom id="Symptom-VMWARE-ESXI-80-000030"/>
+      </SymptomSet>
+    </State>
+  </AlertDefinition>
+</AlertDefinitions>

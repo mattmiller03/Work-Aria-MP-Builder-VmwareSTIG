@@ -35,8 +35,30 @@ CHECK_METHODS = {
     "suite_api":             {"path"},
     "ssh":                   {"command", "field"},
     "ssh_file":              {"path", "field"},
+    # Native-attach: bind a compliance symptom to a native VMWARE object property.
+    # The check reproduces the native pack's VIOLATION condition verbatim (a
+    # version-stable vROps property key + native operator + value), so it needs
+    # no operator/expected/default_when_absent — those describe the old
+    # STIG_*-adapter model and are forbidden here. See docs/native-attach-architecture.md.
+    "native_property":       {"key"},
     "manual":                set(),
 }
+
+# Native symptom condition vocabulary, read off the installed pack.
+COND_TYPES = {"string", "numeric"}
+
+# Native symptom condition vocabulary for the ALERT-CONTENT XML IMPORT format —
+# the channel this content actually ships through (scripts/generate_native.py →
+# Aria "Import Alert Definitions"). Confirmed against the working exports in
+# deliverables/*.xml, where every <Condition> uses the symbolic token.
+#
+# NOTE: the Suite API renders the same conditions with NAMED tokens
+# (EQ/NOT_EQ/GT/...) — that is what native-compliance/symptomdefs_raw.json shows,
+# because it was captured over REST. Validating XML-bound rules against the REST
+# vocabulary rejects every correct rule, so the two must not be conflated.
+NATIVE_OPERATORS = {"=", "!=", ">", "<", ">=", "<=",
+                    "contains", "regex", "exists", "notExists"}
+NATIVE_NO_VALUE = {"exists", "notExists"}
 
 # Phase 2 — privileges above vCenter Read-only
 ELEVATED_METHODS = {"esxcli"}
@@ -107,6 +129,18 @@ def validate_file(path: Path, errors: list, require_verified: bool) -> dict | No
     if not isinstance(bm.get("applies_to"), list) or not bm.get("applies_to"):
         _fail(errors, path.name, "benchmark.applies_to must be a non-empty list")
 
+    # Native-attach binding target (optional). When present, native_property
+    # rules bind their symptoms to this adapter/resource kind, and the version
+    # gate partitions our content from VMware's on the same objects.
+    nb = bm.get("native")
+    if nb is not None:
+        if not isinstance(nb, dict):
+            _fail(errors, path.name, "benchmark.native must be a mapping")
+        else:
+            for k in ("adapter_kind", "resource_kind"):
+                if not nb.get(k):
+                    _fail(errors, path.name, f"benchmark.native missing `{k}`")
+
     rules = doc.get("rules")
     if not isinstance(rules, list) or not rules:
         _fail(errors, path.name, "missing or empty `rules` list")
@@ -163,6 +197,43 @@ def validate_file(path: Path, errors: list, require_verified: bool) -> dict | No
                 if forbidden in rule:
                     _fail(errors, where,
                           f"`{forbidden}` is meaningless for check_method: manual")
+            continue
+
+        if method == "native_property":
+            # A native rule states the FINDING (violation) condition directly:
+            # check.key is the vROps property on the native object, and
+            # finding_operator/finding_value are copied verbatim into the
+            # emitted <Condition>. There is no default_when_absent — a native
+            # symptom simply does not fire when the property is not collected.
+            for forbidden in ("operator", "expected", "default_when_absent"):
+                if forbidden in rule:
+                    _fail(errors, where,
+                          f"`{forbidden}` describes the STIG_*-adapter model and "
+                          "is meaningless for native_property; use "
+                          "finding_operator/finding_value")
+            check = rule.get("check")
+            if not isinstance(check, dict):
+                _fail(errors, where, "`check` mapping required for native_property")
+                continue
+            missing = CHECK_METHODS["native_property"] - set(check)
+            if missing:
+                _fail(errors, where, f"check missing {sorted(missing)}")
+
+            if rule.get("value_type") not in COND_TYPES:
+                _fail(errors, where,
+                      f"value_type `{rule.get('value_type')}` must be one of "
+                      f"{sorted(COND_TYPES)}")
+
+            op = rule.get("finding_operator")
+            if op not in NATIVE_OPERATORS:
+                _fail(errors, where,
+                      f"finding_operator `{op}` is not an alert-content XML "
+                      f"operator {sorted(NATIVE_OPERATORS)} — note the Suite API "
+                      "spells these EQ/NOT_EQ/GT, but the import format does not")
+            # finding_value may be omitted only for the existence operators.
+            if op not in NATIVE_NO_VALUE and "finding_value" not in rule:
+                _fail(errors, where,
+                      f"finding_operator `{op}` requires `finding_value`")
             continue
 
         # --- non-manual rules ---

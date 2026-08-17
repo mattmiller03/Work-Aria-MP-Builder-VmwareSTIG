@@ -39,13 +39,16 @@ def emit(benchmark, rules):
         return None, 0
 
     alert_id = stable_id("AlertDefinition", bid, "__violation__")
+    # Hoisted: nesting a same-quote f-string inside an f-string is 3.12+ syntax
+    # and will not parse on the 3.11 MP-builder environment.
+    alert_name = f"{benchmark['title']} {benchmark['version']} Violation"
     L = ['<?xml version="1.0" encoding="UTF-8"?>', "<alertContent>"]
     # --- Alert ---
     L.append("  <AlertDefinitions>")
     L.append(
         f'    <AlertDefinition adapterKind="{ADAPTER}" disableInBasePolicy="true" '
         f'id={quoteattr(alert_id)} '
-        f'name={quoteattr(f"{benchmark['title']} {benchmark['version']} Violation")} '
+        f'name={quoteattr(alert_name)} '
         f'resourceKind="{RKIND}" subType="21" type="15">'
     )
     L.append('      <State severity="automatic">')
