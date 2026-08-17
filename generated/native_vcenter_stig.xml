@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alertContent>
+  <AlertDefinitions>
+    <AlertDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="AlertDefinition-637ac378-e555-5ac1-8a01-cb2cea4f7022" name="VMware vSphere 8.0 vCenter STIG V2R3 Violation - VMwareAdapter Instance" resourceKind="VMwareAdapter Instance" subType="21" type="15">
+      <State severity="automatic">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-f1229b0b-c2f6-518e-bd77-e6e0bccc4198"/>
+          <Symptom ref="SymptomDefinition-14c1556c-e382-5a1f-8f2c-b6b830d7b19b"/>
+          <Symptom ref="SymptomDefinition-8cff7dcb-bb5e-591c-9e83-b4c3dd913142"/>
+          <Symptom ref="SymptomDefinition-c659b695-841e-57f2-9c04-4323d24dc394"/>
+          <Symptom ref="SymptomDefinition-fcd01f0f-d5e0-5252-bb03-60be2a31307b"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="AlertDefinition-1bc4b668-9b82-5fb6-bf8b-663d031cdfad" name="VMware vSphere 8.0 vCenter STIG V2R3 Violation - VmwareDistributedVirtualSwitch" resourceKind="VmwareDistributedVirtualSwitch" subType="21" type="15">
+      <State severity="automatic">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-e58306a5-493e-5df0-b80d-f46bceb8ee42"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+    <AlertDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="AlertDefinition-c7a24649-058d-5dd1-8c85-ed004c476ec6" name="VMware vSphere 8.0 vCenter STIG V2R3 Violation - DistributedVirtualPortgroup" resourceKind="DistributedVirtualPortgroup" subType="21" type="15">
+      <State severity="automatic">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-ea44a010-9fb2-5604-9440-ea7c32ba99f9"/>
+          <Symptom ref="SymptomDefinition-f3e64838-f48c-5ced-a551-5df088aa9b63"/>
+          <Symptom ref="SymptomDefinition-73727c3c-6ac0-57d0-9527-26e33453a94b"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+  </AlertDefinitions>
+  <SymptomDefinitions>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-f1229b0b-c2f6-518e-bd77-e6e0bccc4198" name="VCSA-80-000023 - The vCenter Server must enforce the limit of three consecutive invalid login attempts by a user." resourceKind="VMwareAdapter Instance" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="vc_appliance|sso_lockout_policy_failed_login_attempts" operator="!=" thresholdType="static" type="property" value="3.0" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-14c1556c-e382-5a1f-8f2c-b6b830d7b19b" name="VCSA-80-000148 - The vCenter Server must be configured to send logs to a central log server." resourceKind="VMwareAdapter Instance" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="vc_appliance|hasLoggingForwardingConfigs" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-8cff7dcb-bb5e-591c-9e83-b4c3dd913142" name="VCSA-80-000158 - The vCenter Server must compare internal information system clocks at least every 24 hours with an authoritative time server." resourceKind="VMwareAdapter Instance" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="vc_appliance|timeSyncMode" operator="!=" thresholdType="static" type="property" value="NTP" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-c659b695-841e-57f2-9c04-4323d24dc394" name="VCSA-80-000266 - The vCenter Server must require an administrator to unlock an account locked due to excessive login failures." resourceKind="VMwareAdapter Instance" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="vc_appliance|sso_lockout_policy_unlock_time" operator="!=" thresholdType="static" type="property" value="0.0" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-e58306a5-493e-5df0-b80d-f46bceb8ee42" name="VCSA-80-000267 - The vCenter Server must disable the distributed virtual switch health check." resourceKind="VmwareDistributedVirtualSwitch" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|health_check_config|health_check_config_vlan_mtu" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-ea44a010-9fb2-5604-9440-ea7c32ba99f9" name='VCSA-80-000268 - The vCenter Server must set the distributed port group Forged Transmits policy to "Reject".' resourceKind="DistributedVirtualPortgroup" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|policies|security|forged_transmits" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-f3e64838-f48c-5ced-a551-5df088aa9b63" name='VCSA-80-000269 - The vCenter Server must set the distributed port group Media Access Control (MAC) Address Change policy to "Reject".' resourceKind="DistributedVirtualPortgroup" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|policies|security|mac_changes" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-73727c3c-6ac0-57d0-9527-26e33453a94b" name='VCSA-80-000270 - The vCenter Server must set the distributed port group Promiscuous Mode policy to "Reject".' resourceKind="DistributedVirtualPortgroup" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|policies|security|allow_promiscuous" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-fcd01f0f-d5e0-5252-bb03-60be2a31307b" name="VCSA-80-000292 - The vCenter server configuration must be backed up on a regular basis." resourceKind="VMwareAdapter Instance" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="vc_appliance|hasRecoveryBackupJobs" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+  </SymptomDefinitions>
+</alertContent>
