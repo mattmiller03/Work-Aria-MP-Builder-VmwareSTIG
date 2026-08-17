@@ -1,2 +1,14 @@
 __pycache__/
 *.pyc
+
+# Third-party native pack content — dissected for reference, never redistributed.
+# The VMware/community DISA pack is copyrighted; keep the blobs and the
+# dissector output out of the repo.
+*.pak
+*.tgz
+*.tar.gz
+/native-pak/
+
+# Exception: the vCommunity offline-build wheel bundle is a deliberate,
+# version-controlled deployment artifact (open-source pypi wheels).
+!/deploy/vcommunity/vcommunity-wheels.tgz

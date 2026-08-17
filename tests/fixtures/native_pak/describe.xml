@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic fixture mimicking a native content pack that RIDES the VMWARE
+     adapter (references it, does not define a new adapter). -->
+<AdapterKinds xmlns="http://schemas.vmware.com/vcops/schema">
+  <AdapterKind key="VMWARE">
+    <ResourceKinds>
+      <ResourceKind key="VirtualMachine"/>
+      <ResourceKind key="HostSystem"/>
+      <ResourceKind key="VmwareDistributedVirtualSwitch"/>
+    </ResourceKinds>
+  </AdapterKind>
+</AdapterKinds>

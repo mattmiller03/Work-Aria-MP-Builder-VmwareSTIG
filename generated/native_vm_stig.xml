@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alertContent>
+  <AlertDefinitions>
+    <AlertDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="AlertDefinition-b1cb2e01-29ae-5970-87b2-05e7439010b0" name="VMware vSphere 8.0 Virtual Machine STIG V2R3 Violation" resourceKind="VirtualMachine" subType="21" type="15">
+      <State severity="automatic">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-d3ea2c0e-7d78-5a73-82a0-9de344cc606b"/>
+          <Symptom ref="SymptomDefinition-2875eee2-4608-50f2-b7be-1cd87c5d36b6"/>
+          <Symptom ref="SymptomDefinition-d6b38178-a545-5680-942a-c86cf6cd16e3"/>
+          <Symptom ref="SymptomDefinition-d2f0302d-40ae-52a0-90aa-54a37f28c0ac"/>
+          <Symptom ref="SymptomDefinition-54b6ac9a-9664-59aa-8639-79f63c1de8c5"/>
+          <Symptom ref="SymptomDefinition-e31487ba-5b2c-5380-93cb-2fd11412f54a"/>
+          <Symptom ref="SymptomDefinition-31acdebb-76fc-5f9a-a205-a3b5074cb606"/>
+          <Symptom ref="SymptomDefinition-eaca5714-5eec-54a0-b1cd-39106e21830e"/>
+          <Symptom ref="SymptomDefinition-a7482ad4-a2a0-5127-9a4e-6bb32293f35e"/>
+          <Symptom ref="SymptomDefinition-44815d5f-f27d-531e-a062-cf3fe0608da2"/>
+          <Symptom ref="SymptomDefinition-f24ee5f3-5433-50b4-a6ba-4186c1438e3d"/>
+          <Symptom ref="SymptomDefinition-09c25412-b144-5e4b-aa77-64b8b47e9d98"/>
+          <Symptom ref="SymptomDefinition-517178df-e41b-5b2b-866b-d258b30e46bb"/>
+          <Symptom ref="SymptomDefinition-e024e895-d939-5695-b250-551a0714b3e7"/>
+          <Symptom ref="SymptomDefinition-75134acf-4575-5c16-8ead-492b26580d57"/>
+          <Symptom ref="SymptomDefinition-7260c0a8-2040-5f25-89c4-e796ad88ad63"/>
+          <Symptom ref="SymptomDefinition-fa4a5adc-3fa7-5694-bb65-33c49c6af04c"/>
+          <Symptom ref="SymptomDefinition-beb8bc1d-e8d7-5a50-8fc6-154e6f754aa4"/>
+          <Symptom ref="SymptomDefinition-64d488da-5a64-5850-bbbd-441bd9f82e66"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+  </AlertDefinitions>
+  <SymptomDefinitions>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-d3ea2c0e-7d78-5a73-82a0-9de344cc606b" name="VMCH-80-000189 - Copy operations must be disabled" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|disable_console_copy" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-2875eee2-4608-50f2-b7be-1cd87c5d36b6" name="VMCH-80-000191 - Drag and drop operations must be disabled" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|disable_console_dnd" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-d6b38178-a545-5680-942a-c86cf6cd16e3" name="VMCH-80-000192 - Paste operations must be disabled" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|disable_console_paste" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-d2f0302d-40ae-52a0-90aa-54a37f28c0ac" name="VMCH-80-000193 - Virtual disk shrinking must be disabled" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|disable_disk_shrinking_shrink" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-54b6ac9a-9664-59aa-8639-79f63c1de8c5" name="VMCH-80-000194 - Virtual disk wiping must be disabled" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|disable_disk_shrinking_wiper" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-e31487ba-5b2c-5380-93cb-2fd11412f54a" name="VMCH-80-000195 - Limit console sharing" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|limit_console_connection" operator="!=" thresholdType="static" type="property" value="1" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-31acdebb-76fc-5f9a-a205-a3b5074cb606" name="VMCH-80-000196 - Limit informational messages to the VMX file" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|limit_setinfo_size" operator="&gt;" thresholdType="static" type="property" value="1048576" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-eaca5714-5eec-54a0-b1cd-39106e21830e" name="VMCH-80-000197 - Prevent unauthorized device connection or modification" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|disable_device_interaction_connect" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-a7482ad4-a2a0-5127-9a4e-6bb32293f35e" name="VMCH-80-000198 - Prevent VM from obtaining host info from hypervisor" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|enable_host_info" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-44815d5f-f27d-531e-a062-cf3fe0608da2" name="VMCH-80-000201 - Lock when last console connection closed" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|tools_guest_desktop_autolock" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-f24ee5f3-5433-50b4-a6ba-4186c1438e3d" name="VMCH-80-000202 - Disable 3D features when not required" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|enable_non_essential_3D_features" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-09c25412-b144-5e4b-aa77-64b8b47e9d98" name="VMCH-80-000205 - Configure log size" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|limit_log_size" operator="&lt;" thresholdType="static" type="property" value="2048000" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-517178df-e41b-5b2b-866b-d258b30e46bb" name="VMCH-80-000206 - Configure log retention" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|limit_log_number" operator="&lt;" thresholdType="static" type="property" value="10" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-e024e895-d939-5695-b250-551a0714b3e7" name="VMCH-80-000208 - Must not use independent nonpersistent disks" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|disable_independent_nonpersistent" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-75134acf-4575-5c16-8ead-492b26580d57" name="VMCH-80-000209 - Remove unneeded floppy devices" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|disconnect_devices_floppy" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-7260c0a8-2040-5f25-89c4-e796ad88ad63" name="VMCH-80-000210 - Remove unneeded CD/DVD devices" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|disconnect_devices_cd" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-fa4a5adc-3fa7-5694-bb65-33c49c6af04c" name="VMCH-80-000211 - Remove unneeded parallel devices" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|disconnect_devices_parallel" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-beb8bc1d-e8d7-5a50-8fc6-154e6f754aa4" name="VMCH-80-000212 - Remove unneeded serial devices" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|disconnect_devices_serial" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-64d488da-5a64-5850-bbbd-441bd9f82e66" name="VMCH-80-000214 - Disable DirectPath I/O when not required" resourceKind="VirtualMachine" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|pci_device_configured" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+  </SymptomDefinitions>
+</alertContent>
