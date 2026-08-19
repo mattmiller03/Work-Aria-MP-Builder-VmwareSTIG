@@ -168,15 +168,15 @@ work, relax `NATIVE_OPERATORS` in `validate_rules.py` rather than reverting.
    `claude/aria-stig-compliance-pack-8jahho`.
 3. **Confirm the three `=` operator fixes actually evaluate in the UI**
    (`VMCH-80-000198`, `-000202`, `-000214`) — the one open correctness question.
-4. **Triage the ESXi/vCenter backlog — the bulk of remaining work.** 143 rules
-   are still `check_method: TODO`, and `validate_rules.py` hard-fails on each,
-   which also blocks a full `generate.py` run. Expect ~30 of 76 ESXi and ~9 of
-   67 vCenter to be native-bindable; the rest are esxcli/shell-only and should
-   be marked out-of-native-scope rather than left TODO. For each, **check for a
-   native `config|*` key before reaching for vCommunity.**
-5. Author/verify the ESXi + vCenter symptom/alert/scorecard content, using
-   `native-compliance/native_bindings.json` as the binding source and
-   `deliverables/*.xml` as the format reference.
+4. ✅ ~~Triage the ESXi/vCenter backlog~~ — done. All 143 triaged; validator OK.
+   VM 19 native / ESXi 27 / vCenter 9 bound as `native_property`; the rest are
+   `manual` (out of native scope). Native content emitted to
+   `generated/native_{esxi,vcenter}_stig.xml`.
+5. **Build the collectors — see `docs/collector-backlog.md`.** The `manual`
+   rules (6 VM, 49 ESXi, 58 vCenter) need collectors or attestation. Start with
+   the 6 VM rules: they are VM advanced params / config props that the
+   scaffolded vCommunity adapter would cover. Then esxcli (Phase 2) and
+   appliance-REST (Phase 3) tiers.
 
 ### Known-good verification loop
 ```bash

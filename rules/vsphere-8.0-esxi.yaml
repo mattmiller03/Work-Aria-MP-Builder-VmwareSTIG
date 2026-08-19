@@ -1,13 +1,9 @@
-# SCAFFOLDED by scripts/import_inspec.py from scripts/inspec/vmware-vsphere-8.0-stig-baseline/esxi
-# 76 control(s) imported. ALL are check_method: TODO.
-#
-# Triage each one: read `_inspec_source`, set check_method / check /
-# operator / expected / default_when_absent, delete _inspec_source,
-# then set verified: true. Run validate_rules.py for the worklist.
-#
-# default_when_absent is NEVER inferred — decide per rule whether an
-# absent setting is a finding. See rules/_SCHEMA.md.
-
+# VMware vSphere 8.0 ESXi STIG V2R3 — triaged for native-attach compliance.
+# 27 rule(s) natively bindable (check_method: native_property, bound
+# to native VMWARE config|* keys reused from VMware's shipping 7.0 STIG pack).
+# The remainder are check_method: manual (out of native scope: esxcli/appliance
+# shell/API/attested) — see each rule's `notes`. Regenerate native content with
+# scripts/generate_native.py.
 benchmark:
   id: vsphere-8.0-esxi
   title: VMware vSphere 8.0 ESXi STIG
@@ -20,8 +16,16 @@ rules:
 - id: ESXI-80-000005
   title: The ESXi host must enforce the limit of three consecutive invalid logon attempts by a user.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|security_account_lock_failures
+  resource_kind: HostSystem
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '3.0'
+  native_note: 7.0 pack key; Get-AdvancedSetting -Name Security.AccountLockFailures ... its('stdout.strip')
+    { should cmp '3' }
   _inspec_source: |-
     control 'ESXI-80-000005' do
       title 'The ESXi host must enforce the limit of three consecutive invalid logon attempts by a user.'
@@ -89,13 +93,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000005.rb | gid: V-258728 | rid: SV-258728r958388_rule'
 - id: ESXI-80-000006
   title: The ESXi host must display the Standard Mandatory DOD Notice and Consent Banner before granting
     access to the system via the Direct Console User Interface (DCUI).
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): DCUI consent banner reads Annotations.WelcomeMessage; no
+    catalog key covers a welcome/banner message.'
   _inspec_source: |-
     control 'ESXI-80-000006' do
       title 'The ESXi host must display the Standard Mandatory DOD Notice and Consent Banner before granting access to the system via the Direct Console User Interface (DCUI).'
@@ -238,12 +243,18 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000006.rb | gid: V-258729 | rid: SV-258729r958390_rule'
 - id: ESXI-80-000008
   title: The ESXi host must enable lockdown mode.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|lockdown|lockdown_mode
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '='
+  finding_value: lockdownDisabled
+  native_note: 7.0 pack key; (Get-VMHost).Extensiondata.Config.LockdownMode ... should be_in ['lockdownNormal','lockdownStrict']
   _inspec_source: |-
     control 'ESXI-80-000008' do
       title 'The ESXi host must enable lockdown mode.'
@@ -321,12 +332,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000008.rb | gid: V-258730 | rid: SV-258730r958398_rule'
 - id: ESXI-80-000010
   title: The ESXi host client must be configured with an idle session timeout.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): UserVars.HostClientSessionTimeout (host UI client) has
+    no catalog key; distinct from shell/dcui timeout keys.'
   _inspec_source: |-
     control 'ESXI-80-000010' do
       title 'The ESXi host client must be configured with an idle session timeout.'
@@ -394,13 +406,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000010.rb | gid: V-258731 | rid: SV-258731r958402_rule'
 - id: ESXI-80-000014
   title: The ESXi host Secure Shell (SSH) daemon must use FIPS 140-2 validated cryptographic modules to
     protect the confidentiality of remote access sessions.
   cat: 1
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system security fips140 ssh get''; no advanced-setting/config
+    equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000014' do
       title 'The ESXi host Secure Shell (SSH) daemon must use FIPS 140-2 validated cryptographic modules to protect the confidentiality of remote access sessions.'
@@ -474,12 +487,18 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000014.rb | gid: V-258732 | rid: SV-258732r958408_rule'
 - id: ESXI-80-000015
   title: The ESXi must produce audit records containing information to establish what type of events occurred.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|host_agent_log_level
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '!='
+  finding_value: info
+  native_note: 7.0 pack key; Get-AdvancedSetting -Name Config.HostAgent.log.level ... should cmp 'info'
   _inspec_source: |-
     control 'ESXI-80-000015' do
       title 'The ESXi must produce audit records containing information to establish what type of events occurred.'
@@ -550,12 +569,18 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000015.rb | gid: V-258733 | rid: SV-258733r958412_rule'
 - id: ESXI-80-000035
   title: The ESXi host must enforce password complexity by configuring a password quality policy.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|security_password_quality_control
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '!='
+  finding_value: similar=deny retry=3 min=disabled,disabled,disabled,disabled,15
+  native_note: 7.0 pack key; Security.PasswordQualityControl ... should cmp 'similar=deny retry=3 min=disabled,disabled,disabled,disabled,15'
   _inspec_source: |-
     control 'ESXI-80-000035' do
       title 'The ESXi host must enforce password complexity by configuring a password quality policy.'
@@ -626,12 +651,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000035.rb | gid: V-258734 | rid: SV-258734r1003558_rule'
 - id: ESXI-80-000043
   title: The ESXi host must prohibit password reuse for a minimum of five generations.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|security_password_history
+  resource_kind: HostSystem
+  value_type: numeric
+  finding_operator: <
+  finding_value: '5.0'
+  native_note: 7.0 pack key; Security.PasswordHistory ... verify it is set to '5' or greater ... should
+    cmp '5'
   _inspec_source: |-
     control 'ESXI-80-000043' do
       title 'The ESXi host must prohibit password reuse for a minimum of five generations.'
@@ -699,13 +731,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000043.rb | gid: V-258735 | rid: SV-258735r1003559_rule'
 - id: ESXI-80-000047
   title: The ESXi host must be configured to disable nonessential capabilities by disabling the Managed
     Object Browser (MOB).
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|enable_mob
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'false'
+  native_note: 7.0 pack key; Config.HostAgent.plugins.solo.enableMob ... should cmp 'false'
   _inspec_source: |-
     control 'ESXI-80-000047' do
       title 'The ESXi host must be configured to disable nonessential capabilities by disabling the Managed Object Browser (MOB).'
@@ -773,13 +811,20 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000047.rb | gid: V-258736 | rid: SV-258736r958478_rule'
 - id: ESXI-80-000049
   title: The ESXi host must uniquely identify and must authenticate organizational users by using Active
     Directory.
   cat: 3
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|enable_ad_auth
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+  native_note: 7.0 pack key; Get-VMHostAuthentication ... DomainMembershipStatus should be_in ['Joined','Ok'];
+    Directory Services Type = Active Directory
   _inspec_source: |-
     control 'ESXI-80-000049' do
       title 'The ESXi host must uniquely identify and must authenticate organizational users by using Active Directory.'
@@ -868,12 +913,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000049.rb | gid: V-258737 | rid: SV-258737r1003560_rule'
 - id: ESXI-80-000052
   title: The ESXi host Secure Shell (SSH) daemon must ignore .rhosts files.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system ssh server config list -k ignorerhosts'';
+    no config equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000052' do
       title 'The ESXi host Secure Shell (SSH) daemon must ignore .rhosts files.'
@@ -946,12 +992,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000052.rb | gid: V-258738 | rid: SV-258738r1003561_rule'
 - id: ESXI-80-000068
   title: The ESXi host must set a timeout to automatically end idle shell sessions after fifteen minutes.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Setting ESXiShellInteractiveTimeOut maps to shell_interactive_timeout,
+    but catalog value 120 reflects 7x; 8.0 requires <=900 so a compliant 900 would misfire against ''!=120''.
+    Value inconsistent.'
   _inspec_source: |-
     control 'ESXI-80-000068' do
       title 'The ESXi host must set a timeout to automatically end idle shell sessions after fifteen minutes.'
@@ -1021,12 +1069,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000068.rb | gid: V-258739 | rid: SV-258739r1003562_rule'
 - id: ESXI-80-000085
   title: The ESXi host must implement Secure Boot enforcement.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system settings encryption get'' (require-secure-boot);
+    no config equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000085' do
       title 'The ESXi host must implement Secure Boot enforcement.'
@@ -1108,12 +1157,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000085.rb | gid: V-258740 | rid: SV-258740r958612_rule'
 - id: ESXI-80-000094
   title: The ESXi host must enable Secure Boot.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): Reads (Get-VMHost).ExtensionData.Capability.UefiSecureBoot via
+    vim API; not a native advanced setting.'
   _inspec_source: |-
     control 'ESXI-80-000094' do
       title 'The ESXi host must enable Secure Boot.'
@@ -1179,12 +1229,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000094.rb | gid: V-258741 | rid: SV-258741r1003563_rule'
 - id: ESXI-80-000111
   title: The ESXi host must enforce an unlock timeout of 15 minutes after a user account is locked out.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|security_account_unlock_time
+  resource_kind: HostSystem
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '900.0'
+  native_note: 7.0 pack key; Security.AccountUnlockTime ... verify it is set to '900' or less and not
+    '0' ... should cmp <= 900
   _inspec_source: |-
     control 'ESXI-80-000111' do
       title 'The ESXi host must enforce an unlock timeout of 15 minutes after a user account is locked out.'
@@ -1253,13 +1310,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000111.rb | gid: V-258742 | rid: SV-258742r1003564_rule'
 - id: ESXI-80-000113
   title: The ESXi host must allocate audit record storage capacity to store at least one week's worth
     of audit records.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Syslog.global.auditRecord.storageCapacity == 100 has no
+    catalog key.'
   _inspec_source: |-
     control 'ESXI-80-000113' do
       title "The ESXi host must allocate audit record storage capacity to store at least one week's worth of audit records."
@@ -1329,12 +1387,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000113.rb | gid: V-258743 | rid: SV-258743r958752_rule'
 - id: ESXI-80-000114
   title: The ESXi host must offload logs via syslog.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|syslog_host
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '='
+  finding_value: none
+  native_note: 7.0 pack key; Get-AdvancedSetting -Name Syslog.global.logHost ... verify it is set to a
+    site-specific syslog server
   _inspec_source: |-
     control 'ESXI-80-000114' do
       title 'The ESXi host must offload logs via syslog.'
@@ -1414,12 +1479,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000114.rb | gid: V-258744 | rid: SV-258744r1003565_rule'
 - id: ESXI-80-000124
   title: The ESXi host must synchronize internal information system clocks to an authoritative time source.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Requires both NTP server configured AND service running,
+    and accepts PTP as alternative; no single catalog key covers it. service:NTP Daemon|isRunning alone
+    would false-pass (running with no servers) and'
   _inspec_source: |-
     control 'ESXI-80-000124' do
       title 'The ESXi host must synchronize internal information system clocks to an authoritative time source.'
@@ -1550,12 +1617,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000124.rb | gid: V-258745 | rid: SV-258745r1003566_rule'
 - id: ESXI-80-000133
   title: The ESXi Image Profile and vSphere Installation Bundle (VIB) acceptance level must be verified.
   cat: 1
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|imageConfig|acceptance_level_risk_profile_3
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+  native_note: 7.0 pack key; $esxcli.software.acceptance.get.Invoke() ... should be_in ['PartnerSupported','VMwareCertified','VMwareAccepted']
+    (finding if CommunitySupported)
   _inspec_source: |-
     control 'ESXI-80-000133' do
       title 'The ESXi Image Profile and vSphere Installation Bundle (VIB) acceptance level must be verified.'
@@ -1640,13 +1714,20 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000133.rb | gid: V-258746 | rid: SV-258746r1003567_rule'
 - id: ESXI-80-000145
   title: The ESXi host must enable bidirectional Challenge-Handshake Authentication Protocol (CHAP) authentication
     for Internet Small Computer Systems Interface (iSCSI) traffic.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|enable_chap_auth
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
+  native_note: 7.0 pack key; Get-VMHostHba iscsi authentication ... ChapType 'Required' ... should cmp
+    'True' / should cmp 'Required'
   _inspec_source: |-
     control 'ESXI-80-000145' do
       title 'The ESXi host must enable bidirectional Challenge-Handshake Authentication Protocol (CHAP) authentication for Internet Small Computer Systems Interface (iSCSI) traffic.'
@@ -1736,13 +1817,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000145.rb | gid: V-258747 | rid: SV-258747r971545_rule'
 - id: ESXI-80-000160
   title: The ESXi host must protect the confidentiality and integrity of transmitted information by isolating
     vMotion traffic.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): vMotion VLAN isolation reviewed via Get-VMHostNetworkAdapter
+    vmknic state plus manual VLAN attestation; no native host property.'
   _inspec_source: |-
     control 'ESXI-80-000160' do
       title 'The ESXi host must protect the confidentiality and integrity of transmitted information by isolating vMotion traffic.'
@@ -1837,12 +1919,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000160.rb | gid: V-258748 | rid: SV-258748r958908_rule'
 - id: ESXI-80-000187
   title: The ESXi host Secure Shell (SSH) daemon must be configured to only use FIPS 140-2 validated ciphers.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system ssh server config list -k ciphers'';
+    no config equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000187' do
       title 'The ESXi host Secure Shell (SSH) daemon must be configured to only use FIPS 140-2 validated ciphers.'
@@ -1917,12 +2000,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000187.rb | gid: V-258750 | rid: SV-258750r959006_rule'
 - id: ESXI-80-000189
   title: The ESXi host DCUI.Access list must be verified.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|dcui_access
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '!='
+  finding_value: root
+  native_note: 7.0 pack key; Get-AdvancedSetting -Name DCUI.Access ... verify it is set to root ... should
+    cmp 'root'
   _inspec_source: |-
     control 'ESXI-80-000189' do
       title 'The ESXi host DCUI.Access list must be verified.'
@@ -1996,13 +2086,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000189.rb | gid: V-258751 | rid: SV-258751r959010_rule'
 - id: ESXI-80-000191
   title: The ESXi host must display the Standard Mandatory DOD Notice and Consent Banner before granting
     access to the system via Secure Shell (SSH).
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSH banner via Config.Etc.issue advanced setting; no catalog
+    key for issue/banner content.'
   _inspec_source: |-
     control 'ESXI-80-000191' do
       title 'The ESXi host must display the Standard Mandatory DOD Notice and Consent Banner before granting access to the system via Secure Shell (SSH).'
@@ -2099,13 +2190,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000191.rb | gid: V-258752 | rid: SV-258752r958390_rule'
 - id: ESXI-80-000192
   title: The ESXi host Secure Shell (SSH) daemon must display the Standard Mandatory DOD Notice and Consent
     Banner before granting access to the system.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system ssh server config list -k banner'';
+    no config equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000192' do
       title 'The ESXi host Secure Shell (SSH) daemon must display the Standard Mandatory DOD Notice and Consent Banner before granting access to the system.'
@@ -2200,13 +2292,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000192.rb | gid: V-258753 | rid: SV-258753r958390_rule'
 - id: ESXI-80-000193
   title: The ESXi host must be configured to disable nonessential capabilities by disabling Secure Shell
     (SSH).
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|service:SSH|isRunning
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '='
+  finding_value: 'true'
+  native_note: 7.0 pack key; SSH service ... should cmp 'off' (policy) and should cmp 'false' (running)
   _inspec_source: |-
     control 'ESXI-80-000193' do
       title 'The ESXi host must be configured to disable nonessential capabilities by disabling Secure Shell (SSH).'
@@ -2290,12 +2388,18 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000193.rb | gid: V-258754 | rid: SV-258754r958478_rule'
 - id: ESXI-80-000194
   title: The ESXi host must be configured to disable nonessential capabilities by disabling the ESXi shell.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|service:ESXi Shell|isRunning
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '='
+  finding_value: 'true'
+  native_note: 7.0 pack key; ESXi Shell service ... should cmp 'off' (policy) and should cmp 'false' (running)
   _inspec_source: |-
     control 'ESXI-80-000194' do
       title 'The ESXi host must be configured to disable nonessential capabilities by disabling the ESXi shell.'
@@ -2376,12 +2480,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000194.rb | gid: V-258755 | rid: SV-258755r958478_rule'
 - id: ESXI-80-000195
   title: The ESXi host must automatically stop shell services after 10 minutes.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|shell_timeout
+  resource_kind: HostSystem
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '600.0'
+  native_note: 7.0 pack key; UserVars.ESXiShellTimeOut ... verify it is set to '600' or less and not '0'
+    ... should cmp <= 600
   _inspec_source: |-
     control 'ESXI-80-000195' do
       title 'The ESXi host must automatically stop shell services after 10 minutes.'
@@ -2450,12 +2561,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000195.rb | gid: V-258756 | rid: SV-258756r1003569_rule'
 - id: ESXI-80-000196
   title: The ESXi host must set a timeout to automatically end idle DCUI sessions after 10 minutes.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): DcuiTimeOut correctly maps to dcui_timeout (NOT shell_interactive_timeout),
+    but catalog value 120 reflects 7x; 8.0 requires <=600, so a compliant host at 600 would misfire against
+    ''!=120''. Value inconsis'
   _inspec_source: |-
     control 'ESXI-80-000196' do
       title 'The ESXi host must set a timeout to automatically end idle DCUI sessions after 10 minutes.'
@@ -2524,13 +2637,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000196.rb | gid: V-258757 | rid: SV-258757r1003570_rule'
 - id: ESXI-80-000198
   title: The ESXi host must protect the confidentiality and integrity of transmitted information by isolating
     ESXi management traffic.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): Management traffic isolation reviewed via vmknic enabled-services
+    state plus manual VLAN attestation; no native host property.'
   _inspec_source: |-
     control 'ESXI-80-000198' do
       title 'The ESXi host must protect the confidentiality and integrity of transmitted information by isolating ESXi management traffic.'
@@ -2628,13 +2742,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000198.rb | gid: V-258758 | rid: SV-258758r958908_rule'
 - id: ESXI-80-000199
   title: The ESXi host must protect the confidentiality and integrity of transmitted information by isolating
     IP-based storage traffic.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): IP-storage traffic isolation reviewed via vmknic/iSCSI networkportal
+    state; no native host property.'
   _inspec_source: |-
     control 'ESXI-80-000199' do
       title 'The ESXi host must protect the confidentiality and integrity of transmitted information by isolating IP-based storage traffic.'
@@ -2748,12 +2863,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000199.rb | gid: V-258759 | rid: SV-258759r958908_rule'
 - id: ESXI-80-000201
   title: The ESXi host lockdown mode exception users list must be verified.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): Lockdown exception users read via HostAccessManager.QueryLockdownExceptions()
+    vim API; no native property (lockdown_mode key does not expose exception list).'
   _inspec_source: |-
     control 'ESXI-80-000201' do
       title 'The ESXi host lockdown mode exception users list must be verified.'
@@ -2834,12 +2950,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000201.rb | gid: V-258760 | rid: SV-258760r959010_rule'
 - id: ESXI-80-000202
   title: The ESXi host Secure Shell (SSH) daemon must not allow host-based authentication.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system ssh server config list -k hostbasedauthentication'';
+    no config equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000202' do
       title 'The ESXi host Secure Shell (SSH) daemon must not allow host-based authentication.'
@@ -2912,12 +3029,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000202.rb | gid: V-258761 | rid: SV-258761r959010_rule'
 - id: ESXI-80-000204
   title: The ESXi host Secure Shell (SSH) daemon must not permit user environment settings.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system ssh server config list -k permituserenvironment'';
+    no config equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000204' do
       title 'The ESXi host Secure Shell (SSH) daemon must not permit user environment settings.'
@@ -2990,12 +3108,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000204.rb | gid: V-258762 | rid: SV-258762r959010_rule'
 - id: ESXI-80-000207
   title: The ESXi host Secure Shell (SSH) daemon must be configured to not allow gateway ports.
   cat: 3
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system ssh server config list -k gatewayports'';
+    no config equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000207' do
       title 'The ESXi host Secure Shell (SSH) daemon must be configured to not allow gateway ports.'
@@ -3068,12 +3187,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000207.rb | gid: V-258763 | rid: SV-258763r959010_rule'
 - id: ESXI-80-000209
   title: The ESXi host Secure Shell (SSH) daemon must not permit tunnels.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system ssh server config list -k permittunnel'';
+    no config equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000209' do
       title 'The ESXi host Secure Shell (SSH) daemon must not permit tunnels.'
@@ -3146,12 +3266,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000209.rb | gid: V-258764 | rid: SV-258764r959010_rule'
 - id: ESXI-80-000210
   title: The ESXi host Secure Shell (SSH) daemon must set a timeout count on idle sessions.
   cat: 3
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system ssh server config list -k clientalivecountmax'';
+    no config equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000210' do
       title 'The ESXi host Secure Shell (SSH) daemon must set a timeout count on idle sessions.'
@@ -3224,12 +3345,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000210.rb | gid: V-258765 | rid: SV-258765r959010_rule'
 - id: ESXI-80-000211
   title: The ESXi host Secure Shell (SSH) daemon must set a timeout interval on idle sessions.
   cat: 3
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Requires ''esxcli system ssh server config list -k clientaliveinterval'';
+    no config equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000211' do
       title 'The ESXi host Secure Shell (SSH) daemon must set a timeout interval on idle sessions.'
@@ -3302,12 +3424,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000211.rb | gid: V-258766 | rid: SV-258766r959010_rule'
 - id: ESXI-80-000212
   title: The ESXi host must disable Simple Network Management Protocol (SNMP) v1 and v2c.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Check reads the SNMP ''enable'' flag via `esxcli system snmp
+    get` and v3-target config is esxcli-only. Near-miss trap: catalog has service:SNMP Server|isRunning
+    (service running state), but that is a differe'
   _inspec_source: |-
     control 'ESXI-80-000212' do
       title 'The ESXi host must disable Simple Network Management Protocol (SNMP) v1 and v2c.'
@@ -3381,12 +3505,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000212.rb | gid: V-258767 | rid: SV-258767r959010_rule'
 - id: ESXI-80-000213
   title: The ESXi host must disable Inter-Virtual Machine (VM) Transparent Page Sharing.
   cat: 3
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|tps_share_force_salting
+  resource_kind: HostSystem
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '2.0'
+  native_note: 7.0 pack key; Get-AdvancedSetting -Name Mem.ShareForceSalting ; its('stdout.strip') { should
+    cmp '2' }
   _inspec_source: |-
     control 'ESXI-80-000213' do
       title 'The ESXi host must disable Inter-Virtual Machine (VM) Transparent Page Sharing.'
@@ -3456,12 +3587,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000213.rb | gid: V-258768 | rid: SV-258768r959010_rule'
 - id: ESXI-80-000214
   title: The ESXi host must configure the firewall to block network traffic by default.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Reads firewall DefaultAction=DROP and Enabled=true via `esxcli
+    network firewall get`. No catalog key for default firewall action; firewallRule:services|servicesConfigured
+    is per-service, not the default po'
   _inspec_source: |-
     control 'ESXI-80-000214' do
       title 'The ESXi host must configure the firewall to block network traffic by default.'
@@ -3535,13 +3668,20 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000214.rb | gid: V-258769 | rid: SV-258769r1003571_rule'
 - id: ESXI-80-000215
   title: The ESXi host must enable Bridge Protocol Data Units (BPDU) filter on the host to prevent being
     locked out of physical switch ports with Portfast and BPDU Guard enabled.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|net_block_guest_bpdu
+  resource_kind: HostSystem
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '1.0'
+  native_note: 7.0 pack key; Get-AdvancedSetting -Name Net.BlockGuestBPDU ; its('stdout.strip') { should
+    cmp '1' }
   _inspec_source: |-
     control 'ESXI-80-000215' do
       title 'The ESXi host must enable Bridge Protocol Data Units (BPDU) filter on the host to prevent being locked out of physical switch ports with Portfast and BPDU Guard enabled.'
@@ -3613,12 +3753,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000215.rb | gid: V-258770 | rid: SV-258770r959010_rule'
 - id: ESXI-80-000216
   title: The ESXi host must configure virtual switch security policies to reject forged transmits.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|network|portgroup|forged_transmits_rollup
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '='
+  finding_value: 'true'
+  native_note: 7.0 pack key; Get-SecurityPolicy ... -ExpandProperty ForgedTransmits ; its('stdout.strip')
+    { should_not match 'True' } (Forged Transmits set to Accept/true is a finding)
   _inspec_source: |-
     control 'ESXI-80-000216' do
       title 'The ESXi host must configure virtual switch security policies to reject forged transmits.'
@@ -3706,13 +3853,20 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000216.rb | gid: V-258771 | rid: SV-258771r959010_rule'
 - id: ESXI-80-000217
   title: The ESXi host must configure virtual switch security policies to reject Media Access Control
     (MAC) address changes.
   cat: 1
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|network|portgroup|mac_changes_rollup
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '='
+  finding_value: 'true'
+  native_note: 7.0 pack key; Get-SecurityPolicy ... -ExpandProperty MacChanges ; its('stdout.strip') {
+    should_not match 'True' } (MAC Address Changes set to Accept/true is a finding)
   _inspec_source: |-
     control 'ESXI-80-000217' do
       title 'The ESXi host must configure virtual switch security policies to reject Media Access Control (MAC) address changes.'
@@ -3798,12 +3952,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000217.rb | gid: V-258772 | rid: SV-258772r959010_rule'
 - id: ESXI-80-000218
   title: The ESXi host must configure virtual switch security policies to reject promiscuous mode requests.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|network|portgroup|allow_promiscuous_rollup
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '='
+  finding_value: 'true'
+  native_note: 7.0 pack key; Get-SecurityPolicy ... -ExpandProperty AllowPromiscuous ; its('stdout.strip')
+    { should_not match 'True' } (Promiscuous Mode set to Accept/true is a finding)
   _inspec_source: |-
     control 'ESXI-80-000218' do
       title 'The ESXi host must configure virtual switch security policies to reject promiscuous mode requests.'
@@ -3889,12 +4050,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000218.rb | gid: V-258773 | rid: SV-258773r959010_rule'
 - id: ESXI-80-000219
   title: The ESXi host must restrict use of the dvFilter network application programming interface (API).
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|dvfilter_bind_address
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '!='
+  finding_value: none
+  native_note: 7.0 pack key; Get-AdvancedSetting -Name Net.DVFilterBindIpAddress ; its('stdout.strip')
+    { should cmp '' } (must be blank)
   _inspec_source: |-
     control 'ESXI-80-000219' do
       title 'The ESXi host must restrict use of the dvFilter network application programming interface (API).'
@@ -3966,12 +4134,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000219.rb | gid: V-258774 | rid: SV-258774r959010_rule'
 - id: ESXI-80-000220
   title: The ESXi host must restrict the use of Virtual Guest Tagging (VGT) on standard switches.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads per-portgroup VLAN ID (Get-VirtualPortGroup VlanId
+    should_not match 4095). Catalog exposes only the three portgroup security rollups, none for VLAN ID.'
   _inspec_source: |-
     control 'ESXI-80-000220' do
       title 'The ESXi host must restrict the use of Virtual Guest Tagging (VGT) on standard switches.'
@@ -4045,12 +4214,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000220.rb | gid: V-258775 | rid: SV-258775r959010_rule'
 - id: ESXI-80-000221
   title: The ESXi host must have all security patches and updates installed.
   cat: 1
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): Compares ExtensionData.Config.Product.build to a target build
+    number via vim API; patch/version state, not a native config property in the catalog.'
   _inspec_source: |-
     control 'ESXI-80-000221' do
       title 'The ESXi host must have all security patches and updates installed.'
@@ -4140,12 +4310,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000221.rb | gid: V-258776 | rid: SV-258776r959010_rule'
 - id: ESXI-80-000222
   title: The ESXi host must not suppress warnings that the local or remote shell sessions are enabled.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|suppressShellWarning
+  resource_kind: HostSystem
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '0.0'
+  native_note: 7.0 pack key; Get-AdvancedSetting -Name UserVars.SuppressShellWarning ; its('stdout.strip')
+    { should cmp '0' }
   _inspec_source: |-
     control 'ESXI-80-000222' do
       title 'The ESXi host must not suppress warnings that the local or remote shell sessions are enabled.'
@@ -4213,12 +4390,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000222.rb | gid: V-258777 | rid: SV-258777r959010_rule'
 - id: ESXI-80-000223
   title: The ESXi host must not suppress warnings about unmitigated hyperthreading vulnerabilities.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|suppressHyperthreadWarning
+  resource_kind: HostSystem
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '0.0'
+  native_note: 7.0 pack key; Get-AdvancedSetting -Name UserVars.SuppressHyperthreadWarning ; its('stdout.strip')
+    { should cmp '0' }
   _inspec_source: |-
     control 'ESXI-80-000223' do
       title 'The ESXi host must not suppress warnings about unmitigated hyperthreading vulnerabilities.'
@@ -4286,12 +4470,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000223.rb | gid: V-258778 | rid: SV-258778r959010_rule'
 - id: ESXI-80-000224
   title: The ESXi host must verify certificates for SSL syslog endpoints.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting Syslog.global.certificate.checkSSLCerts=true.
+    No catalog key for this syslog SSL-cert-check setting.'
   _inspec_source: |-
     control 'ESXI-80-000224' do
       title 'The ESXi host must verify certificates for SSL syslog endpoints.'
@@ -4384,12 +4569,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000224.rb | gid: V-258779 | rid: SV-258779r1003572_rule'
 - id: ESXI-80-000225
   title: The ESXi host must enable volatile key destruction.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting Mem.MemEagerZero=1. No catalog key
+    covers volatile key destruction.'
   _inspec_source: |-
     control 'ESXI-80-000225' do
       title 'The ESXi host must enable volatile key destruction.'
@@ -4461,12 +4647,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000225.rb | gid: V-258780 | rid: SV-258780r959010_rule'
 - id: ESXI-80-000226
   title: The ESXi host must configure a session timeout for the vSphere API.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting Config.HostAgent.vmacore.soap.sessionTimeout=30.
+    No catalog key.'
   _inspec_source: |-
     control 'ESXI-80-000226' do
       title 'The ESXi host must configure a session timeout for the vSphere API.'
@@ -4536,12 +4723,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000226.rb | gid: V-258781 | rid: SV-258781r959010_rule'
 - id: ESXI-80-000227
   title: The ESXi host must be configured with an appropriate maximum password age.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting Security.PasswordMaxDays=90. Catalog
+    has password quality/history keys but none for max password age.'
   _inspec_source: |-
     control 'ESXI-80-000227' do
       title 'The ESXi host must be configured with an appropriate maximum password age.'
@@ -4609,12 +4797,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000227.rb | gid: V-258782 | rid: SV-258782r959010_rule'
 - id: ESXI-80-000228
   title: The ESXi Common Information Model (CIM) service must be disabled.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|service:SFCB service|policy
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '='
+  finding_value: 'on'
+  native_note: 7.0 pack key; Get-VMHostService | Where {$_.Label -eq 'CIM Server'} -ExpandProperty Policy
+    ; should cmp 'off' (Policy not off or running is a finding)
   _inspec_source: |-
     control 'ESXI-80-000228' do
       title 'The ESXi Common Information Model (CIM) service must be disabled.'
@@ -4691,12 +4886,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000228.rb | gid: V-258783 | rid: SV-258783r959010_rule'
 - id: ESXI-80-000229
   title: The ESXi host must use DOD-approved certificates.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): Retrieves host SSL certificate issuer via ssl_certificate(host,443)
+    and compares issuer org to approved CA. Cert issuer is network/API state, not a native HostSystem
+    property; approved-CA judgment. No catalog'
   _inspec_source: |-
     control 'ESXI-80-000229' do
       title 'The ESXi host must use DOD-approved certificates.'
@@ -4784,12 +4981,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000229.rb | gid: V-258784 | rid: SV-258784r1067575_rule'
 - id: ESXI-80-000230
   title: The ESXi host Secure Shell (SSH) daemon must disable port forwarding.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Reads `esxcli system ssh server config list -k allowtcpforwarding`
+    == no. sshd config value, no advanced-setting/native equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000230' do
       title 'The ESXi host Secure Shell (SSH) daemon must disable port forwarding.'
@@ -4862,12 +5060,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000230.rb | gid: V-258785 | rid: SV-258785r959010_rule'
 - id: ESXI-80-000231
   title: The ESXi host OpenSLP service must be disabled.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|service:SLP Service|policy
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '='
+  finding_value: 'on'
+  native_note: 7.0 pack key; Get-VMHostService | Where {$_.Label -eq 'slpd'} -ExpandProperty Policy ;
+    should cmp 'off' (Policy not off or running is a finding)
   _inspec_source: |-
     control 'ESXI-80-000231' do
       title 'The ESXi host OpenSLP service must be disabled.'
@@ -4944,12 +5149,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000231.rb | gid: V-258786 | rid: SV-258786r959010_rule'
 - id: ESXI-80-000232
   title: The ESXi host must enable audit logging.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting Syslog.global.auditRecord.storageEnable=true.
+    No catalog key.'
   _inspec_source: |-
     control 'ESXI-80-000232' do
       title 'The ESXi host must enable audit logging.'
@@ -5023,12 +5229,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000232.rb | gid: V-258787 | rid: SV-258787r1003573_rule'
 - id: ESXI-80-000233
   title: The ESXi host must off-load audit records via syslog.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting Syslog.global.auditRecord.remoteEnable=true.
+    No catalog key.'
   _inspec_source: |-
     control 'ESXI-80-000233' do
       title 'The ESXi host must off-load audit records via syslog.'
@@ -5100,12 +5307,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000233.rb | gid: V-258788 | rid: SV-258788r958754_rule'
 - id: ESXI-80-000234
   title: The ESXi host must enable strict x509 verification for SSL syslog endpoints.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting Syslog.global.certificate.strictX509Compliance=true.
+    No catalog key.'
   _inspec_source: |-
     control 'ESXI-80-000234' do
       title 'The ESXi host must enable strict x509 verification for SSL syslog endpoints.'
@@ -5177,13 +5385,15 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000234.rb | gid: V-258789 | rid: SV-258789r959010_rule'
 - id: ESXI-80-000235
   title: The ESXi host must forward audit records containing information to establish what type of events
     occurred.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting Syslog.global.logLevel=info. Trap:
+    catalog host_agent_log_level is Config.HostAgent.log.level, a DIFFERENT setting. No catalog key for
+    Syslog.global.logLevel.'
   _inspec_source: |-
     control 'ESXI-80-000235' do
       title 'The ESXi host must forward audit records containing information to establish what type of events occurred.'
@@ -5257,12 +5467,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000235.rb | gid: V-258790 | rid: SV-258790r958412_rule'
 - id: ESXI-80-000236
   title: The ESXi host must not be configured to override virtual machine (VM) configurations.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): ESXi shell command `stat -c %s /etc/vmware/settings` == 0
+    (file-size/shell check). No native property; out of native scope.'
   _inspec_source: |-
     control 'ESXI-80-000236' do
       title 'The ESXi host must not be configured to override virtual machine (VM) configurations.'
@@ -5296,12 +5507,13 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: ESXI-80-000236.rb | gid: V-258791 | rid: SV-258791r959010_rule'
 - id: ESXI-80-000237
   title: The ESXi host must not be configured to override virtual machine (VM) logger settings.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): ESXi shell `grep ^vmx\.log /etc/vmware/config` (file-content/shell
+    check). No native property; out of native scope.'
   _inspec_source: |-
     control 'ESXI-80-000237' do
       title 'The ESXi host must not be configured to override virtual machine (VM) logger settings.'
@@ -5332,12 +5544,13 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: ESXI-80-000237.rb | gid: V-258792 | rid: SV-258792r959010_rule'
 - id: ESXI-80-000238
   title: The ESXi host must require TPM-based configuration encryption.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Reads `esxcli system settings encryption get` Mode==TPM.
+    No advanced-setting/native equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000238' do
       title 'The ESXi host must require TPM-based configuration encryption.'
@@ -5424,12 +5637,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000238.rb | gid: V-258793 | rid: SV-258793r959010_rule'
 - id: ESXI-80-000239
   title: The ESXi host must configure the firewall to restrict access to services running on the host.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|firewallRule:services|servicesConfigured
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: contains
+  finding_value: 'false'
+  native_note: 7.0 pack key; Get-VMHostFirewallException ... ExtensionData.AllowedHosts.AllIP ; it { should
+    cmp 'False' } (allow connections from any IP on a user-configurable service is a finding)
   _inspec_source: |-
     control 'ESXI-80-000239' do
       title 'The ESXi host must configure the firewall to restrict access to services running on the host.'
@@ -5525,13 +5745,15 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000239.rb | gid: V-258794 | rid: SV-258794r1003574_rule'
 - id: ESXI-80-000240
   title: The ESXi host when using Host Profiles and/or Auto Deploy must use the vSphere Authentication
     Proxy to protect passwords when adding themselves to Active Directory.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): Reads Host Profile join-domain method (ApplyProfile.Authentication.ActiveDirectory
+    / FixedCAMConfigOption) via vCenter Get-VMHostProfile. Same control family as 7.0 enable_auth_proxy,
+    but the catalog key is a'
   _inspec_source: |-
     control 'ESXI-80-000240' do
       title 'The ESXi host when using Host Profiles and/or Auto Deploy must use the vSphere Authentication Proxy to protect passwords when adding themselves to Active Directory.'
@@ -5625,12 +5847,13 @@ rules:
         impact 0.0
       end
     end
-  notes: 'source: ESXI-80-000240.rb | gid: V-258795 | rid: SV-258795r959010_rule'
 - id: ESXI-80-000241
   title: The ESXi host must not use the default Active Directory ESX Admin group.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting Config.HostAgent.plugins.hostsvc.esxAdminsGroup
+    != ''ESX Admins''. No catalog key.'
   _inspec_source: |-
     control 'ESXI-80-000241' do
       title 'The ESXi host must not use the default Active Directory ESX Admin group.'
@@ -5714,12 +5937,19 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000241.rb | gid: V-258796 | rid: SV-258796r959010_rule'
 - id: ESXI-80-000243
   title: The ESXi host must configure a persistent log location for all locally stored logs.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|syslog_dir
+  resource_kind: HostSystem
+  value_type: string
+  finding_operator: '='
+  finding_value: 'false'
+  native_note: 7.0 pack key; esxcli.system.syslog.config.get LocalLogOutputIsPersistent ; should cmp 'true'
+    (Syslog.global.logDir must be a persistent location; not persistent is a finding)
   _inspec_source: |-
     control 'ESXI-80-000243' do
       title 'The ESXi host must configure a persistent log location for all locally stored logs.'
@@ -5804,12 +6034,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000243.rb | gid: V-258797 | rid: SV-258797r1003575_rule'
 - id: ESXI-80-000244
   title: The ESXi host must enforce the exclusive running of executables from approved VIBs.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting VMkernel.Boot.execInstalledOnly=true.
+    No catalog key.'
   _inspec_source: |-
     control 'ESXI-80-000244' do
       title 'The ESXi host must enforce the exclusive running of executables from approved VIBs.'
@@ -5879,12 +6110,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000244.rb | gid: V-258798 | rid: SV-258798r959010_rule'
 - id: ESXI-80-000245
   title: The ESXi host must use sufficient entropy for cryptographic operations.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Reads `esxcli system settings kernel list` for disableHwrng=false
+    and entropySources=0. Kernel settings via esxcli, no native/advanced-setting equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000245' do
       title 'The ESXi host must use sufficient entropy for cryptographic operations.'
@@ -5973,12 +6205,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000245.rb | gid: V-258799 | rid: SV-258799r959010_rule'
 - id: ESXI-80-000246
   title: The ESXi host must not enable log filtering.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Reads `esxcli system syslog config logfilter get` LogFilteringEnabled==false.
+    No native equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000246' do
       title 'The ESXi host must not enable log filtering.'
@@ -6048,12 +6281,14 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000246.rb | gid: V-258800 | rid: SV-258800r959010_rule'
 - id: ESXI-80-000247
   title: The ESXi host must use DOD-approved encryption to protect the confidentiality of network sessions.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Reads TLS boot profile via `esxcli system tls server get`
+    == NIST_2024. Trap: catalog tlsDisabledProtocols is a different (7.0 advanced-setting) mechanism,
+    not the 8.0 TLS profile name read here.'
   _inspec_source: |-
     control 'ESXI-80-000247' do
       title 'The ESXi host must use DOD-approved encryption to protect the confidentiality of network sessions.'
@@ -6159,12 +6394,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000247.rb | gid: V-265974 | rid: SV-265974r1003578_rule'
 - id: ESXI-80-000248
   title: The ESXi host must disable key persistence.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Reads `esxcli system security keypersistence get` Enabled==false.
+    No native equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000248' do
       title 'The ESXi host must disable key persistence.'
@@ -6240,12 +6476,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000248.rb | gid: V-265975 | rid: SV-265975r1003581_rule'
 - id: ESXI-80-000249
   title: The ESXi host must deny shell access for the dcui account.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (esxcli_only): Reads `esxcli system account list` dcui account Shellaccess==false.
+    No native equivalent.'
   _inspec_source: |-
     control 'ESXI-80-000249' do
       title 'The ESXi host must deny shell access for the dcui account.'
@@ -6314,12 +6551,13 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000249.rb | gid: V-265976 | rid: SV-265976r1003584_rule'
 - id: ESXI-80-000250
   title: The ESXi host must disable virtual hardware management network interfaces.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reads advanced setting Net.BMCNetworkEnable=0. No catalog
+    key.'
   _inspec_source: |-
     control 'ESXI-80-000250' do
       title 'The ESXi host must disable virtual hardware management network interfaces.'
@@ -6387,4 +6625,3 @@ rules:
         end
       end
     end
-  notes: 'source: ESXI-80-000250.rb | gid: V-265977 | rid: SV-265977r1003587_rule'

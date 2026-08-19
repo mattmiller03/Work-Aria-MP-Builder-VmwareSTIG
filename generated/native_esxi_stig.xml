@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alertContent>
+  <AlertDefinitions>
+    <AlertDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="AlertDefinition-e7ad9bb7-4983-57b0-b46e-6784646aa58e" name="VMware vSphere 8.0 ESXi STIG V2R3 Violation" resourceKind="HostSystem" subType="21" type="15">
+      <State severity="automatic">
+        <SymptomSet applyOn="self" operator="or">
+          <Symptom ref="SymptomDefinition-4be008a4-00f2-5303-80ba-80895879b522"/>
+          <Symptom ref="SymptomDefinition-d8fcc6b7-00cf-5936-8fa8-0f710b3d55d4"/>
+          <Symptom ref="SymptomDefinition-daf68361-8531-5ac3-a6b9-5d8806994dc6"/>
+          <Symptom ref="SymptomDefinition-cb6e838d-c80c-5238-8987-8d1f1b890ea8"/>
+          <Symptom ref="SymptomDefinition-7e78b3ac-521a-5530-ac77-5918e94e390c"/>
+          <Symptom ref="SymptomDefinition-a4d40a79-f47c-5cca-8016-92dd598df041"/>
+          <Symptom ref="SymptomDefinition-dda1aa71-c156-572b-9f3f-e6df495853a6"/>
+          <Symptom ref="SymptomDefinition-903b62e6-96dd-55b5-90ee-70812937b0b9"/>
+          <Symptom ref="SymptomDefinition-b3afb1b6-813a-5d71-aa7b-799ebc1f97aa"/>
+          <Symptom ref="SymptomDefinition-f5016584-c5c9-5de9-8fe2-bf9eef56d541"/>
+          <Symptom ref="SymptomDefinition-84b17901-9a92-5920-837a-37429b53b340"/>
+          <Symptom ref="SymptomDefinition-56f4a7f4-071c-5adf-98d1-6d2e68abae23"/>
+          <Symptom ref="SymptomDefinition-7b6a6c88-e2bc-5138-a3d4-89ee35e1ebde"/>
+          <Symptom ref="SymptomDefinition-c596821d-c43b-5216-9f42-db4ad9702ab4"/>
+          <Symptom ref="SymptomDefinition-1c544a8f-d468-5f2e-ac15-0917917e386c"/>
+          <Symptom ref="SymptomDefinition-8e1a52c8-a213-5465-bdf7-d37265ffded3"/>
+          <Symptom ref="SymptomDefinition-25425743-893b-5a00-a8c5-01d9939c3c55"/>
+          <Symptom ref="SymptomDefinition-796faa4c-d08d-53e3-883c-bbc2e01901ae"/>
+          <Symptom ref="SymptomDefinition-f9af9381-cd8b-518c-8e6e-31dd96ae9a7b"/>
+          <Symptom ref="SymptomDefinition-4a5650f2-6d7a-5047-99c8-a6e86a6a020d"/>
+          <Symptom ref="SymptomDefinition-cc57dc05-590b-5eda-89e4-733dc20251b2"/>
+          <Symptom ref="SymptomDefinition-f77292b1-4f85-5a99-914a-72a281e18bd1"/>
+          <Symptom ref="SymptomDefinition-6b33f117-cbd7-5307-a7a6-a2b46a71cebb"/>
+          <Symptom ref="SymptomDefinition-0fd63b9a-20b9-5d32-9be5-e1f9e7f28934"/>
+          <Symptom ref="SymptomDefinition-6ea218d0-4f38-506d-8faf-3c3078c93d50"/>
+          <Symptom ref="SymptomDefinition-591456a1-f1c9-5045-a6e3-f7d06c832917"/>
+          <Symptom ref="SymptomDefinition-03682dba-57f0-5793-9170-4ca54947412f"/>
+        </SymptomSet>
+        <Impact key="risk" type="badge"/>
+      </State>
+    </AlertDefinition>
+  </AlertDefinitions>
+  <SymptomDefinitions>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-4be008a4-00f2-5303-80ba-80895879b522" name="ESXI-80-000005 - The ESXi host must enforce the limit of three consecutive invalid logon attempts by a user." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|security_account_lock_failures" operator="!=" thresholdType="static" type="property" value="3.0" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-d8fcc6b7-00cf-5936-8fa8-0f710b3d55d4" name="ESXI-80-000008 - The ESXi host must enable lockdown mode." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|lockdown|lockdown_mode" operator="=" thresholdType="static" type="property" value="lockdownDisabled" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-daf68361-8531-5ac3-a6b9-5d8806994dc6" name="ESXI-80-000015 - The ESXi must produce audit records containing information to establish what type of events occurred." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|host_agent_log_level" operator="!=" thresholdType="static" type="property" value="info" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-cb6e838d-c80c-5238-8987-8d1f1b890ea8" name="ESXI-80-000035 - The ESXi host must enforce password complexity by configuring a password quality policy." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|security_password_quality_control" operator="!=" thresholdType="static" type="property" value="similar=deny retry=3 min=disabled,disabled,disabled,disabled,15" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-7e78b3ac-521a-5530-ac77-5918e94e390c" name="ESXI-80-000043 - The ESXi host must prohibit password reuse for a minimum of five generations." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|security_password_history" operator="&lt;" thresholdType="static" type="property" value="5.0" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-a4d40a79-f47c-5cca-8016-92dd598df041" name="ESXI-80-000047 - The ESXi host must be configured to disable nonessential capabilities by disabling the Managed Object Browser (MOB)." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|enable_mob" operator="!=" thresholdType="static" type="property" value="false" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-dda1aa71-c156-572b-9f3f-e6df495853a6" name="ESXI-80-000049 - The ESXi host must uniquely identify and must authenticate organizational users by using Active Directory." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|enable_ad_auth" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-903b62e6-96dd-55b5-90ee-70812937b0b9" name="ESXI-80-000111 - The ESXi host must enforce an unlock timeout of 15 minutes after a user account is locked out." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|security_account_unlock_time" operator="!=" thresholdType="static" type="property" value="900.0" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-b3afb1b6-813a-5d71-aa7b-799ebc1f97aa" name="ESXI-80-000114 - The ESXi host must offload logs via syslog." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|syslog_host" operator="=" thresholdType="static" type="property" value="none" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-f5016584-c5c9-5de9-8fe2-bf9eef56d541" name="ESXI-80-000133 - The ESXi Image Profile and vSphere Installation Bundle (VIB) acceptance level must be verified." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="critical">
+        <Condition key="config|security|imageConfig|acceptance_level_risk_profile_3" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-84b17901-9a92-5920-837a-37429b53b340" name="ESXI-80-000145 - The ESXi host must enable bidirectional Challenge-Handshake Authentication Protocol (CHAP) authentication for Internet Small Computer Systems Interface (iSCSI) traffic." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|enable_chap_auth" operator="!=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-56f4a7f4-071c-5adf-98d1-6d2e68abae23" name="ESXI-80-000189 - The ESXi host DCUI.Access list must be verified." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|dcui_access" operator="!=" thresholdType="static" type="property" value="root" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-7b6a6c88-e2bc-5138-a3d4-89ee35e1ebde" name="ESXI-80-000193 - The ESXi host must be configured to disable nonessential capabilities by disabling Secure Shell (SSH)." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|service:SSH|isRunning" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-c596821d-c43b-5216-9f42-db4ad9702ab4" name="ESXI-80-000194 - The ESXi host must be configured to disable nonessential capabilities by disabling the ESXi shell." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|service:ESXi Shell|isRunning" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-1c544a8f-d468-5f2e-ac15-0917917e386c" name="ESXI-80-000195 - The ESXi host must automatically stop shell services after 10 minutes." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|shell_timeout" operator="!=" thresholdType="static" type="property" value="600.0" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-8e1a52c8-a213-5465-bdf7-d37265ffded3" name="ESXI-80-000213 - The ESXi host must disable Inter-Virtual Machine (VM) Transparent Page Sharing." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="warning">
+        <Condition key="config|security|tps_share_force_salting" operator="!=" thresholdType="static" type="property" value="2.0" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-25425743-893b-5a00-a8c5-01d9939c3c55" name="ESXI-80-000215 - The ESXi host must enable Bridge Protocol Data Units (BPDU) filter on the host to prevent being locked out of physical switch ports with Portfast and BPDU Guard enabled." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|net_block_guest_bpdu" operator="!=" thresholdType="static" type="property" value="1.0" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-796faa4c-d08d-53e3-883c-bbc2e01901ae" name="ESXI-80-000216 - The ESXi host must configure virtual switch security policies to reject forged transmits." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|network|portgroup|forged_transmits_rollup" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-f9af9381-cd8b-518c-8e6e-31dd96ae9a7b" name="ESXI-80-000217 - The ESXi host must configure virtual switch security policies to reject Media Access Control (MAC) address changes." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="critical">
+        <Condition key="config|network|portgroup|mac_changes_rollup" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-4a5650f2-6d7a-5047-99c8-a6e86a6a020d" name="ESXI-80-000218 - The ESXi host must configure virtual switch security policies to reject promiscuous mode requests." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|network|portgroup|allow_promiscuous_rollup" operator="=" thresholdType="static" type="property" value="true" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-cc57dc05-590b-5eda-89e4-733dc20251b2" name="ESXI-80-000219 - The ESXi host must restrict use of the dvFilter network application programming interface (API)." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|dvfilter_bind_address" operator="!=" thresholdType="static" type="property" value="none" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-f77292b1-4f85-5a99-914a-72a281e18bd1" name="ESXI-80-000222 - The ESXi host must not suppress warnings that the local or remote shell sessions are enabled." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|suppressShellWarning" operator="!=" thresholdType="static" type="property" value="0.0" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-6b33f117-cbd7-5307-a7a6-a2b46a71cebb" name="ESXI-80-000223 - The ESXi host must not suppress warnings about unmitigated hyperthreading vulnerabilities." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|suppressHyperthreadWarning" operator="!=" thresholdType="static" type="property" value="0.0" valueType="numeric"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-0fd63b9a-20b9-5d32-9be5-e1f9e7f28934" name="ESXI-80-000228 - The ESXi Common Information Model (CIM) service must be disabled." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|service:SFCB service|policy" operator="=" thresholdType="static" type="property" value="on" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-6ea218d0-4f38-506d-8faf-3c3078c93d50" name="ESXI-80-000231 - The ESXi host OpenSLP service must be disabled." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|service:SLP Service|policy" operator="=" thresholdType="static" type="property" value="on" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-591456a1-f1c9-5045-a6e3-f7d06c832917" name="ESXI-80-000239 - The ESXi host must configure the firewall to restrict access to services running on the host." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|firewallRule:services|servicesConfigured" operator="contains" thresholdType="static" type="property" value="false" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+    <SymptomDefinition adapterKind="VMWARE" disableInBasePolicy="true" id="SymptomDefinition-03682dba-57f0-5793-9170-4ca54947412f" name="ESXI-80-000243 - The ESXi host must configure a persistent log location for all locally stored logs." resourceKind="HostSystem" symptomDefType="condition_self">
+      <State severity="immediate">
+        <Condition key="config|security|syslog_dir" operator="=" thresholdType="static" type="property" value="false" valueType="string"/>
+      </State>
+    </SymptomDefinition>
+  </SymptomDefinitions>
+</alertContent>

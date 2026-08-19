@@ -1,13 +1,9 @@
-# SCAFFOLDED by scripts/import_inspec.py from scripts/inspec/vmware-vsphere-8.0-stig-baseline/vcenter
-# 67 control(s) imported. ALL are check_method: TODO.
-#
-# Triage each one: read `_inspec_source`, set check_method / check /
-# operator / expected / default_when_absent, delete _inspec_source,
-# then set verified: true. Run validate_rules.py for the worklist.
-#
-# default_when_absent is NEVER inferred — decide per rule whether an
-# absent setting is a finding. See rules/_SCHEMA.md.
-
+# VMware vSphere 8.0 vCenter STIG V2R3 — triaged for native-attach compliance.
+# 9 rule(s) natively bindable (check_method: native_property, bound
+# to native VMWARE config|* keys reused from VMware's shipping 7.0 STIG pack).
+# The remainder are check_method: manual (out of native scope: esxcli/appliance
+# shell/API/attested) — see each rule's `notes`. Regenerate native content with
+# scripts/generate_native.py.
 benchmark:
   id: vsphere-8.0-vcenter
   title: VMware vSphere 8.0 vCenter STIG
@@ -21,8 +17,10 @@ rules:
   title: The vCenter Server must use DOD-approved encryption to protect the confidentiality of network
     sessions.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): TLS global profile NIST_2024 read via appliance REST API (Invoke-GetTlsProfilesGlobal);
+    no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000009' do
       title 'The vCenter Server must use DOD-approved encryption to protect the confidentiality of network sessions.'
@@ -79,12 +77,18 @@ rules:
         its('stdout.strip') { should cmp 'NIST_2024' }
       end
     end
-  notes: 'source: VCSA-80-000009.rb | gid: V-265978 | rid: SV-265978r1003613_rule'
 - id: VCSA-80-000023
   title: The vCenter Server must enforce the limit of three consecutive invalid login attempts by a user.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: vc_appliance|sso_lockout_policy_failed_login_attempts
+  resource_kind: VMwareAdapter Instance
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '3.0'
+  native_note: 7.0 pack key; (Get-SsoLockoutPolicy).MaxFailedAttempts should cmp '3'
   _inspec_source: |-
     control 'VCSA-80-000023' do
       title 'The vCenter Server must enforce the limit of three consecutive invalid login attempts by a user.'
@@ -117,12 +121,12 @@ rules:
         its('stdout.strip') { should cmp '3' }
       end
     end
-  notes: 'source: VCSA-80-000023.rb | gid: V-258905 | rid: SV-258905r960840_rule'
 - id: VCSA-80-000024
   title: The vCenter Server must display the Standard Mandatory DOD Notice and Consent Banner before logon.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): DOD login banner is a manual/policy review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000024' do
       title 'The vCenter Server must display the Standard Mandatory DOD Notice and Consent Banner before logon.'
@@ -185,13 +189,13 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000024.rb | gid: V-258906 | rid: SV-258906r960843_rule'
 - id: VCSA-80-000034
   title: The vCenter Server must produce audit records containing information to establish what type of
     events occurred.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): config.log.level=info advanced setting; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000034' do
       title 'The vCenter Server must produce audit records containing information to establish what type of events occurred.'
@@ -236,12 +240,12 @@ rules:
         its('stdout.strip') { should cmp 'info' }
       end
     end
-  notes: 'source: VCSA-80-000034.rb | gid: V-258907 | rid: SV-258907r960891_rule'
 - id: VCSA-80-000057
   title: vCenter Server plugins must be verified.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): Plugin verification is manual/policy review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000057' do
       title 'vCenter Server plugins must be verified.'
@@ -297,13 +301,13 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000057.rb | gid: V-258908 | rid: SV-258908r960963_rule'
 - id: VCSA-80-000059
   title: The vCenter Server must uniquely identify and authenticate users or processes acting on behalf
     of users.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): Identity provider / AD source verification is manual (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000059' do
       title 'The vCenter Server must uniquely identify and authenticate users or processes acting on behalf of users.'
@@ -361,12 +365,13 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000059.rb | gid: V-258909 | rid: SV-258909r1003590_rule'
 - id: VCSA-80-000060
   title: The vCenter Server must require multifactor authentication.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): MFA/SmartCardAuthnEnabled via SSO auth policy; no catalog
+    key (else path manual)'
   _inspec_source: |-
     control 'VCSA-80-000060' do
       title 'The vCenter Server must require multifactor authentication.'
@@ -413,12 +418,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000060.rb | gid: V-258910 | rid: SV-258910r960864_rule'
 - id: VCSA-80-000069
   title: The vCenter Server passwords must be at least 15 characters in length.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSO password MinLength; password policy not in catalog'
   _inspec_source: |-
     control 'VCSA-80-000069' do
       title 'The vCenter Server passwords must be at least 15 characters in length.'
@@ -455,12 +460,13 @@ rules:
         its('stdout.strip') { should cmp >= 15 }
       end
     end
-  notes: 'source: VCSA-80-000069.rb | gid: V-258911 | rid: SV-258911r1003591_rule'
 - id: VCSA-80-000070
   title: The vCenter Server must prohibit password reuse for a minimum of five generations.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSO ProhibitedPreviousPasswordsCount; password policy not
+    in catalog'
   _inspec_source: |-
     control 'VCSA-80-000070' do
       title 'The vCenter Server must prohibit password reuse for a minimum of five generations.'
@@ -497,12 +503,12 @@ rules:
         its('stdout.strip') { should cmp >= 5 }
       end
     end
-  notes: 'source: VCSA-80-000070.rb | gid: V-258912 | rid: SV-258912r1003592_rule'
 - id: VCSA-80-000071
   title: The vCenter Server passwords must contain at least one uppercase character.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSO MinUppercaseCount; password policy not in catalog'
   _inspec_source: |-
     control 'VCSA-80-000071' do
       title 'The vCenter Server passwords must contain at least one uppercase character.'
@@ -537,12 +543,12 @@ rules:
         its('stdout.strip') { should cmp >= 1 }
       end
     end
-  notes: 'source: VCSA-80-000071.rb | gid: V-258913 | rid: SV-258913r1003593_rule'
 - id: VCSA-80-000072
   title: The vCenter Server passwords must contain at least one lowercase character.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSO MinLowercaseCount; password policy not in catalog'
   _inspec_source: |-
     control 'VCSA-80-000072' do
       title 'The vCenter Server passwords must contain at least one lowercase character.'
@@ -577,12 +583,12 @@ rules:
         its('stdout.strip') { should cmp >= 1 }
       end
     end
-  notes: 'source: VCSA-80-000072.rb | gid: V-258914 | rid: SV-258914r1003594_rule'
 - id: VCSA-80-000073
   title: The vCenter Server passwords must contain at least one numeric character.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSO MinNumericCount; password policy not in catalog'
   _inspec_source: |-
     control 'VCSA-80-000073' do
       title 'The vCenter Server passwords must contain at least one numeric character.'
@@ -617,12 +623,12 @@ rules:
         its('stdout.strip') { should cmp >= 1 }
       end
     end
-  notes: 'source: VCSA-80-000073.rb | gid: V-258915 | rid: SV-258915r1003595_rule'
 - id: VCSA-80-000074
   title: The vCenter Server passwords must contain at least one special character.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSO MinSpecialCharCount; password policy not in catalog'
   _inspec_source: |-
     control 'VCSA-80-000074' do
       title 'The vCenter Server passwords must contain at least one special character.'
@@ -659,12 +665,13 @@ rules:
         its('stdout.strip') { should cmp >= 1 }
       end
     end
-  notes: 'source: VCSA-80-000074.rb | gid: V-258916 | rid: SV-258916r1003596_rule'
 - id: VCSA-80-000077
   title: The vCenter Server must enable FIPS-validated cryptography.
   cat: 1
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): Global FIPS via appliance REST API (Invoke-GetSystemGlobalFips);
+    no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000077' do
       title 'The vCenter Server must enable FIPS-validated cryptography.'
@@ -734,12 +741,12 @@ rules:
         its('stdout.strip') { should cmp 'True' }
       end
     end
-  notes: 'source: VCSA-80-000077.rb | gid: V-258917 | rid: SV-258917r961029_rule'
 - id: VCSA-80-000079
   title: The vCenter Server must enforce a 90-day maximum password lifetime restriction.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSO PasswordLifetimeDays; password policy not in catalog'
   _inspec_source: |-
     control 'VCSA-80-000079' do
       title 'The vCenter Server must enforce a 90-day maximum password lifetime restriction.'
@@ -776,12 +783,13 @@ rules:
         its('stdout.strip') { should cmp <= 90 }
       end
     end
-  notes: 'source: VCSA-80-000079.rb | gid: V-258918 | rid: SV-258918r1003597_rule'
 - id: VCSA-80-000080
   title: The vCenter Server must enable revocation checking for certificate-based authentication.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Cert revocation OCSP/CRL via SSO auth policy; no catalog
+    key'
   _inspec_source: |-
     control 'VCSA-80-000080' do
       title 'The vCenter Server must enable revocation checking for certificate-based authentication.'
@@ -834,12 +842,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000080.rb | gid: V-258919 | rid: SV-258919r1003600_rule'
 - id: VCSA-80-000089
   title: The vCenter Server must terminate vSphere Client sessions after 15 minutes of inactivity.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): Client session timeout is manual review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000089' do
       title 'The vCenter Server must terminate vSphere Client sessions after 15 minutes of inactivity.'
@@ -870,12 +878,12 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000089.rb | gid: V-258920 | rid: SV-258920r1003601_rule'
 - id: VCSA-80-000095
   title: The vCenter Server user roles must be verified.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): User role least-privilege verification is manual (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000095' do
       title 'The vCenter Server user roles must be verified.'
@@ -926,13 +934,14 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000095.rb | gid: V-258921 | rid: SV-258921r961095_rule'
 - id: VCSA-80-000110
   title: The vCenter Server must manage excess capacity, bandwidth, or other redundancy to limit the effects
     of information flooding types of denial-of-service (DoS) attacks by enabling Network I/O Control (NIOC).
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): NIOC NetworkResourceManagementEnabled on VDSwitch; no catalog
+    key'
   _inspec_source: |-
     control 'VCSA-80-000110' do
       title 'The vCenter Server must manage excess capacity, bandwidth, or other redundancy to limit the effects of information flooding types of denial-of-service (DoS) attacks by enabling Network I/O Control (NIOC).'
@@ -993,14 +1002,14 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000110.rb | gid: V-258922 | rid: SV-258922r961155_rule'
 - id: VCSA-80-000123
   title: The vCenter Server must provide an immediate real-time alert to the system administrator (SA)
     and information system security officer (ISSO), at a minimum, on every Single Sign-On (SSO) account
     action.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSO PrincipalManagement alarm definition; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000123' do
       title 'The vCenter Server must provide an immediate real-time alert to the system administrator (SA) and information system security officer (ISSO), at a minimum, on every Single Sign-On (SSO) account action.'
@@ -1060,12 +1069,13 @@ rules:
         its('stdout.strip') { should cmp 'true' }
       end
     end
-  notes: 'source: VCSA-80-000123.rb | gid: V-258923 | rid: SV-258923r1003602_rule'
 - id: VCSA-80-000145
   title: The vCenter Server must set the interval for counting failed login attempts to at least 15 minutes.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSO FailedAttemptIntervalSec (time between failures) is
+    a distinct setting; no catalog key (not the attempts-count key)'
   _inspec_source: |-
     control 'VCSA-80-000145' do
       title 'The vCenter Server must set the interval for counting failed login attempts to at least 15 minutes.'
@@ -1098,12 +1108,19 @@ rules:
         its('stdout.strip') { should cmp >= 900 }
       end
     end
-  notes: 'source: VCSA-80-000145.rb | gid: V-258924 | rid: SV-258924r961368_rule'
 - id: VCSA-80-000148
   title: The vCenter Server must be configured to send logs to a central log server.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: vc_appliance|hasLoggingForwardingConfigs
+  resource_kind: VMwareAdapter Instance
+  value_type: string
+  finding_operator: '='
+  finding_value: 'false'
+  native_note: 7.0 pack key; Invoke-GetLoggingForwarding hostname; logservers should_not be_empty / should
+    be_in input('syslogServers')
   _inspec_source: |-
     control 'VCSA-80-000148' do
       title 'The vCenter Server must be configured to send logs to a central log server.'
@@ -1166,14 +1183,14 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000148.rb | gid: V-258925 | rid: SV-258925r961395_rule'
 - id: VCSA-80-000150
   title: The vCenter server must provide an immediate real-time alert to the system administrator (SA)
     and information system security officer (ISSO), at a minimum, of all audit failure events requiring
     real-time alerts.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): Real-time audit-failure alert is manual (impact 0.0 skip)'
   _inspec_source: |-
     control 'VCSA-80-000150' do
       title 'The vCenter server must provide an immediate real-time alert to the system administrator (SA) and information system security officer (ISSO), at a minimum, of all audit failure events requiring real-time alerts.'
@@ -1204,13 +1221,19 @@ rules:
         skip 'This must be reviewed manually'
       end
     end
-  notes: 'source: VCSA-80-000150.rb | gid: V-258926 | rid: SV-258926r961401_rule'
 - id: VCSA-80-000158
   title: The vCenter Server must compare internal information system clocks at least every 24 hours with
     an authoritative time server.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: vc_appliance|timeSyncMode
+  resource_kind: VMwareAdapter Instance
+  value_type: string
+  finding_operator: '!='
+  finding_value: NTP
+  native_note: 7.0 pack key; Invoke-GetTimesync; timesync should cmp 'NTP'
   _inspec_source: |-
     control 'VCSA-80-000158' do
       title 'The vCenter Server must compare internal information system clocks at least every 24 hours with an authoritative time server.'
@@ -1271,13 +1294,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000158.rb | gid: V-258927 | rid: SV-258927r1003604_rule'
 - id: VCSA-80-000195
   title: The vCenter Server Machine Secure Sockets Layer (SSL) certificate must be issued by a DOD certificate
     authority.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Machine SSL cert issuer_organization; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000195' do
       title 'The vCenter Server Machine Secure Sockets Layer (SSL) certificate must be issued by a DOD certificate authority.'
@@ -1326,12 +1349,13 @@ rules:
         its('issuer_organization') { should cmp 'U.S. Government' }
       end
     end
-  notes: 'source: VCSA-80-000195.rb | gid: V-258928 | rid: SV-258928r961596_rule'
 - id: VCSA-80-000196
   title: The vCenter Server must enable data at rest encryption for vSAN.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): vSAN data-at-rest EncryptionEnabled via VsanClusterConfiguration;
+    no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000196' do
       title 'The vCenter Server must enable data at rest encryption for vSAN.'
@@ -1392,12 +1416,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000196.rb | gid: V-258929 | rid: SV-258929r961599_rule'
 - id: VCSA-80-000248
   title: The vCenter Server must disable the Customer Experience Improvement Program (CEIP).
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): CEIP disable is manual review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000248' do
       title 'The vCenter Server must disable the Customer Experience Improvement Program (CEIP).'
@@ -1423,12 +1447,12 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000248.rb | gid: V-258930 | rid: SV-258930r961863_rule'
 - id: VCSA-80-000253
   title: The vCenter server must enforce SNMPv3 security features where SNMP is required.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): SNMPv3 security features is manual review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000253' do
       title 'The vCenter server must enforce SNMPv3 security features where SNMP is required.'
@@ -1475,12 +1499,12 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000253.rb | gid: V-258931 | rid: SV-258931r961878_rule'
 - id: VCSA-80-000265
   title: The vCenter server must disable SNMPv1/2 receivers.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): snmp.receiver.N.enabled via VpxSettings; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000265' do
       title 'The vCenter server must disable SNMPv1/2 receivers.'
@@ -1529,13 +1553,19 @@ rules:
         its('stdout.strip') { should cmp 'False' }
       end
     end
-  notes: 'source: VCSA-80-000265.rb | gid: V-258932 | rid: SV-258932r961878_rule'
 - id: VCSA-80-000266
   title: The vCenter Server must require an administrator to unlock an account locked due to excessive
     login failures.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: vc_appliance|sso_lockout_policy_unlock_time
+  resource_kind: VMwareAdapter Instance
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '0.0'
+  native_note: 7.0 pack key; (Get-SsoLockoutPolicy).AutoUnlockIntervalSec should cmp '0'
   _inspec_source: |-
     control 'VCSA-80-000266' do
       title 'The vCenter Server must require an administrator to unlock an account locked due to excessive login failures.'
@@ -1568,12 +1598,19 @@ rules:
         its('stdout.strip') { should cmp '0' }
       end
     end
-  notes: 'source: VCSA-80-000266.rb | gid: V-258933 | rid: SV-258933r961368_rule'
 - id: VCSA-80-000267
   title: The vCenter Server must disable the distributed virtual switch health check.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|health_check_config|health_check_config_vlan_mtu
+  resource_kind: VmwareDistributedVirtualSwitch
+  value_type: string
+  finding_operator: '='
+  finding_value: 'true'
+  native_note: 7.0 pack key; (Get-VDSwitch).ExtensionData.Config.HealthCheckConfig | Select -ExpandProperty
+    Enable should cmp 'false'
   _inspec_source: |-
     control 'VCSA-80-000267' do
       title 'The vCenter Server must disable the distributed virtual switch health check.'
@@ -1641,12 +1678,19 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000267.rb | gid: V-258934 | rid: SV-258934r961863_rule'
 - id: VCSA-80-000268
   title: The vCenter Server must set the distributed port group Forged Transmits policy to "Reject".
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|policies|security|forged_transmits
+  resource_kind: DistributedVirtualPortgroup
+  value_type: string
+  finding_operator: '='
+  finding_value: 'true'
+  native_note: 7.0 pack key; Get-VDSecurityPolicy | Select -ExpandProperty ForgedTransmits should cmp
+    'false'
   _inspec_source: |-
     control 'VCSA-80-000268' do
       title 'The vCenter Server must set the distributed port group Forged Transmits policy to "Reject".'
@@ -1731,13 +1775,19 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000268.rb | gid: V-258935 | rid: SV-258935r961863_rule'
 - id: VCSA-80-000269
   title: The vCenter Server must set the distributed port group Media Access Control (MAC) Address Change
     policy to "Reject".
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|policies|security|mac_changes
+  resource_kind: DistributedVirtualPortgroup
+  value_type: string
+  finding_operator: '='
+  finding_value: 'true'
+  native_note: 7.0 pack key; Get-VDSecurityPolicy | Select -ExpandProperty MacChanges should cmp 'false'
   _inspec_source: |-
     control 'VCSA-80-000269' do
       title 'The vCenter Server must set the distributed port group Media Access Control (MAC) Address Change policy to "Reject".'
@@ -1820,12 +1870,19 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000269.rb | gid: V-258936 | rid: SV-258936r961863_rule'
 - id: VCSA-80-000270
   title: The vCenter Server must set the distributed port group Promiscuous Mode policy to "Reject".
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: config|policies|security|allow_promiscuous
+  resource_kind: DistributedVirtualPortgroup
+  value_type: string
+  finding_operator: '='
+  finding_value: 'true'
+  native_note: 7.0 pack key; Get-VDSecurityPolicy | Select -ExpandProperty AllowPromiscuous should cmp
+    'false'
   _inspec_source: |-
     control 'VCSA-80-000270' do
       title 'The vCenter Server must set the distributed port group Promiscuous Mode policy to "Reject".'
@@ -1909,12 +1966,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000270.rb | gid: V-258937 | rid: SV-258937r961863_rule'
 - id: VCSA-80-000271
   title: The vCenter Server must only send NetFlow traffic to authorized collectors.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): NetFlow IpfixConfig collector address; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000271' do
       title 'The vCenter Server must only send NetFlow traffic to authorized collectors.'
@@ -2046,13 +2103,13 @@ rules:
         impact 0.0
       end
     end
-  notes: 'source: VCSA-80-000271.rb | gid: V-258938 | rid: SV-258938r961863_rule'
 - id: VCSA-80-000272
   title: The vCenter Server must configure all port groups to a value other than that of the native virtual
     local area network (VLAN).
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Port group native VLAN (VlanId != 1); no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000272' do
       title 'The vCenter Server must configure all port groups to a value other than that of the native virtual local area network (VLAN).'
@@ -2121,13 +2178,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000272.rb | gid: V-258939 | rid: SV-258939r961863_rule'
 - id: VCSA-80-000273
   title: The vCenter Server must not configure VLAN Trunking unless Virtual Guest Tagging (VGT) is required
     and authorized.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): VLAN trunking range check; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000273' do
       title 'The vCenter Server must not configure VLAN Trunking unless Virtual Guest Tagging (VGT) is required and authorized.'
@@ -2208,13 +2265,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000273.rb | gid: V-258940 | rid: SV-258940r961863_rule'
 - id: VCSA-80-000274
   title: The vCenter Server must not configure all port groups to virtual local area network (VLAN) values
     reserved by upstream physical switches.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Reserved-VLAN check on port groups; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000274' do
       title 'The vCenter Server must not configure all port groups to virtual local area network (VLAN) values reserved by upstream physical switches.'
@@ -2279,12 +2336,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000274.rb | gid: V-258941 | rid: SV-258941r961863_rule'
 - id: VCSA-80-000275
   title: The vCenter Server must configure the "vpxuser" auto-password to be changed every 30 days.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): VirtualCenter.VimPasswordExpirationInDays advanced setting;
+    no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000275' do
       title 'The vCenter Server must configure the "vpxuser" auto-password to be changed every 30 days.'
@@ -2337,12 +2395,13 @@ rules:
         its('stdout.strip') { should cmp '30' }
       end
     end
-  notes: 'source: VCSA-80-000275.rb | gid: V-258942 | rid: SV-258942r961863_rule'
 - id: VCSA-80-000276
   title: The vCenter Server must configure the "vpxuser" password to meet length policy.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): config.vpxd.hostPasswordLength advanced setting; no catalog
+    key'
   _inspec_source: |-
     control 'VCSA-80-000276' do
       title 'The vCenter Server must configure the "vpxuser" password to meet length policy.'
@@ -2396,13 +2455,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000276.rb | gid: V-258943 | rid: SV-258943r961863_rule'
 - id: VCSA-80-000277
   title: The vCenter Server must be isolated from the public internet but must still allow for patch notification
     and delivery.
   cat: 3
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): Internet isolation is manual/policy review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000277' do
       title 'The vCenter Server must be isolated from the public internet but must still allow for patch notification and delivery.'
@@ -2518,12 +2577,12 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000277.rb | gid: V-258944 | rid: SV-258944r961863_rule'
 - id: VCSA-80-000278
   title: The vCenter Server must use unique service accounts when applications connect to vCenter.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): Unique service accounts is manual review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000278' do
       title 'The vCenter Server must use unique service accounts when applications connect to vCenter.'
@@ -2551,13 +2610,13 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000278.rb | gid: V-258945 | rid: SV-258945r961863_rule'
 - id: VCSA-80-000279
   title: The vCenter Server must protect the confidentiality and integrity of transmitted information
     by isolating Internet Protocol (IP)-based storage traffic.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): IP storage traffic isolation is manual review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000279' do
       title 'The vCenter Server must protect the confidentiality and integrity of transmitted information by isolating Internet Protocol (IP)-based storage traffic.'
@@ -2655,12 +2714,13 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000279.rb | gid: V-258946 | rid: SV-258946r961863_rule'
 - id: VCSA-80-000280
   title: The vCenter server must be configured to send events to a central log server.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): vpxd.event.syslog.enabled advanced setting (distinct from
+    appliance log forwarding); no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000280' do
       title 'The vCenter server must be configured to send events to a central log server.'
@@ -2707,13 +2767,14 @@ rules:
         its('stdout.strip') { should cmp 'true' }
       end
     end
-  notes: 'source: VCSA-80-000280.rb | gid: V-258947 | rid: SV-258947r961395_rule'
 - id: VCSA-80-000281
   title: The vCenter Server must disable or restrict the connectivity between vSAN Health Check and public
     Hardware Compatibility List (HCL) by use of an external proxy server.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): vSAN HCL internet/proxy config via VsanView; no catalog
+    key'
   _inspec_source: |-
     control 'VCSA-80-000281' do
       title 'The vCenter Server must disable or restrict the connectivity between vSAN Health Check and public Hardware Compatibility List (HCL) by use of an external proxy server.'
@@ -2776,12 +2837,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000281.rb | gid: V-258948 | rid: SV-258948r961863_rule'
 - id: VCSA-80-000282
   title: The vCenter Server must configure the vSAN Datastore name to a unique name.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): vSAN datastore unique name; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000282' do
       title 'The vCenter Server must configure the vSAN Datastore name to a unique name.'
@@ -2859,12 +2920,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000282.rb | gid: V-258949 | rid: SV-258949r961863_rule'
 - id: VCSA-80-000283
   title: The vCenter Server must disable Username/Password and Windows Integrated Authentication.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): SSO Password/Windows auth disabled via auth policy; no
+    catalog key'
   _inspec_source: |-
     control 'VCSA-80-000283' do
       title 'The vCenter Server must disable Username/Password and Windows Integrated Authentication.'
@@ -2915,12 +2977,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000283.rb | gid: V-258950 | rid: SV-258950r961863_rule'
 - id: VCSA-80-000284
   title: The vCenter Server must restrict access to the default roles with cryptographic permissions.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Crypto role membership via Get-VIPermission; no catalog
+    key'
   _inspec_source: |-
     control 'VCSA-80-000284' do
       title 'The vCenter Server must restrict access to the default roles with cryptographic permissions.'
@@ -2975,12 +3038,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000284.rb | gid: V-258951 | rid: SV-258951r1003606_rule'
 - id: VCSA-80-000285
   title: The vCenter Server must restrict access to cryptographic permissions.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Crypto privilege roles via Get-VIRole; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000285' do
       title 'The vCenter Server must restrict access to cryptographic permissions.'
@@ -3052,13 +3115,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000285.rb | gid: V-258952 | rid: SV-258952r1003608_rule'
 - id: VCSA-80-000286
   title: The vCenter Server must have Mutual Challenge Handshake Authentication Protocol (CHAP) configured
     for vSAN Internet Small Computer System Interface (iSCSI) targets.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): vSAN iSCSI Mutual CHAP config; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000286' do
       title 'The vCenter Server must have Mutual Challenge Handshake Authentication Protocol (CHAP) configured for vSAN Internet Small Computer System Interface (iSCSI) targets.'
@@ -3117,13 +3180,13 @@ rules:
         impact 0.0
       end
     end
-  notes: 'source: VCSA-80-000286.rb | gid: V-258953 | rid: SV-258953r961863_rule'
 - id: VCSA-80-000287
   title: The vCenter Server must have new Key Encryption Keys (KEKs) reissued at regular intervals for
     vSAN encrypted datastore(s).
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): vSAN KEK reissue interval is manual review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000287' do
       title 'The vCenter Server must have new Key Encryption Keys (KEKs) reissued at regular intervals for vSAN encrypted datastore(s).'
@@ -3163,13 +3226,13 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000287.rb | gid: V-258954 | rid: SV-258954r1003610_rule'
 - id: VCSA-80-000288
   title: The vCenter Server must use secure Lightweight Directory Access Protocol (LDAPS) when adding
     an LDAP identity source.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): LDAPS identity source is manual review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000288' do
       title 'The vCenter Server must use secure Lightweight Directory Access Protocol (LDAPS) when adding an LDAP identity source.'
@@ -3209,13 +3272,14 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000288.rb | gid: V-258955 | rid: SV-258955r961863_rule'
 - id: VCSA-80-000290
   title: The vCenter Server must limit membership to the "SystemConfiguration.BashShellAdministrators"
     Single Sign-On (SSO) group.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): BashShellAdministrators SSO group membership; no catalog
+    key'
   _inspec_source: |-
     control 'VCSA-80-000290' do
       title 'The vCenter Server must limit membership to the "SystemConfiguration.BashShellAdministrators" Single Sign-On (SSO) group.'
@@ -3293,12 +3357,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000290.rb | gid: V-258956 | rid: SV-258956r961863_rule'
 - id: VCSA-80-000291
   title: The vCenter Server must limit membership to the "TrustedAdmins" Single Sign-On (SSO) group.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): TrustedAdmins SSO group membership; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000291' do
       title 'The vCenter Server must limit membership to the "TrustedAdmins" Single Sign-On (SSO) group.'
@@ -3373,12 +3437,18 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000291.rb | gid: V-258957 | rid: SV-258957r961863_rule'
 - id: VCSA-80-000292
   title: The vCenter server configuration must be backed up on a regular basis.
   cat: 2
-  check_method: TODO
-  verified: false
+  verified: true
+  check_method: native_property
+  check:
+    key: vc_appliance|hasRecoveryBackupJobs
+  resource_kind: VMwareAdapter Instance
+  value_type: string
+  finding_operator: '='
+  finding_value: 'false'
+  native_note: 7.0 pack key; (Invoke-ListRecoveryBackupSchedules).default.enable should cmp 'true'
   _inspec_source: |-
     control 'VCSA-80-000292' do
       title 'The vCenter server configuration must be backed up on a regular basis.'
@@ -3458,12 +3528,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000292.rb | gid: V-258958 | rid: SV-258958r961863_rule'
 - id: VCSA-80-000293
   title: The vCenter server must have task and event retention set to at least 30 days.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): event.maxAge/task.maxAge advanced settings; no catalog
+    key'
   _inspec_source: |-
     control 'VCSA-80-000293' do
       title 'The vCenter server must have task and event retention set to at least 30 days.'
@@ -3508,12 +3579,12 @@ rules:
         its('stdout.strip') { should cmp >= '30' }
       end
     end
-  notes: 'source: VCSA-80-000293.rb | gid: V-258959 | rid: SV-258959r961863_rule'
 - id: VCSA-80-000294
   title: The vCenter server Native Key Provider must be backed up with a strong password.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): Native Key Provider backup password is manual review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000294' do
       title 'The vCenter server Native Key Provider must be backed up with a strong password.'
@@ -3547,12 +3618,13 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000294.rb | gid: V-258960 | rid: SV-258960r961863_rule'
 - id: VCSA-80-000295
   title: The vCenter server must require authentication for published content libraries.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Content library publish authentication_method; no catalog
+    key'
   _inspec_source: |-
     control 'VCSA-80-000295' do
       title 'The vCenter server must require authentication for published content libraries.'
@@ -3617,12 +3689,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000295.rb | gid: V-258961 | rid: SV-258961r961863_rule'
 - id: VCSA-80-000296
   title: The vCenter server must enable the OVF security policy for content libraries.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Content library OVF security_policy_id; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000296' do
       title 'The vCenter server must enable the OVF security policy for content libraries.'
@@ -3675,12 +3747,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000296.rb | gid: V-258962 | rid: SV-258962r961863_rule'
 - id: VCSA-80-000298
   title: The vCenter Server must separate authentication and authorization for administrators.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (manual): Separation of auth/authz is manual review (InSpec skip)'
   _inspec_source: |-
     control 'VCSA-80-000298' do
       title 'The vCenter Server must separate authentication and authorization for administrators.'
@@ -3734,12 +3806,13 @@ rules:
         skip 'This check is a manual or policy based check and must be reviewed manually.'
       end
     end
-  notes: 'source: VCSA-80-000298.rb | gid: V-258963 | rid: SV-258963r961863_rule'
 - id: VCSA-80-000299
   title: The vCenter Server must disable CDP/LLDP on distributed switches.
   cat: 3
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): DVS LinkDiscoveryProtocolOperation (CDP/LLDP); no catalog
+    key'
   _inspec_source: |-
     control 'VCSA-80-000299' do
       title 'The vCenter Server must disable CDP/LLDP on distributed switches.'
@@ -3800,12 +3873,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000299.rb | gid: V-258964 | rid: SV-258964r961863_rule'
 - id: VCSA-80-000300
   title: The vCenter Server must remove unauthorized port mirroring sessions on distributed switches.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): DVS VspanSession port-mirroring; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000300' do
       title 'The vCenter Server must remove unauthorized port mirroring sessions on distributed switches.'
@@ -3858,12 +3931,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000300.rb | gid: V-258965 | rid: SV-258965r961863_rule'
 - id: VCSA-80-000301
   title: The vCenter Server must not override port group settings at the port level on distributed switches.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): Port group override-allowed policy flags; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000301' do
       title 'The vCenter Server must not override port group settings at the port level on distributed switches.'
@@ -3978,12 +4051,12 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000301.rb | gid: V-258966 | rid: SV-258966r961863_rule'
 - id: VCSA-80-000302
   title: The vCenter Server must reset port configuration when virtual machines are disconnected.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): PortConfigResetAtDisconnect; no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000302' do
       title 'The vCenter Server must reset port configuration when virtual machines are disconnected.'
@@ -4053,12 +4126,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000302.rb | gid: V-258967 | rid: SV-258967r961863_rule'
 - id: VCSA-80-000303
   title: The vCenter Server must disable Secure Shell (SSH) access.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (api_only): SSH access via appliance REST API (Invoke-GetAccessSsh); no
+    catalog key'
   _inspec_source: |-
     control 'VCSA-80-000303' do
       title 'The vCenter Server must disable Secure Shell (SSH) access.'
@@ -4094,12 +4168,13 @@ rules:
         it { should_not cmp 'true' }
       end
     end
-  notes: 'source: VCSA-80-000303.rb | gid: V-258968 | rid: SV-258968r961863_rule'
 - id: VCSA-80-000304
   title: The vCenter Server must enable data in transit encryption for vSAN.
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): vSAN data-in-transit encryption via VsanView; no catalog
+    key'
   _inspec_source: |-
     control 'VCSA-80-000304' do
       title 'The vCenter Server must enable data in transit encryption for vSAN.'
@@ -4169,12 +4244,13 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000304.rb | gid: V-258969 | rid: SV-258969r961863_rule'
 - id: VCSA-80-000305
   title: The vCenter Server must disable accounts used for Integrated Windows Authentication (IWA).
   cat: 2
-  check_method: TODO
   verified: false
+  check_method: manual
+  notes: 'out of native scope (no_native_key): IWA account (K/M, krbtgt) Disabled via Get-SsoPersonUser;
+    no catalog key'
   _inspec_source: |-
     control 'VCSA-80-000305' do
       title 'The vCenter Server must disable accounts used for Integrated Windows Authentication (IWA).'
@@ -4216,4 +4292,3 @@ rules:
         end
       end
     end
-  notes: 'source: VCSA-80-000305.rb | gid: V-265979 | rid: SV-265979r1003616_rule'
