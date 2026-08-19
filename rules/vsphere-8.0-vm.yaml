@@ -1,6 +1,7 @@
 # VMware vSphere 8.0 Virtual Machine STIG — V2R3
-# ALL-NATIVE: binds to Aria native config|security|* properties.
-# No vCommunity dependency. finding_operator/value describe the FINDING state.
+# ALL-NATIVE: binds to Aria native config|* properties. No vCommunity.
+# finding_operator/value describe the FINDING state. Semantics confirmed
+# against the real native pak symptom dump (native-compliance/).
 benchmark:
   id: vsphere-8.0-vm
   title: VMware vSphere 8.0 Virtual Machine STIG
@@ -103,15 +104,23 @@ rules:
 - id: VMCH-80-000199
   title: Shared salt values must be disabled
   cat: 2
-  verified: false
-  check_method: manual
-  notes: salt setting has no native config|security key
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|tps_share_force_salting
+  value_type: numeric
+  finding_operator: '!='
+  finding_value: '2'
 - id: VMCH-80-000200
   title: Disable access through the dvfilter network API
   cat: 2
-  verified: false
-  check_method: manual
-  notes: "dvfilter \u2014 network_filter_enable mapping unconfirmed"
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|dvfilter_bind_address
+  value_type: string
+  finding_operator: '!='
+  finding_value: none
 - id: VMCH-80-000201
   title: Lock when last console connection closed
   cat: 3
@@ -135,9 +144,13 @@ rules:
 - id: VMCH-80-000203
   title: Enable encryption for vMotion
   cat: 2
-  verified: false
-  check_method: manual
-  notes: "migrateEncryption is config|migrateEncryption (different namespace) \u2014 TODO map"
+  verified: true
+  check_method: native_property
+  check:
+    key: config|migrateEncryption
+  value_type: string
+  finding_operator: not_regex
+  finding_value: required|opportunistic
 - id: VMCH-80-000204
   title: Enable encryption for Fault Tolerance
   cat: 2
@@ -167,9 +180,13 @@ rules:
 - id: VMCH-80-000207
   title: Enable logging
   cat: 2
-  verified: false
-  check_method: manual
-  notes: "enableLogging is config|extraConfig \u2014 TODO map"
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|enable_logging
+  value_type: string
+  finding_operator: '!='
+  finding_value: 'true'
 - id: VMCH-80-000208
   title: Must not use independent nonpersistent disks
   cat: 2
@@ -223,9 +240,13 @@ rules:
 - id: VMCH-80-000213
   title: Remove unneeded USB devices
   cat: 3
-  verified: false
-  check_method: manual
-  notes: "USB \u2014 no native config|security key"
+  verified: true
+  check_method: native_property
+  check:
+    key: config|security|disconnect_devices_usb
+  value_type: string
+  finding_operator: ==
+  finding_value: 'false'
 - id: VMCH-80-000214
   title: Disable DirectPath I/O when not required
   cat: 2
